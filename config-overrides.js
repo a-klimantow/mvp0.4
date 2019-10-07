@@ -17,7 +17,9 @@ module.exports = override(
       "@text-color-secondary": "rgba(39, 47, 90, 0.65)",
       "@black": "#272F5A",
       "@heading-color": "#272F5A",
-      "@layout-body-background": "#F3F5F6"
+      "@layout-body-background": "#F3F5F6",
+      "@input-placeholder-color": "rgba(29, 38, 84, 0.15)",
+      "@input-color": "#272F5A"
     }
   })
 )
