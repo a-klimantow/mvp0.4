@@ -1,12 +1,12 @@
-import React from "react"
-import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
-import { ConfigProvider } from "antd"
-import RU from "antd/es/locale/ru_RU"
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { ConfigProvider } from 'antd'
+import RU from 'antd/es/locale/ru_RU'
 //
-import { theme } from "./assets/theme"
-import { Layout } from "./components/organisms"
-import { Login, Task } from "./components/pages"
+import { theme } from './assets/theme'
+import { Layout } from './components/organisms'
+import { Login, Task } from './components/pages'
 
 function App() {
   return (
