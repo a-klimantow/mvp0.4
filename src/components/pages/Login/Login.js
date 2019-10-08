@@ -1,16 +1,30 @@
-import React from "react"
+import React, { useReducer } from "react"
 import styled from "styled-components"
 import { Input, Button } from "antd"
+import { useHistory } from "react-router-dom"
 //
 import { Title, Text } from "../../atoms"
-import sqr_gr from "../../../assets/img/sqr_gr.svg"
-import sqr_bl from "../../../assets/img/sqr_bl.svg"
-import logo from "../../../assets/img/logo.svg"
-import logoText from "../../../assets/img/logo_text.svg"
+import { logo, sqr_bl, sqr_gr, logo_text } from "../../../assets/img"
+import reducer from "./reducer"
+import initialState from "./store"
+import { useAxios } from "../../../hooks"
 
 export const Login = () => {
+  const [{ data }, dispatch] = useReducer(reducer, initialState)
+  const { auth, loader } = useAxios(dispatch)
+  const { push } = useHistory()
+
+  const handleChange = e => {
+    dispatch({
+      type: "CHANGE_VALUE",
+      payload: { [e.target.name]: e.target.value.trim() }
+    })
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
+    auth(data).then(() => push("/"))
+    console.log(data)
   }
 
   return (
@@ -21,21 +35,41 @@ export const Login = () => {
           <Text size="small" view="second">
             Логин :
           </Text>
-          <Input size="large" placeholder="Username" />
+          <Input
+            size="large"
+            placeholder="Username"
+            value={data.email}
+            name="email"
+            onChange={handleChange}
+            disabled={loader}
+          />
         </label>
         <label className="password">
           <Text size="small" view="second">
             Пароль :
           </Text>
-          <Input.Password size="large" placeholder="xxxxxxxx" />
+          <Input.Password
+            size="large"
+            placeholder="xxxxxxxx"
+            value={data.password}
+            name="password"
+            onChange={handleChange}
+            disabled={loader}
+          />
         </label>
-        <Button htmlType="submit" type="primary" block size="large">
+        <Button
+          htmlType="submit"
+          type="primary"
+          block
+          size="large"
+          disabled={loader || (!data.email || !data.password)}
+        >
           Вход в систему
         </Button>
       </LoginForm>
       <LoginLogo>
         <img src={logo} alt="logo" />
-        <img src={logoText} alt="discription logo" className="logo_text" />
+        <img src={logo_text} alt="discription logo" className="logo_text" />
       </LoginLogo>
     </LoginPage>
   )

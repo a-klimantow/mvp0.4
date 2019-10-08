@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Statistic } from 'antd'
-import styled from 'styled-components'
+import React, { useState } from "react"
+import { Statistic } from "antd"
+import styled from "styled-components"
 //
-import { Text as text, Icon as icon } from './components/atoms'
+import { Text as text, Icon as icon } from "../components/atoms"
 
 const { Countdown } = Statistic
 
@@ -13,17 +13,17 @@ export const useTimer = dateValue => {
   const time = ((deadline - Date.now()) / 1000) >> 0
   const day = 24 * 60 * 60
   const hour = 60 * 60
-  let format = 'DDд HHч'
+  let format = "DDд HHч"
 
   if (time < 0) {
-    format = 'время вышло'
+    format = "время вышло"
   } else if (time < hour) {
-    format = 'mmм ssс'
+    format = "mmм ssс"
   } else if (time < day) {
-    format = 'HHч mmм'
+    format = "HHч mmм"
   }
 
-  const finishColor = finish ? 'red' : 'inherit'
+  const finishColor = finish ? "red" : "inherit"
 
   return (
     <Text color={finishColor}>
@@ -36,7 +36,7 @@ export const useTimer = dateValue => {
           onFinish={() => setFinish(true)}
         />
       ) : (
-        'Время вышло'
+        "Время вышло"
       )}
     </Text>
   )
@@ -47,6 +47,7 @@ const Text = styled(text)`
   line-height: 20px;
   display: flex;
   align-items: baseline;
+  opacity: 1;
   color: ${p => p.finishColor};
 `
 const Icon = styled(icon)`
