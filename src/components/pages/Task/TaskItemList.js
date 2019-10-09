@@ -1,11 +1,12 @@
-import React from "react"
-import styled from "styled-components"
-import { Row, Col } from "antd"
-// import PropTypes from "prop-types"
-import moment from "moment"
+import React from 'react'
+import styled from 'styled-components'
+import { Row, Col } from 'antd'
+import PropTypes from 'prop-types'
+
 //
-import { Title, Text as text, Icon as icon, resourceIconMap } from "../../atoms"
-import { useTimer } from "../../../hooks"
+import { Title, Text as text, Icon as icon, resourceIconMap } from '../../atoms'
+import { useTimer } from '../../../hooks'
+import { dateFormat } from '../../../services/dateFormat'
 
 export const TaskItemList = ({
   address,
@@ -18,13 +19,13 @@ export const TaskItemList = ({
   number
 }) => {
   const { model, serialNumber, resource } = device
-  const timeCreate = moment(creationTime).format("DD.MM.YYYY HH:mm")
-  const deadline = moment(expectedCompletionTime).format("DD.MM.YY")
+  // const timeCreate = moment(creationTime).format('DD.MM.YYYY HH:mm')
+  // const deadline = moment(expectedCompletionTime).format('DD.MM.YY')
   const timer = useTimer(expectedCompletionTime)
 
   const deviceIcon = resource
     ? resourceIconMap[resource]
-    : resourceIconMap["Calculator"]
+    : resourceIconMap['Calculator']
 
   return (
     <ItemWrap>
@@ -36,13 +37,13 @@ export const TaskItemList = ({
       >
         <Col>
           <Title level={4}>
-            {currentStageName || "Заголовок активного этапа"}
+            {currentStageName || 'Заголовок активного этапа'}
           </Title>
         </Col>
-        <Col style={{ textAlign: "right" }}>
+        <Col style={{ textAlign: 'right' }}>
           <Text view="second">
             <Icon type="calendar" />
-            {timeCreate}
+            {dateFormat(creationTime, 'DD.MM.YYY HH:ss')}
           </Text>
           <Text view="second">
             <Icon type="number" />
@@ -60,11 +61,13 @@ export const TaskItemList = ({
           ) : (
             <>
               <Text className="timer">{timer}</Text>
-              <Text view="second">({deadline})</Text>
+              <Text view="second">
+                ({dateFormat(expectedCompletionTime, 'DD.MM.YY')})
+              </Text>
             </>
           )}
         </Col>
-        <Col span={12} style={{ textAlign: "right" }}>
+        <Col span={12} style={{ textAlign: 'right' }}>
           <Text>
             <Icon {...deviceIcon} />
             {model}
@@ -91,7 +94,7 @@ const Icon = styled(icon)`
 `
 const IconOk = styled(Icon).attrs(props => ({
   fill: p => p.theme.color.success,
-  type: "ok"
+  type: 'ok'
 }))`
   margin-right: 0;
 `
@@ -105,17 +108,17 @@ const Text = styled(text)`
   }
 `
 
-// TaskItemList.propTypes = {
-//   address: PropTypes.string.isRequired,
-//   closingTime: PropTypes.string.isRequired,
-//   creationTime: PropTypes.string.isRequired,
-//   expectedCompletionTime: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   currentStageName: PropTypes.string.isRequired,
-//   number: PropTypes.number.isRequired,
-//   device: PropTypes.shape({
-//     serialNumber: PropTypes.string.isRequired,
-//     model: PropTypes.string.isRequired,
-//     resource: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
-//   })
-// }
+TaskItemList.propTypes = {
+  address: PropTypes.string.isRequired,
+  closingTime: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+  creationTime: PropTypes.string.isRequired,
+  expectedCompletionTime: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  currentStageName: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  device: PropTypes.shape({
+    serialNumber: PropTypes.string.isRequired,
+    model: PropTypes.string.isRequired,
+    resource: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+  })
+}

@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components"
+import styled, { css } from 'styled-components'
 //
-import { addPadding } from "../styles"
+import { addPadding } from '../styles'
 
 export const Grid = styled.section`
   ${addPadding};
@@ -8,14 +8,14 @@ export const Grid = styled.section`
   grid-gap: 24px;
 
   ${p =>
-    p.grid === "1" &&
+    p.grid === '1' &&
     css`
       grid-template-areas:
-        "crumbs crumbs"
-        "title title"
-        "panel panel"
-        "comment r_block"
-        "info r_block";
+        'crumbs crumbs'
+        'title title'
+        'panel panel'
+        'comment r_block'
+        'info r_block';
       grid-template-columns: 8fr 4fr;
     `}
   .crumbs {
@@ -40,5 +40,6 @@ export const Grid = styled.section`
 
   .r_block {
     grid-area: r_block;
+    align-self: start;
   }
 `

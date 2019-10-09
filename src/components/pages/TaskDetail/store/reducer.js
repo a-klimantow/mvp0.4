@@ -1,6 +1,6 @@
-export default (state, action) => {
+export const reducer = (state, action) => {
   switch (action.type) {
-    case "ADD_STATE":
+    case 'ADD_STATE':
       return { ...state, ...action.payload }
     default:
       return state
