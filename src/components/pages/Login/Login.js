@@ -1,13 +1,13 @@
-import React, { useReducer } from 'react'
-import styled from 'styled-components'
-import { Input, Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import React, { useReducer } from "react"
+import styled from "styled-components"
+import { Input, Button } from "antd"
+import { useHistory } from "react-router-dom"
 //
-import { Title, Text } from '../../atoms'
-import { logo, sqr_bl, sqr_gr, logo_text } from '../../../assets/img'
+import { Title, Text } from "../../atoms"
+import { logo, sqr_bl, sqr_gr, logo_text } from "../../../assets/img"
 
-import { initialState, reducer } from './store'
-import { useAxios } from '../../../hooks'
+import { initialState, reducer } from "./store"
+import { useAxios } from "../../../hooks"
 
 export const Login = () => {
   const [{ data }, dispatch] = useReducer(reducer, initialState)
@@ -16,14 +16,15 @@ export const Login = () => {
 
   const handleChange = e => {
     dispatch({
-      type: 'CHANGE_VALUE',
+      type: "CHANGE_VALUE",
       payload: { [e.target.name]: e.target.value.trim() }
     })
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-    auth(data).then(() => push('/'))
+    localStorage.clear()
+    auth(data).then(() => push("/"))
     console.log(data)
   }
 

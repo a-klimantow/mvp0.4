@@ -1,23 +1,23 @@
-import React, { useReducer, useEffect } from 'react'
-import styled from 'styled-components'
-import { Input, Row, Col, List } from 'antd'
-import { useHistory } from 'react-router-dom'
+import React, { useReducer } from "react"
+import styled from "styled-components"
+import { Input, Row, Col, List } from "antd"
+import { useHistory } from "react-router-dom"
 //
-import { Grid, Title, Paper, Text } from '../../atoms'
-import { Tab, TabMenu, Select } from '../../organisms'
-import { TaskItemList } from './TaskItemList'
-import { initialState, reducer } from './store'
-import { useAxios } from '../../../hooks'
+import { Grid, Title, Paper, Text } from "../../atoms"
+import { Tab, TabMenu, Select } from "../../organisms"
+import { TaskItemList } from "./TaskItemList"
+import { initialState, reducer } from "./store"
+import { useAxios, useEffectOnce } from "../../../hooks"
 // fakedata
 // import { tasks } from "../../../fakeData"
 
 const { Search } = Input
 
 const options = [
-  { key: '5', icon: 'max', label: 'дате создания' },
-  { key: '2', icon: 'min', label: 'дате создания' },
-  { key: '3', icon: 'max', label: 'времени на задачу' },
-  { key: '4', icon: 'min', label: 'времени на задачу' }
+  { key: "5", icon: "max", label: "дате создания" },
+  { key: "2", icon: "min", label: "дате создания" },
+  { key: "3", icon: "max", label: "времени на задачу" },
+  { key: "4", icon: "min", label: "времени на задачу" }
 ]
 
 export const Task = () => {
@@ -28,12 +28,12 @@ export const Task = () => {
   const { push } = useHistory()
   const { get, loader } = useAxios(dispatch)
 
-  useEffect(() => {
-    get().then(res => {
-      console.log('get data')
-      dispatch({ type: 'ADD_STATE', payload: res })
+  useEffectOnce(() => {
+    get("Tasks").then(res => {
+      console.log("get data", res)
+      dispatch({ type: "ADD_STATE", payload: res })
     })
-  }, [])
+  })
 
   return (
     <Grid pt="24px">
@@ -42,7 +42,7 @@ export const Task = () => {
         <TabMenu getActiveTab={key => console.log(1)}>
           <Tab
             title={
-              !totalTaskCount ? 'Активные' : `Активные (${totalTaskCount})`
+              !totalTaskCount ? "Активные" : `Активные (${totalTaskCount})`
             }
             id="1"
           />
@@ -52,13 +52,13 @@ export const Task = () => {
           <Col span={12}>
             <Search placeholder="Введите номер задачи или адрес" />
           </Col>
-          <Col span={12} style={{ textAlign: 'right' }}>
+          <Col span={12} style={{ textAlign: "right" }}>
             <Text view="second">Сортировать по:</Text>
             <Select
               style={{ width: 200 }}
               options={options}
               onChange={e => console.log(e)}
-              defaultValue={{ key: '5' }}
+              defaultValue={{ key: "5" }}
               labelInValue
             />
           </Col>

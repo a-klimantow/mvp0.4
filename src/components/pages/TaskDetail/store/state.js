@@ -1,3 +1,6 @@
 export const initialState = {
-  comments: []
+  comments: [],
+  stages: [],
+  currentStage: {},
+  NextPerpetratorId: 779
 }

@@ -1,7 +1,9 @@
-export * from './Layout'
-export * from './Menu'
-export { Tab, TabMenu } from './Tabs'
-export * from './Select'
-export * from './Comments'
-export * from './ListInfo'
-export * from './ListDevice'
+export * from "./Layout"
+export * from "./Menu"
+export { Tab, TabMenu } from "./Tabs"
+export * from "./Select"
+export * from "./Comments"
+export * from "./ListInfo"
+export * from "./ListDevice"
+export * from "./Stages"
+export * from "./Panel"

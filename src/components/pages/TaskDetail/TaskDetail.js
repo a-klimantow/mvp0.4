@@ -1,69 +1,52 @@
-import React, { useReducer, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { Button, List } from 'antd'
+import React, { useReducer, useEffect } from "react"
+import { useParams, useHistory } from "react-router-dom"
+import { Button } from "antd"
 //
-import { Grid, Title, Text, Paper, Icon as icon } from '../../atoms'
-import { Comments, ListInfo, ListDevice } from '../../organisms'
-import { dateFormat } from '../../../services/dateFormat'
+import { Grid, Text, Paper } from "../../atoms"
+import { Headers } from "../../molocules"
+import { Comments, ListInfo, ListDevice, Stages, Panel } from "../../organisms"
 
-import { initialState, reducer } from './store'
-import { useAxios, useTimer } from '../../../hooks'
+import { initialState, reducer } from "./store"
+import { useAxios, useEffectOnce } from "../../../hooks"
 
 export const Taskdetail = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { get, loader } = useAxios()
+  const { get, post } = useAxios()
   const { id } = useParams()
   const { goBack } = useHistory()
-  const timer = useTimer(state.expectedCompletionTime, {
-    text: 'Времени на этап:'
+
+  console.log("state", state)
+  useEffectOnce(() => {
+    get(`Tasks/${id}`).then(res =>
+      dispatch({ type: "ADD_STATE", payload: res })
+    )
   })
-  console.log(state)
 
   useEffect(() => {
-    get(id).then(res => dispatch({ type: 'ADD_STATE', payload: res }))
-  }, [])
+    if (state.url) {
+    }
+  })
 
   return (
     <Grid grid="1" p="16px 0">
       <div className="crumbs">
-        <Button style={{ padding: '0 4px 0 0' }} type="link" onClick={goBack}>
+        <Button style={{ padding: "0 4px 0 0" }} type="link" onClick={goBack}>
           Задачи /
         </Button>
         <Text>{state.currentStageName}</Text>
       </div>
-      <div className="title">
-        <Title weight={300} mb="8px">
-          {state.currentStageName}
-        </Title>
-        <Text view="second">{state.name}</Text>
-      </div>
-      <div className="panel">
-        <Button size="large">
-          <IconBtn type="upload" />
-          Загрузить Акт
-        </Button>
-        <Button disabled size="large" style={{ marginLeft: 16 }}>
-          Завершить этап
-        </Button>
-        <div style={{ marginTop: 8 }}>
-          <Text>{timer}</Text>{' '}
-          <Text view="second" size="small">
-            ({dateFormat(state.expectedCompletionTime, 'DD.MM.YY')})
-          </Text>
-        </div>
-      </div>
+      <Headers name={state.name} currentStageName={state.currentStageName} />
+      <Panel
+        expectedCompletionTime={state.expectedCompletionTime}
+        isPauk={true}
+        taskId={id}
+      />
       <Comments />
       <Paper className="info">
         <ListInfo {...state} mb="24px" />
         <ListDevice {...state.device} />
       </Paper>
-      <Paper className="r_block">right block</Paper>
+      <Stages stages={state.stages} />
     </Grid>
   )
 }
-
-const IconBtn = styled(icon)`
-  margin-right: 8px;
-  transform: translateY(3px);
-`
