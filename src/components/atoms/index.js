@@ -1,7 +1,0 @@
-export * from './Text'
-export * from './Title'
-export * from './Icon'
-export * from './Paper'
-export * from './Grid'
-export * from './ListEl'
-export * from './Ul'

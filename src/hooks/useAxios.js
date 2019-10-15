@@ -4,14 +4,11 @@ import { useState, useEffect } from "react"
 const getTokenData = () => {
   return localStorage.getItem("tokenData")
     ? JSON.parse(localStorage.getItem("tokenData"))
-    : { token: {} }
+    : { token: "" }
 }
 
 const setTokenData = data => {
-  return localStorage.setItem(
-    "tokenData",
-    JSON.stringify(data.data.successResponse)
-  )
+  return localStorage.setItem("tokenData", JSON.stringify(data))
 }
 
 axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
@@ -27,6 +24,7 @@ export const useAxios = () => {
     setLoader(true)
     return axios
       .post("ManagingFirmUsers/auth", data)
+      .then(res => res.data.successResponse)
       .then(setTokenData)
       .catch(err => console.log(err))
       .finally(() => setLoader(false))
@@ -35,6 +33,7 @@ export const useAxios = () => {
   const refresh = (method, ...rest) =>
     axios
       .post("ManagingFirmUsers/refreshToken", getTokenData())
+      .then(res => res.data.successResponse)
       .then(setTokenData)
       .then(() => method(...rest))
       .catch(err => {
@@ -58,19 +57,15 @@ export const useAxios = () => {
       .finally(() => setLoader(false))
   }
 
-  const post = id => {
-    return axios.post(
-      `Tasks/${id}/PushStage`,
-      {},
-      {
+  const moveStage = (id, data = {}) => {
+    return axios
+      .post(`Tasks/${id}/PushStage`, data, {
         headers: {
-          Authorization: `Bearer ${getTokenData().token}`,
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          Authorization: `Bearer ${getTokenData().token}`
         }
-      }
-    )
+      })
+      .then(res => res.data.successResponse)
   }
 
-  return { auth, get, loader, post }
+  return { auth, get, loader, moveStage }
 }

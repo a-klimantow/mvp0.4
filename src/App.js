@@ -5,9 +5,8 @@ import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
 import { theme } from "./assets/theme"
-import { Layout } from "./components/organisms"
-import { Login, Task } from "./components/pages"
-import { Taskdetail } from "./components/pages/TaskDetail/TaskDetail"
+import { Layout } from "./components"
+import { Login, Task, TaskDetail } from "./pages"
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
             <Route path="/">
               <Layout>
                 <Route path="/" component={Task} exact />
-                <Route path="/task/:id" component={Taskdetail} />
+                <Route path="/task/:id" component={TaskDetail} />
               </Layout>
             </Route>
           </Switch>
