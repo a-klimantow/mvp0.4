@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components"
-import PropTypes from "prop-types"
+import styled, { css } from 'styled-components'
+import PropTypes from 'prop-types'
 //
-import { addTextStyle } from "./styles"
+import { addTextStyle } from './styles'
 
 const small = css`
   font-size: 12px;
@@ -13,11 +13,16 @@ export const Text = styled.span`
   display: inline-block;
   font-size: 14px;
   line-height: 22px;
-  opacity: ${p => (p.view === "second" ? 0.45 : 0.75)};
-  ${p => p.size === "small" && small};
+  color: ${p =>
+    p.view === 'second'
+      ? p.theme.text.color.secondary
+      : p.theme.text.color.primary};
+  ${p => p.size === 'small' && small};
+  margin-left: ${p => p.ml};
+  margin-right: ${p => p.mr};
 `
 
 Text.propTypes = {
-  size: PropTypes.oneOf(["small"]),
-  view: PropTypes.oneOf(["second"])
+  size: PropTypes.oneOf(['small']),
+  view: PropTypes.oneOf(['second'])
 }

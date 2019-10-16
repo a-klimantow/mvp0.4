@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { dateFormat } from "../services/dateFormat"
+import { dateFormat } from '../services/dateFormat'
 // import {
 //   ListEl,
 //   Ul,
@@ -10,11 +10,11 @@ import { dateFormat } from "../services/dateFormat"
 //   Icon as icon,
 //   resourceIconMap
 // } from '../atom
-import { ListEl } from "./ListEl"
-import { Ul } from "./Ul"
-import { Text } from "./Text"
-import { Title } from "./Title"
-import { Icon as icon, resourceIconMap } from "./Icon"
+import { ListEl } from './ListEl'
+import { Ul } from './Ul'
+import { Text } from './Text'
+import { Title } from './Title'
+import { Icon as icon, createIconDevice } from './Icon'
 
 export const ListDevice = ({
   model,
@@ -26,10 +26,8 @@ export const ListDevice = ({
   diameter,
   ...props
 }) => {
-  const format = "DD.MM.YYYY"
-  const deviceIcon = resource
-    ? resourceIconMap[resource]
-    : resourceIconMap["Calculator"]
+  const format = 'DD.MM.YYYY'
+  const deviceIcon = createIconDevice(resource)
 
   return (
     <>

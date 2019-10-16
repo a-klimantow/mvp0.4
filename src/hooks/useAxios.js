@@ -1,14 +1,14 @@
-import axios from "axios"
-import { useState, useEffect } from "react"
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const getTokenData = () => {
-  return localStorage.getItem("tokenData")
-    ? JSON.parse(localStorage.getItem("tokenData"))
-    : { token: "" }
+  return localStorage.getItem('tokenData')
+    ? JSON.parse(localStorage.getItem('tokenData'))
+    : { token: '' }
 }
 
 const setTokenData = data => {
-  return localStorage.setItem("tokenData", JSON.stringify(data))
+  return localStorage.setItem('tokenData', JSON.stringify(data))
 }
 
 axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
@@ -17,13 +17,13 @@ export const useAxios = () => {
   const [loader, setLoader] = useState(false)
 
   useEffect(() => {
-    return () => console.log("cancaltoken")
+    return () => console.log('cancaltoken')
   }, [])
 
   const auth = data => {
     setLoader(true)
     return axios
-      .post("ManagingFirmUsers/auth", data)
+      .post('ManagingFirmUsers/auth', data)
       .then(res => res.data.successResponse)
       .then(setTokenData)
       .catch(err => console.log(err))
@@ -32,17 +32,17 @@ export const useAxios = () => {
 
   const refresh = (method, ...rest) =>
     axios
-      .post("ManagingFirmUsers/refreshToken", getTokenData())
+      .post('ManagingFirmUsers/refreshToken', getTokenData())
       .then(res => res.data.successResponse)
       .then(setTokenData)
       .then(() => method(...rest))
       .catch(err => {
         console.log(err)
         localStorage.clear()
-        document.location.replace("/login")
+        document.location.replace('/login')
       })
 
-  const get = (rest = "") => {
+  const get = (rest = '') => {
     setLoader(true)
     return axios(`${rest}`, {
       headers: {
@@ -51,15 +51,15 @@ export const useAxios = () => {
     })
       .then(res => res.data.successResponse)
       .catch(e => {
-        console.log("to refresh")
+        console.log('to refresh')
         return refresh(get, rest)
       })
       .finally(() => setLoader(false))
   }
 
-  const moveStage = (id, data = {}) => {
+  const moveStage = (id, url, data = {}) => {
     return axios
-      .post(`Tasks/${id}/PushStage`, data, {
+      .post(`Tasks/${id}/${url}`, data, {
         headers: {
           Authorization: `Bearer ${getTokenData().token}`
         }

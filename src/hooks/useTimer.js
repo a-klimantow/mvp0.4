@@ -1,5 +1,5 @@
-import React from "react"
-import { Statistic } from "antd"
+import React from 'react'
+import { Statistic } from 'antd'
 // import styled from "styled-components"
 //
 // import { Text as text, Icon as icon } from "../components"
@@ -13,19 +13,19 @@ export const useTimer = (dateValue, { text } = {}) => {
   const time = ((deadline - Date.now()) / 1000) >> 0
   const day = 24 * 60 * 60
   const hour = 60 * 60
-  let format = "DDд HHч"
+  let format = 'DDд HHч'
 
   if (time < 0) {
-    format = "время вышло"
+    format = 'время вышло'
   } else if (time < hour) {
-    format = "mmм ssс"
+    format = 'mmм ssс'
   } else if (time < day) {
-    format = "HHч mmм"
+    format = 'HHч mmм'
   }
 
   return (
     <Countdown
-      valueStyle={{ fontSize: 12 }}
+      valueStyle={{ fontSize: 12, color: 'rgba(39, 47, 90, 0.65)' }}
       format={format}
       value={dateValue}
       // onFinish={() => setFinish(true)}
