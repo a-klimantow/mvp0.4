@@ -3,8 +3,7 @@ import { Input, Button, Popconfirm } from "antd"
 import styled from "styled-components"
 
 import { CommentContext } from "./Commnets"
-import { Text } from "../Text"
-import { Icon } from "../Icon"
+import { Icon, Text } from "../../../components"
 
 const { TextArea } = Input
 

@@ -7,5 +7,8 @@ export const initialState = {
   creationTime: null,
   employees: [],
   userOperatingStatus: null,
-  isResponsible: null
+  isResponsible: null,
+  modal: false,
+  activeStageIndex: null,
+  currentStage: {}
 }

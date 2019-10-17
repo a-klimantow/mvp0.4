@@ -1,16 +1,22 @@
 // TaskDetails
 export const reducer = (state, action) => {
+  let activeStageIndex = null
   switch (action.type) {
     case "ADD_STATE":
+      const { stages } = action.payload
+      console.log(action.payload)
+      activeStageIndex = getActiveStage(stages)
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        activeStageIndex
       }
     case "PUSH_STAGE":
+      activeStageIndex = getActiveStage(action.payload)
       return {
         ...state,
         stages: action.payload,
-        userOperatingStatus: "Observer"
+        activeStageIndex
       }
     case "ADD_EMPLOYEES":
       const employeesList = action.payload.map(item => ({
@@ -23,7 +29,19 @@ export const reducer = (state, action) => {
         ...state,
         NextPerpetratorId: action.payload
       }
+    case "SHOW_MODAL":
+      return { ...state, modal: !state.modal }
     default:
       return state
   }
+}
+
+const getActiveStage = arr => {
+  let res = 0
+  arr.forEach(item => {
+    if (item.status === "InProgress") {
+      res = item.number
+    }
+  })
+  return res
 }

@@ -4,13 +4,28 @@ import { Button, Spin } from "antd"
 
 import { Icon as icon, Select, Text } from "../../components"
 import { TaskDetailContext } from "./store"
+import { ChooseExecutor } from "./ChooseExecutor"
+import { ChooseExecutorAndNotify } from "./ChooseExecutorAndNotify"
+import { ChooseExecutorAndAction } from "./ChooseExecutorAndAction"
+import { UploadDocument } from "./UploadDocument"
 
 export const Panel = () => {
-  const { state, dispatch, pushStage } = useContext(TaskDetailContext)
+  const {
+    state: {
+      userOperatingStatus,
+      isResponsible,
+      employees,
+      currentStage,
+      NextPerpetratorId
+    },
+    dispatch,
+    pushStage
+  } = useContext(TaskDetailContext)
+  // let currentStageAction = currentStage.action
+  // console.log(currentStageAction)
+  const status = userOperatingStatus === "Observer"
 
-  const status = state.userOperatingStatus === "Observer"
-
-  if (state.isResponsible === null) {
+  if (isResponsible === null) {
     return (
       <PanelWrap className="panel">
         <Spin />
@@ -18,44 +33,52 @@ export const Panel = () => {
     )
   }
 
-  if (state.isResponsible) {
+  if (isResponsible) {
     return (
-      <PanelWrap className="panel">
-        <div>
-          <Text size="small" view="second">
-            Исполнитель :
-          </Text>
-        </div>
-        <div className="admin">
-          <div className="select">
-            <Select
-              style={{ width: "100%" }}
-              placeholder="Выбирите исполнителя"
-              size="large"
-              labelInValue
-              defaultValue={{ key: "Исполнитель" }}
-              options={state.employees}
-              disabled={status}
-              onChange={e =>
-                dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
-              }
-            />
-          </div>
-          {!status && (
-            <div>
-              <Button
-                type="primary"
-                style={{ marginLeft: 16 }}
-                size="large"
-                disabled={!state.NextPerpetratorId}
-                onClick={pushStage}
-              >
-                Завершить этап
-              </Button>
-            </div>
-          )}
-        </div>
-      </PanelWrap>
+      // <PanelWrap className="panel">
+      //   <div>
+      //     <Text size="small" view="second">
+      //       Исполнитель :
+      //     </Text>
+      //   </div>
+      //   <div className="admin">
+      //     <div className="select">
+      //       <Select
+      //         style={{ width: "100%" }}
+      //         placeholder="Выбирите исполнителя"
+      //         size="large"
+      //         labelInValue
+      //         options={employees}
+      //         onChange={e =>
+      //           dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
+      //         }
+      //       />
+      //     </div>
+      //     {!status && (
+      //       <div>
+      //         <Button
+      //           type="primary"
+      //           style={{ marginLeft: 16 }}
+      //           size="large"
+      //           disabled={!NextPerpetratorId}
+      //           onClick={pushStage}
+      //         >
+      //           Завершить этап
+      //         </Button>
+      //       </div>
+      //     )}
+      //   </div>
+      // </PanelWrap>
+      <div className="panel">
+        {currentStage.action === "ChooseExecutor" && <ChooseExecutor />}
+        {currentStage.action === "ChooseExecutorAndNotify" && (
+          <ChooseExecutorAndNotify />
+        )}
+        {currentStage.action === "ChooseExecutorAndAction" && (
+          <ChooseExecutorAndAction />
+        )}
+        {currentStage.action === "UploadDocument" && <UploadDocument />}
+      </div>
     )
   }
 

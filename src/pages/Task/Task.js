@@ -55,11 +55,13 @@ export const Task = () => {
         >
           <Tab
             title={
-              !totalTaskCount ? "Активные" : `Активные (${totalTaskCount})`
+              !totalTaskCount
+                ? "К исполнению"
+                : `К исполнению (${totalTaskCount})`
             }
             id="Executing"
           />
-          <Tab title="В работе" id="Observing" />
+          <Tab title="Наблюдаемые" id="Observing" />
           <Tab title="Архив" id="Archived" />
         </TabMenu>
         <SortPanel type="flex" justify="space-between">
