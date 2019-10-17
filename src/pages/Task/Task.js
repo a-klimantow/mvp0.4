@@ -1,6 +1,6 @@
-import React, { useReducer, useEffect } from "react"
-import styled from "styled-components"
-import { Input, Row, Col, List } from "antd"
+import React, { useReducer, useEffect } from 'react'
+import styled from 'styled-components'
+import { Input, Row, Col, List } from 'antd'
 //
 import {
   Grid,
@@ -10,24 +10,27 @@ import {
   Tab,
   TabMenu,
   Select
-} from "../../components"
+} from '../../components'
 
-import { TaskItemList } from "./TaskItemList"
-import { initialState, reducer } from "./store"
-import { useAxios } from "../../hooks"
+import { Api } from '../../services/api'
+
+import { TaskItemList } from './TaskItemList'
+import { initialState, reducer } from './store'
+import { useAxios } from '../../hooks'
 // fakedata
 // import { tasks } from "../../../fakeData"
 
 const { Search } = Input
 
 const options = [
-  { key: "5", icon: "max", label: "дате создания" },
-  { key: "2", icon: "min", label: "дате создания" },
-  { key: "3", icon: "max", label: "времени на задачу" },
-  { key: "4", icon: "min", label: "времени на задачу" }
+  { key: '5', icon: 'max', label: 'дате создания' },
+  { key: '2', icon: 'min', label: 'дате создания' },
+  { key: '3', icon: 'max', label: 'времени на задачу' },
+  { key: '4', icon: 'min', label: 'времени на задачу' }
 ]
 
 export const Task = () => {
+  const api = new Api()
   const [{ items, tabUrl, totalTaskCount }, dispatch] = useReducer(
     reducer,
     initialState
@@ -36,9 +39,10 @@ export const Task = () => {
 
   useEffect(() => {
     let unmount = false
+    api.get('Tasks').then(() => console.log('hello'))
     if (!unmount) {
       get(`Tasks?GroupType=${tabUrl}`).then(res => {
-        dispatch({ type: "ADD_STATE", payload: res })
+        dispatch({ type: 'ADD_STATE', payload: res })
       })
       return () => (unmount = true)
     }
@@ -51,12 +55,12 @@ export const Task = () => {
       <Title weight={300}>Задачи</Title>
       <Paper>
         <TabMenu
-          getActiveTab={key => dispatch({ type: "CHANGE_TAB", payload: key })}
+          getActiveTab={key => dispatch({ type: 'CHANGE_TAB', payload: key })}
         >
           <Tab
             title={
               !totalTaskCount
-                ? "К исполнению"
+                ? 'К исполнению'
                 : `К исполнению (${totalTaskCount})`
             }
             id="Executing"
@@ -68,13 +72,13 @@ export const Task = () => {
           <Col span={12}>
             <Search placeholder="Введите номер задачи или адрес" />
           </Col>
-          <Col span={12} style={{ textAlign: "right" }}>
+          <Col span={12} style={{ textAlign: 'right' }}>
             <Text view="second">Сортировать по:</Text>
             <Select
               style={{ width: 200 }}
               options={options}
               onChange={e => console.log(e)}
-              defaultValue={{ key: "5" }}
+              defaultValue={{ key: '5' }}
               labelInValue
             />
           </Col>
