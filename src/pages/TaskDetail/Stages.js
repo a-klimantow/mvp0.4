@@ -98,6 +98,7 @@ export const Stages = () => {
     showModal
   } = useContext(TaskDetailContext)
 
+  console.log(userOperatingStatus)
   const lenStg = stages && stages.length
 
   return (

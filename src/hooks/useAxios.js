@@ -26,10 +26,6 @@ export const useAxios = () => {
     cancelToken: source.token
   })
 
-  // useEffect(() => {
-  //   return () => source.cancel("Operation canceled")
-  // }, [])
-
   const auth = data => {
     setLoader(true)
     return axios

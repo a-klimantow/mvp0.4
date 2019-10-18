@@ -20,9 +20,9 @@ export const reducer = (state, action) => {
         currentStageAction
       }
     case "PUSH_STAGE":
-      const { stages: newStages } = action.payload
-      currentStageIndex = getCurrentStageIndex(newStages)
-      currentStageAction = getCurrentStageAction(newStages)
+      const { currentStage: newCurrentStage } = action.payload
+      currentStageIndex = newCurrentStage.number
+      currentStageAction = newCurrentStage.action
       console.log(currentStageAction)
       return {
         ...state,
