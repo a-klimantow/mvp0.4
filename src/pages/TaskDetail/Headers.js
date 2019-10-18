@@ -1,14 +1,24 @@
-import React, { useContext } from "react"
+import React from "react"
 import styled from "styled-components"
+import { useLocation } from "react-router-dom"
 
-import { TaskDetailContext } from "./store"
+// import { TaskDetailContext } from "./store"
 import { Text as text, Title, TimeLine, Icon as icon } from "../../components"
 import { useTimer } from "../../hooks"
 import { dateFormat } from "../../services/dateFormat"
 
-export const Headers = ({ currentStageName, name }) => {
-  const { state } = useContext(TaskDetailContext)
-  const timer = useTimer(state.expectedCompletionTime)
+export const Headers = () => {
+  // const { state } = useContext(TaskDetailContext)
+  const {
+    state: {
+      name,
+      currentStageName,
+      creationTime,
+      expectedCompletionTime,
+      isResponsible
+    }
+  } = useLocation()
+  const timer = useTimer(expectedCompletionTime)
 
   return (
     <div className="title">
@@ -16,11 +26,8 @@ export const Headers = ({ currentStageName, name }) => {
         {currentStageName}
       </Title>
       <Text view="second">{name}</Text>
-      {state.isResponsible && (
-        <TimeLine
-          finish={state.expectedCompletionTime}
-          start={state.creationTime}
-        />
+      {isResponsible && (
+        <TimeLine finish={expectedCompletionTime} start={creationTime} />
       )}
       <div>
         <Text>
@@ -29,7 +36,7 @@ export const Headers = ({ currentStageName, name }) => {
         </Text>
         <Text className="ml">{timer}</Text>
         <Text className="ml mr">
-          (до {dateFormat(state.expectedCompletionTime, "DD.MM.YY")})
+          (до {dateFormat(expectedCompletionTime, "DD.MM.YY")})
         </Text>
       </div>
     </div>

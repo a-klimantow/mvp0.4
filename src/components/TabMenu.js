@@ -1,6 +1,6 @@
-import React, { useState, Children, cloneElement } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
+import React, { useState, Children, cloneElement } from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
 //
 
 const Tabs = styled.div`
@@ -22,7 +22,7 @@ export const TabMenu = ({
 
   const renderTab = Children.map(children, (tab, i) =>
     cloneElement(tab, {
-      className: i === active && 'active',
+      className: i === active && "active",
       onClick: () => handleClick(i, tab.props.id),
       disabled: active === i
     })

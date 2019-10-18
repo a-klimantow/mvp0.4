@@ -1,22 +1,34 @@
-// TaskDetails
+// TaskDetail
 export const reducer = (state, action) => {
-  let activeStageIndex = null
+  let currentStageIndex = null
+  let currentStageAction = null
   switch (action.type) {
+    case "CHANGE_URL_GET":
+      return {
+        ...state,
+        urlGET: action.payload
+      }
+
     case "ADD_STATE":
-      const { stages } = action.payload
-      console.log(action.payload)
-      activeStageIndex = getActiveStage(stages)
+      const { currentStage } = action.payload
+      currentStageIndex = currentStage.number
+      currentStageAction = currentStage.action
       return {
         ...state,
         ...action.payload,
-        activeStageIndex
+        currentStageIndex,
+        currentStageAction
       }
     case "PUSH_STAGE":
-      activeStageIndex = getActiveStage(action.payload)
+      const { stages: newStages } = action.payload
+      currentStageIndex = getCurrentStageIndex(newStages)
+      currentStageAction = getCurrentStageAction(newStages)
+      console.log(currentStageAction)
       return {
         ...state,
-        stages: action.payload,
-        activeStageIndex
+        ...action.payload,
+        currentStageIndex,
+        currentStageAction
       }
     case "ADD_EMPLOYEES":
       const employeesList = action.payload.map(item => ({
@@ -36,11 +48,22 @@ export const reducer = (state, action) => {
   }
 }
 
-const getActiveStage = arr => {
+const getCurrentStageIndex = arr => {
   let res = 0
   arr.forEach(item => {
     if (item.status === "InProgress") {
       res = item.number
+    }
+  })
+  return res
+}
+
+const getCurrentStageAction = arr => {
+  let res = ""
+  arr.forEach(item => {
+    console.log(item)
+    if (item.status === "InProgress") {
+      res = item.action
     }
   })
   return res

@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { useHistory } from "react-router-dom"
 //
 import {
   Title,
@@ -15,7 +15,7 @@ import {
   Timer,
   TimeCompleted,
   User
-} from '../../components'
+} from "../../components"
 
 export const TaskItemList = ({
   id,
@@ -34,7 +34,17 @@ export const TaskItemList = ({
   const { push } = useHistory()
 
   return (
-    <ItemWrap onClick={() => push(`/task/${id}`, { name, currentStageName })}>
+    <ItemWrap
+      onClick={() =>
+        push(`/task/${id}`, {
+          name,
+          currentStageName,
+          expectedCompletionTime,
+          creationTime,
+          isResponsible
+        })
+      }
+    >
       {isResponsible && !closingTime ? (
         <TimeLine finish={expectedCompletionTime} start={creationTime} />
       ) : null}
@@ -61,7 +71,7 @@ export const TaskItemList = ({
             mr="16px"
           />
 
-          {tabUrl === 'Observing' && <User perpetrator={perpetrator} />}
+          {tabUrl === "Observing" && <User perpetrator={perpetrator} />}
         </Row>
       )}
       <Row>

@@ -94,11 +94,11 @@ import { TaskDetailContext } from "./store"
 
 export const Stages = () => {
   const {
-    state: { stages, userOperatingStatus, modal, activeStageIndex },
+    state: { stages, userOperatingStatus, modal, currentStageIndex },
     showModal
   } = useContext(TaskDetailContext)
 
-  const lenStg = stages.length
+  const lenStg = stages && stages.length
 
   return (
     <Paper className="r_block">
@@ -107,25 +107,26 @@ export const Stages = () => {
         Этапы выполнения
       </Title>
       <Ul>
-        {stages.map((stage, i) => {
-          if (
-            activeStageIndex - 1 === i &&
-            userOperatingStatus === "Executor"
-          ) {
-            return (
-              <Stage key={stage.id} {...stage} length={lenStg}>
-                <Button
-                  size="small"
-                  onClick={showModal}
-                  style={{ marginTop: 8 }}
-                >
-                  Вернуть этап
-                </Button>
-              </Stage>
-            )
-          }
-          return <Stage key={stage.id} {...stage} length={lenStg} />
-        })}
+        {stages &&
+          stages.map((stage, i) => {
+            if (
+              currentStageIndex - 1 === i &&
+              userOperatingStatus === "Executor"
+            ) {
+              return (
+                <Stage key={stage.id} {...stage} length={lenStg}>
+                  <Button
+                    size="small"
+                    onClick={showModal}
+                    style={{ marginTop: 8 }}
+                  >
+                    Вернуть этап
+                  </Button>
+                </Stage>
+              )
+            }
+            return <Stage key={stage.id} {...stage} length={lenStg} />
+          })}
       </Ul>
     </Paper>
   )

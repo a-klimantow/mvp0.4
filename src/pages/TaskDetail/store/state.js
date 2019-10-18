@@ -1,14 +1,26 @@
 // TaskDetail
+
 export const initialState = {
-  comments: [],
-  stages: [],
-  NextPerpetratorId: null,
-  expectedCompletionTime: null,
+  // server state
+  id: null,
+  number: null,
+  name: null,
+  address: null,
+  perpetrator: null,
+  currentStageName: null,
   creationTime: null,
-  employees: [],
-  userOperatingStatus: null,
+  expectedCompletionTime: null,
+  closingTime: null,
   isResponsible: null,
-  modal: false,
-  activeStageIndex: null,
-  currentStage: {}
+  userOperatingStatus: null,
+  currentStage: {},
+  device: null,
+  documents: null,
+  comments: null,
+  stages: [],
+  // page state
+  currentStageIndex: 0,
+  currentStageAction: null,
+  urlPOST: "",
+  urlGET: ""
 }

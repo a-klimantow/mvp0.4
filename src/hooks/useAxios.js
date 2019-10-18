@@ -1,25 +1,34 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 
-const getTokenData = () => {
-  return localStorage.getItem("tokenData")
+const server = process.env.NODE_ENV === "development" ? "staging" : "production"
+
+axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
+
+const getTokenData = () =>
+  localStorage.getItem("tokenData")
     ? JSON.parse(localStorage.getItem("tokenData"))
     : { token: "" }
-}
 
-const setTokenData = data => {
-  return localStorage.setItem("tokenData", JSON.stringify(data))
-}
-const server = process.env.NODE_ENV === "development" ? "staging" : "production"
-axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
+const setTokenData = data =>
+  localStorage.setItem("tokenData", JSON.stringify(data))
 
 // hooooook
 export const useAxios = () => {
   const [loader, setLoader] = useState(false)
 
-  useEffect(() => {
-    return () => console.log("cancaltoken")
-  }, [])
+  const source = axios.CancelToken.source()
+
+  const createHeaders = () => ({
+    headers: {
+      Authorization: `Bearer ${getTokenData().token}`
+    },
+    cancelToken: source.token
+  })
+
+  // useEffect(() => {
+  //   return () => source.cancel("Operation canceled")
+  // }, [])
 
   const auth = data => {
     setLoader(true)
@@ -45,28 +54,37 @@ export const useAxios = () => {
 
   const get = (rest = "") => {
     setLoader(true)
-    return axios(`${rest}`, {
-      headers: {
-        Authorization: `Bearer ${getTokenData().token}`
-      }
-    })
-      .then(res => res.data.successResponse)
-      .catch(e => {
-        console.log("to refresh")
-        return refresh(get, rest)
-      })
-      .finally(() => setLoader(false))
+    return (
+      axios(`${rest}`, createHeaders())
+        .then(res => {
+          console.log("got data")
+          return res.data.successResponse
+        })
+        // .catch(err => {
+        //   if (err.response.status) {
+        //     return refresh(get, rest)
+        //   } else {
+        //     return err
+        //   }
+        // })
+        .catch(err => {
+          if (axios.isCancel(err)) {
+            console.log(err.message)
+          } else {
+            if (err.response.status === 401) {
+              return refresh(get, rest)
+            }
+          }
+        })
+        .finally(() => setLoader(false))
+    )
   }
 
-  const moveStage = (id, url, data = {}) => {
+  const post = (url, data = {}) => {
     return axios
-      .post(`Tasks/${id}/${url}`, data, {
-        headers: {
-          Authorization: `Bearer ${getTokenData().token}`
-        }
-      })
+      .post(url, data, createHeaders())
       .then(res => res.data.successResponse)
   }
 
-  return { auth, get, loader, moveStage }
+  return { auth, get, loader, post, source }
 }

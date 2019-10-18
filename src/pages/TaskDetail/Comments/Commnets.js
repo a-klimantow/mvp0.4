@@ -35,11 +35,9 @@ export const Comments = ({ comments }) => {
     <CommentContext.Provider value={{ state, dispatch }}>
       <PaperComm>
         <Title level={3} mb="16px">
-          {!state.comments.length
-            ? "Комментарии"
-            : `Комментарии (${state.comments.length})`}
+          Комментарии
         </Title>
-        {state.comments.length > 0 && <CommentList comments={state.comments} />}
+        {state.comments && <CommentList comments={state.comments} />}
         <Comment
           avatar={<Avatar className="avatar" />}
           content={
