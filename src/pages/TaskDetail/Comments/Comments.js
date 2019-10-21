@@ -1,13 +1,13 @@
-import React, { useContext } from "react"
+import React, { useContext } from 'react'
 
-import { Paper, Title, Ul } from "../../../components"
-import { Editor } from "./Editor"
-import { CommentItem } from "./CommentItem"
-import { TaskDetailContext } from "../store"
+import { Paper, Title, Ul } from '../../../components'
+import { Editor } from './Editor'
+import { CommentItem } from './CommentItem'
+import { TaskDetailContext } from '../store'
 
 export const Comments = () => {
   const {
-    state: { comments = [] }
+    state: { comments }
   } = useContext(TaskDetailContext)
 
   const lastComment = comments && comments.length - 1
@@ -16,7 +16,7 @@ export const Comments = () => {
     <Paper className="comment">
       <Title level={3} mb="16px">
         {!(comments.length > 0)
-          ? "Комментарии"
+          ? 'Комментарии'
           : `Комментарии (${comments.length})`}
       </Title>
       <Ul>

@@ -16,12 +16,13 @@ export const initialState = {
   currentStage: {},
   device: null,
   documents: null,
-  comments: null,
+  comments: [],
   stages: [],
   // page state
   currentStageIndex: 0,
   currentStageAction: null,
   btnLoading: false,
-  urlPOST: "",
-  urlGET: ""
+  urlPOST: '',
+  urlGET: '',
+  NextPerpetratorId: null
 }

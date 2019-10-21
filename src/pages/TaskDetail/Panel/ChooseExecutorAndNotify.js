@@ -1,14 +1,14 @@
-import React, { useContext } from "react"
-import styled from "styled-components"
-import { Input, Button } from "antd"
+import React, { useContext } from 'react'
+import styled from 'styled-components'
+import { Input, Button } from 'antd'
 
-import { TaskDetailContext } from "../store"
+import { TaskDetailContext } from '../store'
 
-import { Text as text, Select, Row as row } from "../../../components"
+import { Text as text, Select, Row as row } from '../../../components'
 
 export const ChooseExecutorAndNotify = () => {
   const {
-    state: { employees },
+    state: { employees, btnLoading, NextPerpetratorId },
     dispatch,
     pushStage
   } = useContext(TaskDetailContext)
@@ -20,12 +20,12 @@ export const ChooseExecutorAndNotify = () => {
           <Text>Исполнитель:</Text>
           <Select
             labelInValue
-            style={{ display: "block" }}
+            style={{ display: 'block' }}
             size="large"
             options={employees}
             placeholder="Выбирите исполнителя"
             onChange={e =>
-              dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
+              dispatch({ type: 'SET_NEXT_PERPETRATOR_ID', payload: e.key })
             }
           />
         </div>
@@ -44,7 +44,13 @@ export const ChooseExecutorAndNotify = () => {
           Выбрать из списка
         </Button>
 
-        <Button size="large" type="primary" onClick={pushStage}>
+        <Button
+          size="large"
+          type="primary"
+          onClick={pushStage}
+          loading={btnLoading}
+          disabled={!NextPerpetratorId}
+        >
           Завершить этап
         </Button>
       </Row>
@@ -53,8 +59,8 @@ export const ChooseExecutorAndNotify = () => {
 }
 
 const Text = styled(text).attrs(p => ({
-  size: "small",
-  view: "second"
+  size: 'small',
+  view: 'second'
 }))`
   margin-bottom: 8px;
 `

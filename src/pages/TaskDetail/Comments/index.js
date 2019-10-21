@@ -1,1 +1,1 @@
-export { Comments } from './Commnets'
+export { Comments } from './Comments'
