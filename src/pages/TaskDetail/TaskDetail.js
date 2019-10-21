@@ -17,7 +17,7 @@ export const TaskDetail = () => {
     initialState,
     urlGET: `Task/${id}`
   })
-  const { get, post } = useAxios()
+  const { get, post, put, deleteData } = useAxios()
   const { goBack, location } = useHistory()
 
   // console.log(state)
@@ -51,9 +51,42 @@ export const TaskDetail = () => {
     dispatch({ type: "SHOW_MODAL" })
   }
 
+  const addComment = comment => {
+    const data = JSON.stringify(comment)
+    dispatch({
+      type: "LOADING",
+      payload: { btnLoading: true }
+    })
+    post(`Tasks/${id}/AddComment`, data).then(res =>
+      dispatch({ type: "ADD_COMMENT", payload: res })
+    )
+  }
+
+  const saveEditComment = (commentId, comment) => {
+    const data = JSON.stringify(comment)
+    put(`TaskComments/${commentId}`, data).then(res =>
+      dispatch({ type: "SAVE_EDIT_COMMENT", payload: res })
+    )
+  }
+
+  const deleteComment = commentId => {
+    // console.log(commentId)
+    deleteData(`TaskComments/${commentId}`).then(() =>
+      dispatch({ type: "DELETE_COMMENT", payload: commentId })
+    )
+  }
   return (
     <TaskDetailContext.Provider
-      value={{ state, dispatch, pushStage, revertStage, showModal }}
+      value={{
+        state,
+        dispatch,
+        pushStage,
+        revertStage,
+        showModal,
+        addComment,
+        saveEditComment,
+        deleteComment
+      }}
     >
       <Grid grid="1" p="16px 0">
         <div className="crumbs">
@@ -64,7 +97,7 @@ export const TaskDetail = () => {
         </div>
         <Headers />
         <Panel />
-        <Comments comments={state.comments} />
+        <Comments />
         <Paper className="info">
           <ListInfo {...state} mb="24px" />
           <ListDevice {...state.device} />

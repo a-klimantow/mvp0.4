@@ -2,6 +2,7 @@
 export const reducer = (state, action) => {
   let currentStageIndex = null
   let currentStageAction = null
+  let comments = null
   switch (action.type) {
     case "CHANGE_URL_GET":
       return {
@@ -21,6 +22,7 @@ export const reducer = (state, action) => {
       }
     case "PUSH_STAGE":
       const { currentStage: newCurrentStage } = action.payload
+      console.log(action.payload)
       currentStageIndex = newCurrentStage.number
       currentStageAction = newCurrentStage.action
       console.log(currentStageAction)
@@ -43,28 +45,31 @@ export const reducer = (state, action) => {
       }
     case "SHOW_MODAL":
       return { ...state, modal: !state.modal }
+
+    case "ADD_COMMENT":
+      console.log(action.payload)
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+        btnLoading: false
+      }
+    case "SAVE_EDIT_COMMENT":
+      comments = state.comments.map(comment =>
+        comment.id === action.payload.id ? action.payload : comment
+      )
+      return {
+        ...state,
+        comments
+      }
+    case "DELETE_COMMENT":
+      comments = state.comments.filter(comment => comment.id !== action.payload)
+      return {
+        ...state,
+        comments
+      }
+    case "LOADING":
+      return { ...state, ...action.payload }
     default:
       return state
   }
-}
-
-const getCurrentStageIndex = arr => {
-  let res = 0
-  arr.forEach(item => {
-    if (item.status === "InProgress") {
-      res = item.number
-    }
-  })
-  return res
-}
-
-const getCurrentStageAction = arr => {
-  let res = ""
-  arr.forEach(item => {
-    console.log(item)
-    if (item.status === "InProgress") {
-      res = item.action
-    }
-  })
-  return res
 }

@@ -1,9 +1,10 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const server = process.env.NODE_ENV === "development" ? "staging" : "production"
 
 axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
+axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
   localStorage.getItem("tokenData")
@@ -50,37 +51,30 @@ export const useAxios = () => {
 
   const get = (rest = "") => {
     setLoader(true)
-    return (
-      axios(`${rest}`, createHeaders())
-        .then(res => {
-          console.log("got data")
-          return res.data.successResponse
-        })
-        // .catch(err => {
-        //   if (err.response.status) {
-        //     return refresh(get, rest)
-        //   } else {
-        //     return err
-        //   }
-        // })
-        .catch(err => {
-          if (axios.isCancel(err)) {
-            console.log(err.message)
-          } else {
-            if (err.response.status === 401) {
-              return refresh(get, rest)
-            }
+    return axios(`${rest}`, createHeaders())
+      .then(res => {
+        console.log("got data")
+        return res.data.successResponse
+      })
+      .catch(err => {
+        if (axios.isCancel(err)) {
+          console.log(err.message)
+        } else {
+          if (err.response.status === 401) {
+            return refresh(get, rest)
           }
-        })
-        .finally(() => setLoader(false))
-    )
+        }
+      })
+      .finally(() => setLoader(false))
   }
 
-  const post = (url, data = {}) => {
-    return axios
-      .post(url, data, createHeaders())
-      .then(res => res.data.successResponse)
-  }
+  const post = (url, data = {}) =>
+    axios.post(url, data, createHeaders()).then(res => res.data.successResponse)
 
-  return { auth, get, loader, post, source }
+  const put = (url, data = {}) =>
+    axios.put(url, data, createHeaders()).then(res => res.data.successResponse)
+
+  const deleteData = url => axios.delete(url, createHeaders())
+
+  return { auth, get, loader, post, source, put, deleteData }
 }

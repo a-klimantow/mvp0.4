@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
-import { Input, Row, Col, Button } from "antd"
+import { Input, Button } from "antd"
 
 import { TaskDetailContext } from "../store"
 
-import { Text as text, Select } from "../../../components"
+import { Text as text, Select, Row as row } from "../../../components"
 
 export const ChooseExecutorAndNotify = () => {
   const {
@@ -15,8 +15,8 @@ export const ChooseExecutorAndNotify = () => {
 
   return (
     <>
-      <Row gutter={24} style={{ marginBottom: 16 }}>
-        <Col span={12}>
+      <Row mb="16px">
+        <div className="select">
           <Text>Исполнитель:</Text>
           <Select
             labelInValue
@@ -28,27 +28,25 @@ export const ChooseExecutorAndNotify = () => {
               dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
             }
           />
-        </Col>
-        <Col span={12}>
+        </div>
+        <div className="input">
           <Text>Получатель пригласительного письма</Text>
           <Input size="large" />
-        </Col>
+        </div>
       </Row>
-      <Row gutter={16} type="flex" align="bottom">
-        <Col span={16}>
+      <Row>
+        <div className="textarea">
           <Text>Текст пригласительного письма</Text>
           <Input size="large" />
-        </Col>
-        <Col span={4}>
-          <Button size="large" block>
-            Выбрать из списка
-          </Button>
-        </Col>
-        <Col span={4}>
-          <Button size="large" block type="primary" onClick={pushStage}>
-            Завершить этап
-          </Button>
-        </Col>
+        </div>
+
+        <Button size="large" style={{ marginRight: 16 }}>
+          Выбрать из списка
+        </Button>
+
+        <Button size="large" type="primary" onClick={pushStage}>
+          Завершить этап
+        </Button>
       </Row>
     </>
   )
@@ -59,4 +57,24 @@ const Text = styled(text).attrs(p => ({
   view: "second"
 }))`
   margin-bottom: 8px;
+`
+const Row = styled(row)`
+  align-items: flex-end;
+
+  & > div {
+    width: 50%;
+  }
+
+  .select {
+    padding-right: 8px;
+  }
+
+  .input {
+    padding-left: 8px;
+  }
+
+  .textarea {
+    flex-grow: 1;
+    padding-right: 16px;
+  }
 `

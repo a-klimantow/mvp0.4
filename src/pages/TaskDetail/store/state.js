@@ -21,6 +21,7 @@ export const initialState = {
   // page state
   currentStageIndex: 0,
   currentStageAction: null,
+  btnLoading: false,
   urlPOST: "",
   urlGET: ""
 }

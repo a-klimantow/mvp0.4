@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { Modal as ModalAnt, Input } from "antd"
 
@@ -6,11 +6,18 @@ import { Text } from "../../components"
 import { TaskDetailContext } from "./store"
 
 export const Modal = ({ visible }) => {
-  const { revertStage, showModal } = useContext(TaskDetailContext)
+  const [value, setValue] = useState("")
+  const { revertStage, showModal, addComment } = useContext(TaskDetailContext)
 
   const handleOk = () => {
     revertStage()
     showModal()
+    addComment(value)
+    setValue("")
+  }
+
+  const handleChange = e => {
+    setValue(e.target.value)
   }
 
   return (
@@ -28,7 +35,7 @@ export const Modal = ({ visible }) => {
         Это позволит оператору понять причину Вашего решения.
       </Text>
       <Label>Текст комментария</Label>
-      <Input.TextArea value={1} />
+      <Input.TextArea value={value} onChange={handleChange} />
     </ModalAnt>
   )
 }
