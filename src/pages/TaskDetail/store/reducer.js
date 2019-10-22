@@ -4,13 +4,13 @@ export const reducer = (state, action) => {
   let currentStageAction = null
   let comments = null
   switch (action.type) {
-    case 'CHANGE_URL_GET':
+    case "CHANGE_URL_GET":
       return {
         ...state,
         urlGET: action.payload
       }
 
-    case 'ADD_STATE':
+    case "ADD_STATE":
       const { currentStage } = action.payload
       currentStageIndex = currentStage.number
       currentStageAction = currentStage.action
@@ -20,7 +20,7 @@ export const reducer = (state, action) => {
         currentStageIndex,
         currentStageAction
       }
-    case 'PUSH_STAGE':
+    case "PUSH_STAGE":
       const { currentStage: newCurrentStage } = action.payload
       console.log(action.payload)
       currentStageIndex = newCurrentStage.number
@@ -33,28 +33,28 @@ export const reducer = (state, action) => {
         currentStageAction,
         btnLoading: false
       }
-    case 'ADD_EMPLOYEES':
+    case "ADD_EMPLOYEES":
       const employeesList = action.payload.map(item => ({
         key: item.id.toString(),
         label: item.name
       }))
       return { ...state, employees: employeesList }
-    case 'SET_NEXT_PERPETRATOR_ID':
+    case "SET_NEXT_PERPETRATOR_ID":
       return {
         ...state,
         NextPerpetratorId: action.payload
       }
-    case 'SHOW_MODAL':
+    case "SHOW_MODAL":
       return { ...state, modal: !state.modal }
 
-    case 'ADD_COMMENT':
+    case "ADD_COMMENT":
       console.log(action.payload)
       return {
         ...state,
         comments: [...state.comments, action.payload],
         btnLoading: false
       }
-    case 'SAVE_EDIT_COMMENT':
+    case "SAVE_EDIT_COMMENT":
       comments = state.comments.map(comment =>
         comment.id === action.payload.id ? action.payload : comment
       )
@@ -62,13 +62,19 @@ export const reducer = (state, action) => {
         ...state,
         comments
       }
-    case 'DELETE_COMMENT':
+    case "DELETE_COMMENT":
       comments = state.comments.filter(comment => comment.id !== action.payload)
       return {
         ...state,
         comments
       }
-    case 'LOADING':
+    case "ADD_UPLOAD_FILE":
+      return {
+        ...state,
+        upload: [...state.upload, ...action.payload],
+        uploadLoading: false
+      }
+    case "LOADING":
       return { ...state, ...action.payload }
     default:
       return state

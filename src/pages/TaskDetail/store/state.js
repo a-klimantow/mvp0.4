@@ -15,14 +15,16 @@ export const initialState = {
   userOperatingStatus: null,
   currentStage: {},
   device: null,
-  documents: null,
+  documents: [],
   comments: [],
   stages: [],
   // page state
   currentStageIndex: 0,
   currentStageAction: null,
   btnLoading: false,
-  urlPOST: '',
-  urlGET: '',
-  NextPerpetratorId: null
+  urlPOST: "",
+  urlGET: "",
+  NextPerpetratorId: null,
+  upload: [],
+  uploadLoading: false
 }

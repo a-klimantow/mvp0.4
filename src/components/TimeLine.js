@@ -1,8 +1,8 @@
-import React from 'react'
-import { Progress } from 'antd'
-import styled from 'styled-components'
+import React from "react"
+import { Progress } from "antd"
+import styled from "styled-components"
 
-import { Timer } from './Timer'
+import { Timer } from "./Timer"
 
 export const TimeLine = ({ finish, start }) => {
   const percent =
@@ -10,7 +10,7 @@ export const TimeLine = ({ finish, start }) => {
     100
 
   const statusColor =
-    percent > 90 ? '#ED3B45' : percent > 60 ? '#E2B104' : '#17B45A'
+    percent > 90 ? "#ED3B45" : percent > 60 ? "#E2B104" : "#17B45A"
 
   return (
     <TimeLineWrap>
@@ -19,6 +19,7 @@ export const TimeLine = ({ finish, start }) => {
           showInfo={false}
           percent={percent}
           strokeColor={statusColor}
+          size="small"
         />
       </div>
       <Timer finishTime={finish} ml="8px" />
