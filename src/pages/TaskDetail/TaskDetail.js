@@ -1,15 +1,24 @@
-import React, { useReducer } from "react"
-import { useParams, useHistory } from "react-router-dom"
-import { Button } from "antd"
+import React, { useReducer, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import styled from 'styled-components'
+import { Button } from 'antd'
 //
-import { Grid, Text, Paper, ListInfo, ListDevice, Ul } from "../../components"
-import { Headers } from "./Headers"
-import { Panel } from "./Panel"
-import { Stages } from "./Stages"
-import { Comments } from "./Comments"
+import {
+  Grid,
+  Text,
+  Paper,
+  ListInfo,
+  ListDevice,
+  Ul,
+  DocumentFile
+} from '../../components'
+import { Headers } from './Headers'
+import { Panel } from './Panel'
+import { Stages } from './Stages'
+import { Comments } from './Comments'
 
-import { initialState, reducer, TaskDetailContext } from "./store"
-import { useAxios, useEffectOnce } from "../../hooks"
+import { initialState, reducer, TaskDetailContext } from './store'
+import { useAxios } from '../../hooks'
 
 export const TaskDetail = () => {
   const { id } = useParams()
@@ -20,74 +29,71 @@ export const TaskDetail = () => {
     urlGET: `Task/${id}`
   })
 
-  console.log(state.documents)
-
-  useEffectOnce(() => {
+  useEffect(() => {
     get(`Tasks/${id}`).then(res =>
-      dispatch({ type: "ADD_STATE", payload: res })
+      dispatch({ type: 'ADD_STATE', payload: res })
     )
   }, [state.urlGET])
 
-  useEffectOnce(() => {
-    get("ManagingFirmUsers").then(emloyeesList => {
-      dispatch({ type: "ADD_EMPLOYEES", payload: emloyeesList })
+  const pushStage = data => {
+    dispatch({
+      type: 'LOADING',
+      payload: { btnLoading: true, currentStage: { action: undefined } }
     })
-  })
-
-  const pushStage = () => {
-    const data = { NextPerpetratorId: +state.NextPerpetratorId }
-    dispatch({ type: "LOADING", payload: { btnLoading: true } })
-    dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: null })
+    dispatch({ type: 'SET_NEXT_PERPETRATOR_ID', payload: null })
     post(`Tasks/${id}/PushStage`, data).then(res =>
-      dispatch({ type: "PUSH_STAGE", payload: res })
+      dispatch({ type: 'PUSH_STAGE', payload: res })
     )
   }
   const revertStage = () => {
+    dispatch({
+      type: 'LOADING',
+      payload: { currentStage: { action: undefined } }
+    })
     post(`Tasks/${id}/RevertStage`).then(res =>
-      dispatch({ type: "PUSH_STAGE", payload: res })
+      dispatch({ type: 'PUSH_STAGE', payload: res })
     )
   }
 
   const showModal = () => {
-    dispatch({ type: "SHOW_MODAL" })
+    dispatch({ type: 'SHOW_MODAL' })
   }
 
   const addComment = comment => {
     const data = JSON.stringify(comment)
     dispatch({
-      type: "LOADING",
+      type: 'LOADING',
       payload: { btnLoading: true }
     })
-    post(`Tasks/${id}/AddComment`, data).then(res =>
-      dispatch({ type: "ADD_COMMENT", payload: res })
+    post(`Tasks/${id}/Comments`, data).then(comments =>
+      dispatch({ type: 'ADD_COMMENT', payload: comments })
     )
   }
 
   const saveEditComment = (commentId, comment) => {
     const data = JSON.stringify(comment)
-    put(`TaskComments/${commentId}`, data).then(res =>
-      dispatch({ type: "SAVE_EDIT_COMMENT", payload: res })
-    )
+    put(`Tasks/${id}/Comments/${commentId}`, data).then(comments => {
+      dispatch({ type: 'SAVE_EDIT_COMMENT', payload: comments })
+    })
   }
 
   const deleteComment = commentId => {
-    // console.log(commentId)
-    deleteData(`TaskComments/${commentId}`).then(() =>
-      dispatch({ type: "DELETE_COMMENT", payload: commentId })
+    deleteData(`Tasks/${id}/Comments/${commentId}`).then(comments =>
+      dispatch({ type: 'DELETE_COMMENT', payload: comments })
     )
   }
 
   const uploadFile = data => {
-    dispatch({ type: "LOADING", payload: { uploadLoading: true } })
+    dispatch({ type: 'LOADING', payload: { uploadLoading: true } })
     post(`Documents/upload`, data).then(res =>
-      dispatch({ type: "ADD_UPLOAD_FILE", payload: res })
+      dispatch({ type: 'ADD_UPLOAD_FILE', payload: res })
     )
   }
 
   const deleteUploadFile = docId => {
-    dispatch({ type: "LOADING", payload: { uploadLoading: true } })
+    dispatch({ type: 'LOADING', payload: { uploadLoading: true } })
     deleteData(`Documents/${docId}`).then(() =>
-      dispatch({ type: "DELETE_UPLOAD_FILE", payload: { id: docId } })
+      dispatch({ type: 'DELETE_UPLOAD_FILE', payload: { id: docId } })
     )
   }
   return (
@@ -107,22 +113,26 @@ export const TaskDetail = () => {
     >
       <Grid grid="1" p="16px 0">
         <div className="crumbs">
-          <Button style={{ padding: "0 4px 0 0" }} type="link" onClick={goBack}>
+          <Button style={{ padding: '0 4px 0 0' }} type="link" onClick={goBack}>
             Задачи /
           </Button>
-          <Text>{location.state.currentStageName}</Text>
+          <Text>
+            {location.state.currentStageName
+              ? location.state.currentStageName
+              : location.state.name}
+          </Text>
         </div>
         <Headers />
-        <div className="panel">
+        <Box>
           <Panel />
-          {state.documents.length > 0 && (
+          {state.documents.length !== 0 && (
             <Ul mt="24px">
               {state.documents.map(document => (
-                <li key={document.id}>{document.name}</li>
+                <DocumentFile key={document.id} {...document} />
               ))}
             </Ul>
           )}
-        </div>
+        </Box>
         <Comments />
         <Paper className="info">
           <ListInfo {...state} mb="24px" />
@@ -133,3 +143,10 @@ export const TaskDetail = () => {
     </TaskDetailContext.Provider>
   )
 }
+
+const Box = styled.div.attrs({
+  className: 'panel'
+})`
+  height: auto;
+  transition: height 1s;
+`

@@ -8,15 +8,18 @@ import { ChooseExecutor } from './ChooseExecutor'
 import { ChooseExecutorAndNotify } from './ChooseExecutorAndNotify'
 import { ChooseExecutorAndAction } from './ChooseExecutorAndAction'
 import { UploadDocument } from './UploadDocument'
+import { Completion } from './Completion'
 
 export const Panel = () => {
   const {
-    state: { currentStageAction, userOperatingStatus, currentStage }
+    state: { userOperatingStatus, currentStage }
   } = useContext(TaskDetailContext)
 
   const {
-    state: { isResponsible }
+    state: { isResponsible, isArchived }
   } = useLocation()
+
+  if (isArchived) return null
 
   if (isResponsible) {
     if (userOperatingStatus === 'Observer') {
@@ -31,17 +34,18 @@ export const Panel = () => {
     }
 
     return (
-      <div className="panel">
-        {currentStageAction === null && <Spin />}
-        {currentStageAction === 'ChooseExecutor' && <ChooseExecutor />}
-        {currentStageAction === 'ChooseExecutorAndNotify' && (
+      <>
+        {currentStage.action === undefined && <Spin />}
+        {currentStage.action === 'ChooseExecutor' && <ChooseExecutor />}
+        {currentStage.action === 'ChooseExecutorAndNotify' && (
           <ChooseExecutorAndNotify />
         )}
-        {currentStageAction === 'ChooseExecutorAndAction' && (
+        {currentStage.action === 'ChooseExecutorAndAction' && (
           <ChooseExecutorAndAction />
         )}
-        {currentStageAction === 'UploadDocument' && <UploadDocument />}
-      </div>
+        {currentStage.action === 'UploadDocument' && <UploadDocument />}
+        {currentStage.action === 'Completion' && <Completion />}
+      </>
     )
   }
 

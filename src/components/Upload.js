@@ -1,49 +1,63 @@
-import React, { useRef, useState, useContext } from "react"
-import styled, { css } from "styled-components"
-import { Spin } from "antd"
+import React, { useRef, useState, useContext } from 'react'
+import styled from 'styled-components'
+import { Spin } from 'antd'
 
-import { Text as text } from "./Text"
-import { Icon as icon } from "./Icon"
-import { TaskDetailContext } from "../pages/TaskDetail/store"
+import { Text as text } from './Text'
+import { Icon as icon } from './Icon'
+import { TaskDetailContext } from '../pages/TaskDetail/store'
 
 export const Upload = () => {
   const [files, setFiles] = useState([])
   const inputEl = useRef(null)
 
   const {
-    state: { upload, uploadLoading },
+    state: { upload },
     uploadFile,
     deleteUploadFile
   } = useContext(TaskDetailContext)
 
-  console.log(files)
   const handleChange = () => {
     if (inputEl.current.files.length > 0) {
+      console.log(inputEl.current.files[0])
       let dataFile = new FormData()
-      dataFile.append("file", inputEl.current.files[0])
-      setFiles([...files, inputEl.current.files])
+      dataFile.append('file', inputEl.current.files[0])
+      setFiles([...files, inputEl.current.files[0]])
       uploadFile(dataFile)
     }
+  }
+
+  const deleteFile = id => {
+    setFiles([])
+    deleteUploadFile(id)
   }
 
   return (
     <UploadWrap>
       <label className="label">
         <BtnUpload>Загрузить файл</BtnUpload>
-        <input type="file" ref={inputEl} onChange={handleChange} />
+        <input
+          type="file"
+          ref={inputEl}
+          onChange={handleChange}
+          disabled={upload.length > 0}
+        />
       </label>
 
-      {files.length > 0 &&
-        files.map(file => (
-          <File>
-            <Icon />
-            <Text>{file.name}</Text>
-            {uploadLoading && <Spin size="small" />}
-            {upload.length !== 0 && !uploadLoading ? (
-              <IconDelete onClick={() => {}} />
-            ) : null}
-          </File>
-        ))}
+      {files.length > 0 && upload.length === 0
+        ? files.map(file => (
+            <File key={file.name}>
+              <Icon />
+              <Text>{file.name}</Text>
+              <Spin size="small" />
+            </File>
+          ))
+        : upload.map(file => (
+            <File key={file.id}>
+              <Icon />
+              <Text>{file.name}</Text>
+              <IconDelete onClick={() => deleteFile(file.id)} />
+            </File>
+          ))}
     </UploadWrap>
   )
 }
@@ -83,13 +97,13 @@ const BtnUpload = styled.span`
   }
 `
 const Icon = styled(icon).attrs({
-  type: "paperclip"
+  type: 'paperclip'
 })`
   color: ${p => p.theme.text.color.primary};
 `
 
 const IconDelete = styled(icon).attrs({
-  type: "close"
+  type: 'close'
 })`
   transform: translateY(0.5px);
   color: ${p => p.theme.text.color.primary};
@@ -101,10 +115,12 @@ const IconDelete = styled(icon).attrs({
 
 const Text = styled(text)`
   color: ${p => p.theme.color.primary};
-  margin: 0 8px;
+  margin-left: 6px;
+  margin-right: 8px;
 `
 
 const File = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 16px;
 `

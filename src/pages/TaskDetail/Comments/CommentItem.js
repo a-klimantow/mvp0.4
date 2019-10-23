@@ -1,16 +1,16 @@
-import React, { useState, useContext } from "react"
-import { Button, Input, Popconfirm } from "antd"
-import styled from "styled-components"
+import React, { useState, useContext } from 'react'
+import { Button, Input, Popconfirm } from 'antd'
+import styled from 'styled-components'
 
-import { Text, Icon } from "../../../components"
-import { dateFormat } from "../../../services/dateFormat"
-import { TaskDetailContext } from "../store"
+import { Text, Icon } from '../../../components'
+import { dateFormat } from '../../../services/dateFormat'
+import { TaskDetailContext } from '../store'
 
 const { TextArea } = Input
 
-export const CommentItem = ({ id, text, author, createdAt, editPanel }) => {
+export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
   const [edit, setEdit] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState('')
   const { saveEditComment, deleteComment } = useContext(TaskDetailContext)
 
   const startEdit = () => {
@@ -40,7 +40,7 @@ export const CommentItem = ({ id, text, author, createdAt, editPanel }) => {
             {author}
           </Text>
           <Text className="datetime" size="small">
-            {dateFormat(createdAt, "DD.MM.YY HH:mm:ss")}
+            {dateFormat(createdAt, 'DD.MM.YY HH:mm:ss')}
           </Text>
         </div>
         {!edit ? (
@@ -65,7 +65,7 @@ export const CommentItem = ({ id, text, author, createdAt, editPanel }) => {
         )}
       </div>
       <BtnGroup className="btn-group">
-        {editPanel && (
+        {canBeEdited && (
           <>
             <button onClick={startEdit}>
               <Icon type="edit" />

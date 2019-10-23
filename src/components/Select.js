@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import { Select as SelectAnt } from "antd"
-import PropTypes from "prop-types"
+import React from 'react'
+import styled from 'styled-components'
+import { Select as SelectAnt } from 'antd'
+import PropTypes from 'prop-types'
 //
-import { Text } from "./Text"
-import { Icon } from "./Icon"
+import { Text } from './Text'
+import { Icon } from './Icon'
 
 const { Option } = SelectAnt
 
@@ -28,7 +28,7 @@ const TextOpt = styled(Text)`
 Select.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
       icon: PropTypes.string
     })
@@ -37,7 +37,7 @@ Select.propTypes = {
 
 Select.defaultProps = {
   options: [
-    { key: "1", label: "some text" },
-    { key: "2", icon: "max", label: "hello" }
+    { key: '1', label: 'some text' },
+    { key: '2', icon: 'max', label: 'hello' }
   ]
 }

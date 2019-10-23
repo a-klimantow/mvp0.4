@@ -1,12 +1,12 @@
-import React from "react"
-import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
-import { ConfigProvider } from "antd"
-import RU from "antd/es/locale/ru_RU"
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { ConfigProvider } from 'antd'
+import RU from 'antd/es/locale/ru_RU'
 //
-import { theme } from "./assets/theme"
-import { Layout } from "./components"
-import { Login, Task, TaskDetail, Obj, ObjDetail } from "./pages"
+import { theme } from './assets/theme'
+import { Layout } from './components'
+import { Login, Task, TaskDetail, Obj, ObjDetail } from './pages'
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/">
+              <Redirect from="/" to="task" />
               <Layout>
                 <Route path="/" component={Task} exact />
                 <Route path="/task/:id" component={TaskDetail} />

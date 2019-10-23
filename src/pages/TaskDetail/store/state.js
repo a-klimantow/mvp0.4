@@ -19,11 +19,9 @@ export const initialState = {
   comments: [],
   stages: [],
   // page state
-  currentStageIndex: 0,
-  currentStageAction: null,
   btnLoading: false,
-  urlPOST: "",
-  urlGET: "",
+  urlPOST: '',
+  urlGET: '',
   NextPerpetratorId: null,
   upload: [],
   uploadLoading: false

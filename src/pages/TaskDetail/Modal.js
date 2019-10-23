@@ -1,19 +1,21 @@
-import React, { useContext, useState } from "react"
-import styled from "styled-components"
-import { Modal as ModalAnt, Input } from "antd"
+import React, { useContext, useState } from 'react'
+import styled from 'styled-components'
+import { Modal as ModalAnt, Input } from 'antd'
 
-import { Text } from "../../components"
-import { TaskDetailContext } from "./store"
+import { Text } from '../../components'
+import { TaskDetailContext } from './store'
 
 export const Modal = ({ visible }) => {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState('')
   const { revertStage, showModal, addComment } = useContext(TaskDetailContext)
 
   const handleOk = () => {
     revertStage()
     showModal()
-    addComment(value)
-    setValue("")
+    setValue('')
+    if (value.trim()) {
+      addComment(value)
+    }
   }
 
   const handleChange = e => {
@@ -41,8 +43,8 @@ export const Modal = ({ visible }) => {
 }
 
 const Label = styled(Text).attrs(p => ({
-  size: "small",
-  view: "second"
+  size: 'small',
+  view: 'second'
 }))`
   margin-top: 16px;
   margin-bottom: 8px;

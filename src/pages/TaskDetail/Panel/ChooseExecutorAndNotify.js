@@ -1,17 +1,34 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { Input, Button } from 'antd'
 
 import { TaskDetailContext } from '../store'
-
+import { useAxios, useEffectOnce } from '../../../hooks'
 import { Text as text, Select, Row as row } from '../../../components'
 
 export const ChooseExecutorAndNotify = () => {
+  const { get } = useAxios()
+  const [employees, setEmployees] = useState([])
   const {
-    state: { employees, btnLoading, NextPerpetratorId },
+    state: { btnLoading, NextPerpetratorId },
     dispatch,
     pushStage
   } = useContext(TaskDetailContext)
+
+  useEffectOnce(() => {
+    get('ManagingFirmUsers').then(data => {
+      const emloyeesList = data.map(item => ({
+        key: item.id,
+        label: item.name
+      }))
+      setEmployees(emloyeesList)
+    })
+  })
+
+  const handlePushStage = () => {
+    const data = { NextPerpetratorId: +NextPerpetratorId }
+    pushStage(data)
+  }
 
   return (
     <>
@@ -47,7 +64,7 @@ export const ChooseExecutorAndNotify = () => {
         <Button
           size="large"
           type="primary"
-          onClick={pushStage}
+          onClick={handlePushStage}
           loading={btnLoading}
           disabled={!NextPerpetratorId}
         >
