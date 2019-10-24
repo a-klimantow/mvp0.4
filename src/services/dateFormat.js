@@ -1,4 +1,7 @@
-import moment from 'moment'
+import moment from "moment"
+moment.locale("ru")
 
-export const dateFormat = (date, format = '') =>
+console.log(moment.locale())
+
+export const dateFormat = (date, format = "") =>
   date ? moment(date).format(format) : null

@@ -1,18 +1,18 @@
-import axios from 'axios'
-import { useState } from 'react'
+import axios from "axios"
+import { useState } from "react"
 
-const server = process.env.NODE_ENV === 'development' ? 'staging' : 'production'
+const server = process.env.NODE_ENV === "development" ? "staging" : "production"
 
 axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
-axios.defaults.headers['Content-Type'] = 'application/json'
+axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
-  localStorage.getItem('tokenData')
-    ? JSON.parse(localStorage.getItem('tokenData'))
-    : { token: '' }
+  localStorage.getItem("tokenData")
+    ? JSON.parse(localStorage.getItem("tokenData"))
+    : { token: "" }
 
 const setTokenData = data =>
-  localStorage.setItem('tokenData', JSON.stringify(data))
+  localStorage.setItem("tokenData", JSON.stringify(data))
 
 // hooooook
 export const useAxios = () => {
@@ -30,7 +30,7 @@ export const useAxios = () => {
   const auth = data => {
     setLoader(true)
     return axios
-      .post('ManagingFirmUsers/auth', data)
+      .post("ManagingFirmUsers/auth", data)
       .then(res => res.data.successResponse)
       .then(setTokenData)
       .catch(err => console.log(err))
@@ -39,21 +39,21 @@ export const useAxios = () => {
 
   const refresh = (method, ...rest) =>
     axios
-      .post('ManagingFirmUsers/refreshToken', getTokenData())
+      .post("ManagingFirmUsers/refreshToken", getTokenData())
       .then(res => res.data.successResponse)
       .then(setTokenData)
       .then(() => method(...rest))
       .catch(err => {
         console.log(err)
         localStorage.clear()
-        document.location.replace('/login')
+        document.location.replace("/login")
       })
 
-  const get = (rest = '') => {
+  const get = (rest = "") => {
     setLoader(true)
     return axios(`${rest}`, createHeaders())
       .then(res => {
-        console.log('got data')
+        console.log("got data")
         return res.data.successResponse
       })
       .catch(err => {

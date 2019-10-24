@@ -6,27 +6,28 @@ import { Row as row, Select, Text as text } from "../../../components"
 import { TaskDetailContext } from "../store"
 import { useAxios, useEffectOnce } from "../../../hooks"
 
-export const ChooseExecutor = () => {
+export const Switch = () => {
   const { get } = useAxios()
-  const [employees, setEmployees] = useState([])
+  const [stages, setStages] = useState([])
+  const [nextStageId, setNextStageId] = useState(null)
   const {
-    state: { NextPerpetratorId },
-    dispatch,
+    state: { id },
+
     pushStage
   } = useContext(TaskDetailContext)
 
   useEffectOnce(() => {
-    get("ManagingFirmUsers").then(data => {
-      const emloyeesList = data.map(item => ({
+    get(`Tasks/${id}/NextStages`).then(data => {
+      const stagesList = data.map(item => ({
         key: item.id,
         label: item.name
       }))
-      setEmployees(emloyeesList)
+      setStages(stagesList)
     })
   })
 
   const handlePushStage = () => {
-    const data = { NextPerpetratorId: +NextPerpetratorId }
+    const data = { nextStageId }
     pushStage(data)
   }
 
@@ -34,24 +35,22 @@ export const ChooseExecutor = () => {
     <>
       <Row>
         <div className="select">
-          <Text>Исполнитель:</Text>
+          <Text>Выбирите дальнейшее действие:</Text>
           <Select
             labelInValue
             style={{ display: "block" }}
             size="large"
-            options={employees}
-            placeholder="Выбирите исполнителя"
-            onChange={e =>
-              dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
-            }
+            options={stages}
+            placeholder="Выбирите дальнейшее действие"
+            onChange={e => setNextStageId(e.key)}
           />
         </div>
         <Button
           size="large"
           type="primary"
           onClick={handlePushStage}
-          // loading={btnLoading}
-          disabled={!NextPerpetratorId}
+          // loading={nextStageId}
+          disabled={!nextStageId}
         >
           Завершить этап
         </Button>

@@ -1,7 +1,7 @@
-import React, { useReducer, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { Button } from 'antd'
+import React, { useReducer, useEffect } from "react"
+import { useParams, useHistory } from "react-router-dom"
+import styled from "styled-components"
+import { Button } from "antd"
 //
 import {
   Grid,
@@ -11,14 +11,14 @@ import {
   ListDevice,
   Ul,
   DocumentFile
-} from '../../components'
-import { Headers } from './Headers'
-import { Panel } from './Panel'
-import { Stages } from './Stages'
-import { Comments } from './Comments'
+} from "../../components"
+import { Headers } from "./Headers"
+import { Panel } from "./Panel"
+import { Stages } from "./Stages"
+import { Comments } from "./Comments"
 
-import { initialState, reducer, TaskDetailContext } from './store'
-import { useAxios } from '../../hooks'
+import { initialState, reducer, TaskDetailContext } from "./store"
+import { useAxios } from "../../hooks"
 
 export const TaskDetail = () => {
   const { id } = useParams()
@@ -31,69 +31,70 @@ export const TaskDetail = () => {
 
   useEffect(() => {
     get(`Tasks/${id}`).then(res =>
-      dispatch({ type: 'ADD_STATE', payload: res })
+      dispatch({ type: "ADD_STATE", payload: res })
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.urlGET])
 
   const pushStage = data => {
     dispatch({
-      type: 'LOADING',
+      type: "LOADING",
       payload: { btnLoading: true, currentStage: { action: undefined } }
     })
-    dispatch({ type: 'SET_NEXT_PERPETRATOR_ID', payload: null })
+    dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: null })
     post(`Tasks/${id}/PushStage`, data).then(res =>
-      dispatch({ type: 'PUSH_STAGE', payload: res })
+      dispatch({ type: "PUSH_STAGE", payload: res })
     )
   }
   const revertStage = () => {
     dispatch({
-      type: 'LOADING',
+      type: "LOADING",
       payload: { currentStage: { action: undefined } }
     })
     post(`Tasks/${id}/RevertStage`).then(res =>
-      dispatch({ type: 'PUSH_STAGE', payload: res })
+      dispatch({ type: "PUSH_STAGE", payload: res })
     )
   }
 
   const showModal = () => {
-    dispatch({ type: 'SHOW_MODAL' })
+    dispatch({ type: "SHOW_MODAL" })
   }
 
   const addComment = comment => {
     const data = JSON.stringify(comment)
     dispatch({
-      type: 'LOADING',
+      type: "LOADING",
       payload: { btnLoading: true }
     })
     post(`Tasks/${id}/Comments`, data).then(comments =>
-      dispatch({ type: 'ADD_COMMENT', payload: comments })
+      dispatch({ type: "ADD_COMMENT", payload: comments })
     )
   }
 
   const saveEditComment = (commentId, comment) => {
     const data = JSON.stringify(comment)
     put(`Tasks/${id}/Comments/${commentId}`, data).then(comments => {
-      dispatch({ type: 'SAVE_EDIT_COMMENT', payload: comments })
+      dispatch({ type: "SAVE_EDIT_COMMENT", payload: comments })
     })
   }
 
   const deleteComment = commentId => {
     deleteData(`Tasks/${id}/Comments/${commentId}`).then(comments =>
-      dispatch({ type: 'DELETE_COMMENT', payload: comments })
+      dispatch({ type: "DELETE_COMMENT", payload: comments })
     )
   }
 
   const uploadFile = data => {
-    dispatch({ type: 'LOADING', payload: { uploadLoading: true } })
+    dispatch({ type: "LOADING", payload: { uploadLoading: true } })
     post(`Documents/upload`, data).then(res =>
-      dispatch({ type: 'ADD_UPLOAD_FILE', payload: res })
+      dispatch({ type: "ADD_UPLOAD_FILE", payload: res })
     )
   }
 
   const deleteUploadFile = docId => {
-    dispatch({ type: 'LOADING', payload: { uploadLoading: true } })
+    dispatch({ type: "LOADING", payload: { uploadLoading: true } })
     deleteData(`Documents/${docId}`).then(() =>
-      dispatch({ type: 'DELETE_UPLOAD_FILE', payload: { id: docId } })
+      dispatch({ type: "DELETE_UPLOAD_FILE", payload: { id: docId } })
     )
   }
   return (
@@ -113,7 +114,7 @@ export const TaskDetail = () => {
     >
       <Grid grid="1" p="16px 0">
         <div className="crumbs">
-          <Button style={{ padding: '0 4px 0 0' }} type="link" onClick={goBack}>
+          <Button style={{ padding: "0 4px 0 0" }} type="link" onClick={goBack}>
             Задачи /
           </Button>
           <Text>
@@ -145,7 +146,7 @@ export const TaskDetail = () => {
 }
 
 const Box = styled.div.attrs({
-  className: 'panel'
+  className: "panel"
 })`
   height: auto;
   transition: height 1s;

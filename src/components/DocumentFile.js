@@ -1,18 +1,23 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Button } from 'antd'
+import React from "react"
+import styled from "styled-components"
 
-import { User } from './User'
-import { Icon as icon } from './Icon'
-import { TimeCreate } from './TimeCreate'
+import { User } from "./User"
+import { Icon as icon } from "./Icon"
+import { TimeCreate } from "./TimeCreate"
 
-export const DocumentFile = ({ name, url, uploadingTime, canBeEdited }) => {
+export const DocumentFile = ({
+  name,
+  url,
+  uploadingTime,
+  canBeEdited,
+  author
+}) => {
   return (
     <DocumentFileWrap>
       <a href={url} className="link">
         <IconFile /> {name}
       </a>
-      <User perpetrator="user" className="user" />
+      <User perpetrator={author} className="user" />
       <TimeCreate time={uploadingTime} className="time" />
       <div className="btn">
         {canBeEdited && (
@@ -71,14 +76,14 @@ const DocumentFileWrap = styled.li`
 `
 
 const IconFile = styled(icon).attrs({
-  type: 'file',
-  viewBox: '0 0 16 22'
+  type: "file",
+  viewBox: "0 0 16 22"
 })`
   height: 22px;
   margin-right: 8px;
 `
 const IconDel = styled(icon).attrs({
-  type: 'del'
+  type: "del"
 })`
   color: ${p => p.theme.text.color.primary};
 `

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
-import styled from 'styled-components'
-import { Input, Button } from 'antd'
+import React, { useContext, useState } from "react"
+import styled from "styled-components"
+import { Input, Button } from "antd"
 
-import { TaskDetailContext } from '../store'
-import { useAxios, useEffectOnce } from '../../../hooks'
-import { Text as text, Select, Row as row } from '../../../components'
+import { TaskDetailContext } from "../store"
+import { useAxios, useEffectOnce } from "../../../hooks"
+import { Text as text, Select, Row as row } from "../../../components"
 
 export const ChooseExecutorAndNotify = () => {
   const { get } = useAxios()
@@ -16,7 +16,7 @@ export const ChooseExecutorAndNotify = () => {
   } = useContext(TaskDetailContext)
 
   useEffectOnce(() => {
-    get('ManagingFirmUsers').then(data => {
+    get("ManagingFirmUsers").then(data => {
       const emloyeesList = data.map(item => ({
         key: item.id,
         label: item.name
@@ -37,12 +37,12 @@ export const ChooseExecutorAndNotify = () => {
           <Text>Исполнитель:</Text>
           <Select
             labelInValue
-            style={{ display: 'block' }}
+            style={{ display: "block" }}
             size="large"
             options={employees}
             placeholder="Выбирите исполнителя"
             onChange={e =>
-              dispatch({ type: 'SET_NEXT_PERPETRATOR_ID', payload: e.key })
+              dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
             }
           />
         </div>
@@ -76,8 +76,8 @@ export const ChooseExecutorAndNotify = () => {
 }
 
 const Text = styled(text).attrs(p => ({
-  size: 'small',
-  view: 'second'
+  size: "small",
+  view: "second"
 }))`
   margin-bottom: 8px;
 `
