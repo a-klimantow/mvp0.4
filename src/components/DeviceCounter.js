@@ -37,4 +37,5 @@ const Text = styled(text).attrs(p => ({
 
 const Icon = styled(icon)`
   transform: translateY(4px);
+  color: ${p => p.theme.text.color.secondary};
 `

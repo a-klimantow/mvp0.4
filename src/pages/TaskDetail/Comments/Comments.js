@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { Paper, Title, Ul } from '../../../components'
 import { Editor } from './Editor'
@@ -8,14 +7,10 @@ import { TaskDetailContext } from '../store'
 
 export const Comments = () => {
   const {
-    state: { comments }
+    state: { comments, userOperatingStatus, closingTime }
   } = useContext(TaskDetailContext)
 
-  const {
-    state: { isArchived }
-  } = useLocation()
 
-  console.log(isArchived)
 
   return (
     <Paper className="comment">
@@ -25,12 +20,12 @@ export const Comments = () => {
           : `Комментарии (${comments.length})`}
       </Title>
       <Ul>
-        {comments &&
+        {comments.length === 0 ? <div>нет Комментарев</div> :
           comments.map((comment, i) => (
             <CommentItem key={comment.id} {...comment} />
           ))}
       </Ul>
-      {!isArchived && <Editor />}
+      {userOperatingStatus !== "Observer" || closingTime ? <Editor /> : null}
     </Paper>
   )
 }

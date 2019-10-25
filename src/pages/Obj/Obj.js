@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Row, Col, Input } from 'antd'
 import { useHistory } from 'react-router-dom'
@@ -15,6 +15,8 @@ import {
   TaskCounter
 } from '../../components'
 
+import { useAxios } from '../../hooks'
+
 const { Search } = Input
 
 const options = [
@@ -24,6 +26,15 @@ const options = [
 
 export const Obj = () => {
   const { push } = useHistory()
+  const {get, source} = useAxios()
+  const [houses, setHouses] = useState([])
+
+  useEffect(() => {
+    get("HousingStocks").then(res => setHouses(res))
+    return () => source.cancel('cancel axios')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Grid pt="24px">
       <Title weight={300}>Объекты</Title>
@@ -45,17 +56,19 @@ export const Obj = () => {
             />
           </Col>
         </Row>
-        <Ul>
-          <ListEl onClick={() => push('/object/1')}>
-            <div className="el_title">
-              <Title level={4} weight={600}>
-                Чишемале, 3
-              </Title>
-            </div>
-            <Address address="Нижнекамск" />
-            <DeviceCounter />
-            <TaskCounter />
-          </ListEl>
+        <Ul mt="16px">
+          {houses.map(house => 
+            <ListEl onClick={() => push('/object/1')} key={house.id}>
+              <div className="el_title-block">
+                <Title level={4} weight={600} className="el_title">
+                  {house.street}, {house.number}
+                </Title>
+              </div>
+              <Address address={house.city} />
+              <DeviceCounter />
+              {house.numberOfTasks !== 0 && <TaskCounter count={house.numberOfTasks}/>}
+            </ListEl>
+            )}
         </Ul>
       </Paper>
     </Grid>
@@ -68,7 +81,18 @@ const ListEl = styled.li`
   padding: 24px 0;
   border-bottom: ${p => p.theme.border};
   justify-items: end;
-  div.el_title {
+  cursor: pointer;
+  div.el_title-block {
     justify-self: start;
+  }
+
+  .el_title {
+    transition: color .3s;
+  }
+
+  &:hover {
+    .el_title {
+      color: ${p => p.theme.color.primary};
+    }
   }
 `

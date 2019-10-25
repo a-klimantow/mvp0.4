@@ -9,9 +9,12 @@ import { Text as text, Select, Row as row } from "../../../components"
 export const ChooseExecutorAndNotify = () => {
   const { get } = useAxios()
   const [employees, setEmployees] = useState([])
+  const [contractors, setContractors] = useState([])
+  const [NextPerpetratorId, setNextPerpetratorId] = useState(null)
+  const [contractorsIds, setContractorsID] = useState([])
+  const [message, setMessage] = useState('')
   const {
-    state: { btnLoading, NextPerpetratorId },
-    dispatch,
+    state: { btnLoading},
     pushStage
   } = useContext(TaskDetailContext)
 
@@ -23,10 +26,23 @@ export const ChooseExecutorAndNotify = () => {
       }))
       setEmployees(emloyeesList)
     })
+
+    get("Contractors").then(data => {
+      const contractorsList = data.map(item => ({
+        key: item.id,
+        label: item.name
+      }))
+      setContractors(contractorsList)
+    })
   })
 
   const handlePushStage = () => {
-    const data = { NextPerpetratorId: +NextPerpetratorId }
+    const data = { 
+      NextPerpetratorId, 
+      emailNotify : {
+        contractorsIds, message
+      } 
+   }
     pushStage(data)
   }
 
@@ -41,20 +57,26 @@ export const ChooseExecutorAndNotify = () => {
             size="large"
             options={employees}
             placeholder="Выбирите исполнителя"
-            onChange={e =>
-              dispatch({ type: "SET_NEXT_PERPETRATOR_ID", payload: e.key })
-            }
+            onChange={e => setNextPerpetratorId(e.key)}
           />
         </div>
         <div className="input">
           <Text>Получатель пригласительного письма</Text>
-          <Input size="large" />
+          <Select
+            mode="multiple"
+            labelInValue
+            style={{ display: "block" }}
+            size="large"
+            options={contractors}
+            placeholder="Выбирите кому отправить пригласительное письмо"
+            onChange={e => setContractorsID(e.map(i => i.key))}
+          />
         </div>
       </Row>
       <Row>
         <div className="textarea">
           <Text>Текст пригласительного письма</Text>
-          <Input size="large" />
+          <Input size="large" value={message} onChange={e => setMessage(e.target.value)} />
         </div>
 
         <Button size="large" style={{ marginRight: 16 }}>

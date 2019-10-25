@@ -3,7 +3,7 @@ import { useState } from "react"
 
 const server = process.env.NODE_ENV === "development" ? "staging" : "production"
 
-axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
+axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
