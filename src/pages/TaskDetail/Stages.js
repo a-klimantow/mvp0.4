@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
-import styled, { css } from 'styled-components'
-import { Button } from 'antd'
+import React, { useContext } from "react"
+import styled, { css } from "styled-components"
+import { Button } from "antd"
 
-import { Paper, Title, Ul, Icon as icon } from '../../components'
-import { dateFormat } from '../../services/dateFormat'
-import { Modal } from './Modal'
+import { Paper, Title, Ul, Icon as icon } from "../../components"
+import { dateFormat } from "../../services/dateFormat"
+import { Modal } from "./Modal"
 
-import { TaskDetailContext } from './store'
+import { TaskDetailContext } from "./store"
 
 export const Stages = () => {
   const {
@@ -26,7 +26,7 @@ export const Stages = () => {
       <Ul>
         {stages &&
           stages.map((stage, i) => {
-            if (currentNumber - 1 === i && userOperatingStatus === 'Executor') {
+            if (currentNumber - 1 === i && userOperatingStatus === "Executor") {
               return (
                 <Stage key={stage.id} {...stage} length={lenStg}>
                   <Button
@@ -53,17 +53,24 @@ const Stage = ({
   name,
   perpetrator,
   closingTime,
-  children
+  children,
+  type
 }) => (
   <StageEl status={status}>
     {number < length - 1 && <Line />}
     <IndexStage>
-      {status === 'Done' ? <Icon type="ok" /> : number + 1}
+      {status === "Done" ? (
+        <IconOk />
+      ) : type === "Switch" ? (
+        <IconSwitch />
+      ) : (
+        number + 1
+      )}
     </IndexStage>
     <div className="title">{name}</div>
-    {status === 'Done' && (
+    {status === "Done" && (
       <div className="text">
-        {perpetrator} {dateFormat(closingTime, 'DD.MM.YY HH:mm')}
+        {perpetrator} {dateFormat(closingTime, "DD.MM.YY HH:mm")}
       </div>
     )}
     {children}
@@ -90,7 +97,7 @@ const StageEl = styled.li`
   }
 
   ${p =>
-    p.status === 'InProgress' &&
+    p.status === "InProgress" &&
     css`
       div.title {
         color: ${p => p.theme.title.color};
@@ -109,7 +116,7 @@ const StageEl = styled.li`
     `}
 
   ${p =>
-    p.status === 'Done' &&
+    p.status === "Done" &&
     css`
       div.title {
         color: ${p => p.theme.title.color};
@@ -140,9 +147,18 @@ const IndexStage = styled.div`
   border-radius: 50%;
   color: ${p => p.theme.text.color.disable};
 `
-const Icon = styled(icon)`
+const IconOk = styled(icon).attrs({
+  type: 'ok'
+})`
   transform: translateY(1px);
 `
+
+const IconSwitch = styled(icon).attrs({
+  type: 'switch'
+})`
+
+`
+
 
 const Line = styled.div`
   width: 2px;

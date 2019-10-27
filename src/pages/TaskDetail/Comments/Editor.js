@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { Input, Button } from "antd"
 import { TaskDetailContext } from "../store"
+//
+import { Avatar } from "../../../components"
 
 const { TextArea } = Input
 
@@ -49,13 +51,4 @@ const EditorWrap = styled.div`
   .textarea {
     margin-bottom: 8px;
   }
-`
-const Avatar = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #ccc;
 `

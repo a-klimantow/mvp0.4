@@ -10,21 +10,21 @@ const Tabs = styled.div`
 
 export const TabMenu = ({
   children = [],
-  defaultActive = 0,
+  defaultActive = "",
   getActiveTab = () => {}
 }) => {
   const [active, setActive] = useState(defaultActive)
 
-  const handleClick = (i, id) => {
+  const handleClick = (id) => {
     getActiveTab(id)
-    setActive(i)
+    setActive(id)
   }
 
   const renderTab = Children.map(children, (tab, i) =>
     cloneElement(tab, {
-      className: i === active && "active",
-      onClick: () => handleClick(i, tab.props.id),
-      disabled: active === i
+      className: tab.props.id === active && "active",
+      onClick: () => handleClick(tab.props.id),
+      disabled: active === tab.props.id
     })
   )
   return <Tabs>{renderTab}</Tabs>
@@ -32,6 +32,6 @@ export const TabMenu = ({
 
 TabMenu.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
-  defaultActive: PropTypes.number,
+  defaultActive: PropTypes.string,
   getActiveTab: PropTypes.func
 }

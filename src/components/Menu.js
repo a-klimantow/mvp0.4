@@ -5,12 +5,13 @@ import { useHistory } from "react-router-dom"
 //
 import { Icon } from "./Icon"
 import { Text } from "./Text"
+import { useAxios } from "../hooks"
 
 const { SubMenu } = MenuAnt
 
 const menuItems = [
-  { path: "/", title: "Задачи", icon: "task" },
-  { path: "/object", title: "Объекты", icon: "obj" },
+  { path: "/Tasks", title: "Задачи", icon: "task" },
+  { path: "/HousingStocks", title: "Объекты", icon: "obj" },
   { path: "/owners", title: "Собственники", icon: "key" },
   {
     path: "/profile",
@@ -30,14 +31,24 @@ const menuItems = [
 ]
 
 export const Menu = () => {
+  const { logout } = useAxios()
+
   const {
     push,
     location: { pathname }
   } = useHistory()
 
+  const handleClick = e => {
+    if (e.key !== "/login") {
+      push(e.key)
+    } else {
+      logout()
+    }
+  }
+
   return (
     <MenuAnt
-      onClick={e => push(e.key)}
+      onClick={handleClick}
       defaultSelectedKeys={[pathname]}
       mode="inline"
       style={{ border: "none" }}

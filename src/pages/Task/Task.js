@@ -1,6 +1,7 @@
-import React, { useReducer, useEffect } from "react"
+import React, { useReducer, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Input, Row, Col, List } from "antd"
+import { useHistory, Redirect } from "react-router-dom"
 //
 import {
   Grid,
@@ -13,10 +14,8 @@ import {
 } from "../../components"
 
 import { TaskItemList } from "./TaskItemList"
-import { initialState, reducer } from "./store"
+import { reducer } from "./store"
 import { useAxios } from "../../hooks"
-// fakedata
-// import { tasks } from "../../../fakeData"
 
 const { Search } = Input
 
@@ -28,44 +27,54 @@ const options = [
 ]
 
 export const Task = () => {
-  const [
-    { items, urlGET, executingTasksCount, observingTasksCount, loader },
-    dispatch
-  ] = useReducer(reducer, {
-    ...initialState,
-    urlGET: "Executing"
-  })
-  const { get, source } = useAxios(dispatch)
+  const {
+    location: { search, pathname },
+    push
+  } = useHistory()
+  const { get, source } = useAxios()
+  const [loading, setLoading] = useState(false)
+  const [state, dispatch] = useReducer(reducer, null)
 
   useEffect(() => {
-    dispatch({ type: "TOGGLE_LOADER" })
-    get(`Tasks?GroupType=${urlGET}`).then(res => {
-      dispatch({ type: "ADD_STATE", payload: res })
-    })
-    return () => source.cancel("operation canceled")
+    setLoading(true)
+    get(`Tasks${search}`)
+      .then(state => dispatch({ type: "GET_STATE", payload: state }))
+      .finally(() => setLoading(false))
+    return () => source.cancel("task tab cancel")
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlGET])
+  }, [search])
+
+  // const { executingTasksCount, observingTasksCount, loader, items } = state
+  let items = state ? state.items : []
+  if (!search) {
+    return <Redirect to="/Tasks?GroupType=Executing" />
+  }
 
   return (
     <Grid pt="24px">
       <Title weight={300}>Задачи</Title>
       <Paper>
         <TabMenu
-          getActiveTab={key => dispatch({ type: "CHANGE_TAB", payload: key })}
+          getActiveTab={id => push(`${pathname}?GroupType=${id}`)}
+          defaultActive="Executing"
         >
           <Tab
             title={
-              !executingTasksCount
+              !state
                 ? "К исполнению"
-                : `К исполнению (${executingTasksCount})`
+                : state.executingTasksCount === undefined
+                ? "К исполнению"
+                : `К исполнению (${state.executingTasksCount})`
             }
             id="Executing"
           />
           <Tab
             title={
-              !observingTasksCount
+              !state
                 ? "Наблюдаемые"
-                : `Наблюдаемые (${observingTasksCount})`
+                : state.executingTasksCount === undefined
+                ? "Наблюдаемые"
+                : `Наблюдаемые (${state.observingTasksCount})`
             }
             id="Observing"
           />
@@ -87,15 +96,18 @@ export const Task = () => {
           </Col>
         </SortPanel>
         <List
-          loading={loader}
+          loading={loading}
           itemLayout="horizontal"
           dataSource={items}
           renderItem={item => (
             <List.Item>
-              <TaskItemList {...item} tabUrl={urlGET} />
+              <TaskItemList {...item} tabUrl={search} />
             </List.Item>
           )}
         />
+        {/* <Ul>
+          {state && state.items.map(item => <TaskItemList key={item.id} {...item} />)}
+        </Ul> */}
       </Paper>
     </Grid>
   )

@@ -1,16 +1,18 @@
-import React, { useState, useContext } from 'react'
-import { Button, Input, Popconfirm } from 'antd'
-import styled from 'styled-components'
+import React, { useState, useContext } from "react"
+import { Button, Input, Popconfirm } from "antd"
+import styled from "styled-components"
 
-import { Text, Icon } from '../../../components'
-import { dateFormat } from '../../../services/dateFormat'
-import { TaskDetailContext } from '../store'
+import { Text, Icon } from "../../../components"
+import { dateFormat } from "../../../services/dateFormat"
+import { TaskDetailContext } from "../store"
+//
+import { Avatar } from "../../../components"
 
 const { TextArea } = Input
 
 export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
   const [edit, setEdit] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("")
   const { saveEditComment, deleteComment } = useContext(TaskDetailContext)
 
   const startEdit = () => {
@@ -40,7 +42,7 @@ export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
             {author}
           </Text>
           <Text className="datetime" size="small">
-            {dateFormat(createdAt, 'DD.MM.YY HH:mm:ss')}
+            {dateFormat(createdAt, "DD.MM.YY HH:mm:ss")}
           </Text>
         </div>
         {!edit ? (
@@ -136,14 +138,4 @@ const BtnGroup = styled.div`
       }
     }
   }
-`
-
-const Avatar = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #ccc;
 `

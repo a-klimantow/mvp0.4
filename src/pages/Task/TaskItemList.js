@@ -36,7 +36,7 @@ export const TaskItemList = ({
   return (
     <ItemWrap
       onClick={() =>
-        push(`/task/${id}`, {
+        push(`/Tasks/${id}`, {
           name,
           currentStageName,
           expectedCompletionTime,

@@ -1,7 +1,15 @@
 import axios from "axios"
-import { useState } from "react"
+import { useHistory } from "react-router-dom"
+import { notification } from "antd"
 
-const server = process.env.NODE_ENV === "development" ? "staging" : "production"
+const responseNotification = (type, message, description) => {
+  notification[type]({
+    message,
+    description
+  })
+}
+
+// const server = process.env.NODE_ENV === "development" ? "staging" : "production"
 
 axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
@@ -9,15 +17,14 @@ axios.defaults.headers["Content-Type"] = "application/json"
 const getTokenData = () =>
   localStorage.getItem("tokenData")
     ? JSON.parse(localStorage.getItem("tokenData"))
-    : { token: "" }
+    : { token: null }
 
 const setTokenData = data =>
   localStorage.setItem("tokenData", JSON.stringify(data))
 
 // hooooook
 export const useAxios = () => {
-  const [loader, setLoader] = useState(false)
-
+  const { replace } = useHistory()
   const source = axios.CancelToken.source()
 
   const createHeaders = () => ({
@@ -28,13 +35,21 @@ export const useAxios = () => {
   })
 
   const auth = data => {
-    setLoader(true)
     return axios
       .post("ManagingFirmUsers/auth", data)
       .then(res => res.data.successResponse)
       .then(setTokenData)
-      .catch(err => console.log(err))
-      .finally(() => setLoader(false))
+      .then(() => replace("/"))
+      .catch(err => {
+        console.log(err)
+        if (err.response) {
+          responseNotification(
+            "error",
+            "Ошибка",
+            err.response.data.errorResponse.message
+          )
+        }
+      })
   }
 
   const refresh = (method, ...rest) =>
@@ -46,11 +61,16 @@ export const useAxios = () => {
       .catch(err => {
         console.log(err)
         localStorage.clear()
-        document.location.replace("/login")
+        replace("/login")
       })
 
+  const logout = () =>
+    axios
+      .post("ManagingFirmUsers/logout", getTokenData())
+      .then(() => localStorage.clear())
+      .then(() => replace("/login"))
+
   const get = (rest = "") => {
-    setLoader(true)
     return axios(`${rest}`, createHeaders())
       .then(res => {
         console.log("got data")
@@ -60,12 +80,13 @@ export const useAxios = () => {
         if (axios.isCancel(err)) {
           console.log(err.message)
         } else {
-          if (err.response.status === 401) {
-            return refresh(get, rest)
+          if (err.response) {
+            if (err.response.status === 401) {
+              return refresh(get, rest)
+            }
           }
         }
       })
-      .finally(() => setLoader(false))
   }
 
   const post = (url, data = {}) =>
@@ -81,7 +102,6 @@ export const useAxios = () => {
           }
         }
       })
-      .finally(() => setLoader(false))
 
   const put = (url, data = {}) =>
     axios
@@ -96,7 +116,6 @@ export const useAxios = () => {
           }
         }
       })
-      .finally(() => setLoader(false))
 
   const deleteData = url =>
     axios
@@ -111,7 +130,6 @@ export const useAxios = () => {
           }
         }
       })
-      .finally(() => setLoader(false))
 
-  return { auth, get, loader, post, source, put, deleteData }
+  return { auth, logout, get, post, source, put, deleteData }
 }

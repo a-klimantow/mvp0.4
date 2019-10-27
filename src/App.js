@@ -1,6 +1,6 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Route, Switch} from "react-router-dom"
 import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
@@ -17,10 +17,10 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/">
               <Layout>
-                <Route path="/" component={Task} exact />
-                <Route path="/task/:id" component={TaskDetail} />
-                <Route path="/object" component={Obj} exact />
-                <Route path="/object/:id" component={ObjDetail} />
+                <Route path="/Tasks" component={Task} exact />
+                <Route path="/Tasks/:id" component={TaskDetail} />
+                <Route path="/HousingStocks" component={Obj} exact />
+                <Route path="/HousingStocks/:id" component={ObjDetail} />
               </Layout>
             </Route>
           </Switch>

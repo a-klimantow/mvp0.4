@@ -1,4 +1,4 @@
-import React, { useReducer } from "react"
+import React, { useReducer, useState } from "react"
 import styled from "styled-components"
 import { Input, Button } from "antd"
 import { useHistory } from "react-router-dom"
@@ -11,8 +11,9 @@ import { useAxios } from "../../hooks"
 
 export const Login = () => {
   const [{ data }, dispatch] = useReducer(reducer, initialState)
-  const { auth, loader } = useAxios(dispatch)
-  const { push } = useHistory()
+  const { auth } = useAxios(dispatch)
+  const { replace } = useHistory()
+  const [loading, setLoading] = useState(false)
 
   const handleChange = e => {
     dispatch({
@@ -23,9 +24,16 @@ export const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    localStorage.clear()
-    auth(data).then(() => push("/"))
-    console.log(data)
+    setLoading(true)
+    // localStorage.clear()
+    auth(data)
+      // .then(() => push("/"))
+      .finally(() => setLoading(false))
+    // console.log(data)
+  }
+
+  if(localStorage.getItem('tokenData')) {
+    replace('/')
   }
 
   return (
@@ -42,7 +50,7 @@ export const Login = () => {
             value={data.email}
             name="email"
             onChange={handleChange}
-            disabled={loader}
+            disabled={loading}
           />
         </label>
         <label className="password">
@@ -55,7 +63,7 @@ export const Login = () => {
             value={data.password}
             name="password"
             onChange={handleChange}
-            disabled={loader}
+            disabled={loading}
           />
         </label>
         <Button
@@ -63,7 +71,8 @@ export const Login = () => {
           type="primary"
           block
           size="large"
-          disabled={loader || (!data.email || !data.password)}
+          loading={loading}
+          disabled={!data.email || !data.password}
         >
           Вход в систему
         </Button>

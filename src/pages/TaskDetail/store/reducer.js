@@ -10,7 +10,6 @@ export const reducer = (state, action) => {
       }
 
     case "ADD_STATE":
-      console.log("state", action.payload)
       return {
         ...state,
         ...action.payload
@@ -32,6 +31,7 @@ export const reducer = (state, action) => {
       return { ...state, modal: !state.modal }
 
     case "ADD_COMMENT":
+      console.log(action.payloada)
       return {
         ...state,
         comments: action.payload,
