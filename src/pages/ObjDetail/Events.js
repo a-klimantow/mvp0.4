@@ -17,7 +17,6 @@ import { useAxios } from "../../hooks"
 export const Events = ({ arrData }) => {
   const { get } = useAxios()
   const { id } = useParams()
-  // eslint-disable-next-line no-unused-vars
   const { push } = useHistory()
   const [events, setEvents] = useState(null)
 
@@ -36,9 +35,15 @@ export const Events = ({ arrData }) => {
       <Ul>
         {events &&
           events.map(event => (
-            <EventWrap key={event.id} onClick={() => {
-              // push(`/Tasks/${event.id}`)
-            }
+            <EventWrap key={event.id} onClick={() => push(`/Tasks/${event.id}`, {
+                event,
+                event.currentStageName,
+                expectedCompletionTime,
+                creationTime,
+                isResponsible,
+                isArchived: closingTime !== null
+              })
+            
             }>
               <EventTitle>{event.name}</EventTitle>
               <Timer
