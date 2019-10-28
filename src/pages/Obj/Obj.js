@@ -4,7 +4,6 @@ import { Row, Col, Input, Empty } from "antd"
 import { useHistory } from "react-router-dom"
 
 import {
-  Grid,
   Title,
   Paper,
   Text,
@@ -39,8 +38,10 @@ export const Obj = () => {
   }, [pathname])
 
   return (
-    <Grid pt="24px">
-      <Title weight={300}>Объекты</Title>
+    <>
+      <Title weight={300} m="24px 0">
+        Жилой фонд
+      </Title>
       <Paper>
         <Row>
           <Col span={12}>
@@ -62,9 +63,11 @@ export const Obj = () => {
         <Ul mt="16px">
           {!houses && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
           {houses &&
-            houses.map(({id, street, number, city, numberOfTasks}) => (
+            houses.map(({ id, street, number, city, numberOfTasks }) => (
               <ListEl
-                onClick={() => push(`${pathname}/${id}`, {street})}
+                onClick={() =>
+                  push(`${pathname}/${id}`, { street: `${street}, ${number}` })
+                }
                 key={id}
               >
                 <div className="el_title-block">
@@ -74,14 +77,12 @@ export const Obj = () => {
                 </div>
                 <Address address={city} />
                 <DeviceCounter />
-                {numberOfTasks !== 0 && (
-                  <TaskCounter count={numberOfTasks} />
-                )}
+                {numberOfTasks !== 0 && <TaskCounter count={numberOfTasks} />}
               </ListEl>
             ))}
         </Ul>
       </Paper>
-    </Grid>
+    </>
   )
 }
 

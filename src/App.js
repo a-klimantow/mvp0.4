@@ -6,7 +6,7 @@ import RU from "antd/es/locale/ru_RU"
 //
 import { theme } from "./assets/theme"
 import { Layout } from "./components"
-import { Login, Task, TaskDetail, Obj, ObjDetail } from "./pages"
+import { Login, Task, TaskDetail, Obj, ObjDetail, UserSettings } from "./pages"
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
                 <Route path="/Tasks/:id" component={TaskDetail} />
                 <Route path="/HousingStocks" component={Obj} exact />
                 <Route path="/HousingStocks/:id" component={ObjDetail} />
+                <Route path="/settings" component={UserSettings} />
               </Layout>
             </Route>
           </Switch>

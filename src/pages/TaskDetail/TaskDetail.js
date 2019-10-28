@@ -1,10 +1,11 @@
 import React, { useReducer, useEffect } from "react"
 import { useParams, useHistory } from "react-router-dom"
-import styled from "styled-components"
+// import styled from "styled-components"
 import { Button } from "antd"
 //
 import {
   Grid,
+  Block,
   Text,
   Paper,
   ListInfo,
@@ -112,8 +113,8 @@ export const TaskDetail = () => {
         deleteUploadFile
       }}
     >
-      <Grid grid="1" p="16px 0">
-        <div className="crumbs">
+      <>
+        <Block m="16px 0 24px">
           <Button style={{ padding: "0 4px 0 0" }} type="link" onClick={goBack}>
             Задачи /
           </Button>
@@ -122,32 +123,32 @@ export const TaskDetail = () => {
               ? location.state.currentStageName
               : location.state.name}
           </Text>
-        </div>
-        <Headers />
-        <Box>
-          <Panel />
-          {state.documents.length !== 0 && (
+        </Block>
+        <Headers currentStageName={state.currentStage.name}/>
+        <Panel />
+
+        {state.documents.length !== 0 && (
+          <Block>
             <Ul mt="24px">
               {state.documents.map(document => (
                 <DocumentFile key={document.id} {...document} />
               ))}
             </Ul>
-          )}
-        </Box>
-        <Comments />
-        <Paper className="info">
-          <ListInfo {...state} mb="24px" />
-          <ListDevice {...state.device} />
-        </Paper>
-        <Stages />
-      </Grid>
+          </Block>
+        )}
+
+        <Grid>
+          <div>
+            <Comments />
+            <Paper>
+              <ListInfo {...state} mb="24px" />
+              <ListDevice {...state.device} />
+            </Paper>
+          </div>
+          <Stages />
+        </Grid>
+      </>
     </TaskDetailContext.Provider>
   )
 }
 
-const Box = styled.div.attrs({
-  className: "panel"
-})`
-  height: auto;
-  transition: height 1s;
-`

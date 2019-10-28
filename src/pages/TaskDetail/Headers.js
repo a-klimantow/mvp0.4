@@ -3,16 +3,21 @@ import styled from "styled-components"
 import { useLocation } from "react-router-dom"
 
 // import { TaskDetailContext } from "./store"
-import { Text as text, Title, TimeLine, Icon as icon } from "../../components"
+import {
+  Text as text,
+  Title,
+  TimeLine,
+  Icon as icon,
+  Block
+} from "../../components"
 import { useTimer } from "../../hooks"
 import { dateFormat } from "../../services/dateFormat"
 
-export const Headers = () => {
+export const Headers = ({currentStageName}) => {
   // const { state } = useContext(TaskDetailContext)
   const {
     state: {
       name,
-      currentStageName,
       creationTime,
       expectedCompletionTime,
       isResponsible
@@ -21,7 +26,7 @@ export const Headers = () => {
   const timer = useTimer(expectedCompletionTime)
 
   return (
-    <div className="title">
+    <Block>
       <Title weight={300} mb="8px">
         {currentStageName}
       </Title>
@@ -39,7 +44,7 @@ export const Headers = () => {
           (до {dateFormat(expectedCompletionTime, "DD.MM.YY")})
         </Text>
       </div>
-    </div>
+    </Block>
   )
 }
 

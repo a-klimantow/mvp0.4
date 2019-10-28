@@ -13,6 +13,7 @@ export const Stages = () => {
     state: { stages, userOperatingStatus, modal, currentStage },
     showModal
   } = useContext(TaskDetailContext)
+  console.log(stages)
 
   const lenStg = stages && stages.length
   const currentNumber = currentStage && currentStage.number
@@ -63,7 +64,9 @@ const Stage = ({
         <IconOk />
       ) : type === "Switch" ? (
         <IconSwitch />
-      ) : (
+      ) : type === "Final" ? (
+        <IconFinish />
+      ):(
         number + 1
       )}
     </IndexStage>
@@ -148,17 +151,20 @@ const IndexStage = styled.div`
   color: ${p => p.theme.text.color.disable};
 `
 const IconOk = styled(icon).attrs({
-  type: 'ok'
+  type: "ok"
 })`
   transform: translateY(1px);
 `
 
 const IconSwitch = styled(icon).attrs({
-  type: 'switch'
+  type: "switch"
+})``
+
+const IconFinish = styled(icon).attrs({
+  type: "finish"
 })`
-
+ transform: translate(2px,1px)
 `
-
 
 const Line = styled.div`
   width: 2px;

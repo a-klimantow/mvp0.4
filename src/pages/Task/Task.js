@@ -4,7 +4,7 @@ import { Input, Row, Col, List } from "antd"
 import { useHistory, Redirect } from "react-router-dom"
 //
 import {
-  Grid,
+  Block,
   Title,
   Paper,
   Text,
@@ -44,72 +44,72 @@ export const Task = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
 
-  // const { executingTasksCount, observingTasksCount, loader, items } = state
   let items = state ? state.items : []
   if (!search) {
     return <Redirect to="/Tasks?GroupType=Executing" />
   }
 
   return (
-    <Grid pt="24px">
-      <Title weight={300}>Задачи</Title>
-      <Paper>
-        <TabMenu
-          getActiveTab={id => push(`${pathname}?GroupType=${id}`)}
-          defaultActive="Executing"
-        >
-          <Tab
-            title={
-              !state
-                ? "К исполнению"
-                : state.executingTasksCount === undefined
-                ? "К исполнению"
-                : `К исполнению (${state.executingTasksCount})`
-            }
-            id="Executing"
-          />
-          <Tab
-            title={
-              !state
-                ? "Наблюдаемые"
-                : state.executingTasksCount === undefined
-                ? "Наблюдаемые"
-                : `Наблюдаемые (${state.observingTasksCount})`
-            }
-            id="Observing"
-          />
-          <Tab title="Архив" id="Archived" />
-        </TabMenu>
-        <SortPanel type="flex" justify="space-between">
-          <Col span={12}>
-            <Search placeholder="Введите номер задачи или адрес" />
-          </Col>
-          <Col span={12} style={{ textAlign: "right" }}>
-            <Text view="second">Сортировать по:</Text>
-            <Select
-              style={{ width: 200 }}
-              options={options}
-              onChange={e => console.log(e)}
-              defaultValue={{ key: "5" }}
-              labelInValue
+    <>
+      <Block m="24px 0">
+        <Title weight={300}>Задачи</Title>
+      </Block>
+      <Block>
+        <Paper>
+          <TabMenu
+            getActiveTab={id => push(`${pathname}?GroupType=${id}`)}
+            defaultActive="Executing"
+          >
+            <Tab
+              title={
+                !state
+                  ? "К исполнению"
+                  : state.executingTasksCount === undefined
+                  ? "К исполнению"
+                  : `К исполнению (${state.executingTasksCount})`
+              }
+              id="Executing"
             />
-          </Col>
-        </SortPanel>
-        <List
-          loading={loading}
-          itemLayout="horizontal"
-          dataSource={items}
-          renderItem={item => (
-            <List.Item>
-              <TaskItemList {...item} tabUrl={search} />
-            </List.Item>
-          )}
-        />
-        {/* <Ul>
-          {state && state.items.map(item => <TaskItemList key={item.id} {...item} />)}
-        </Ul> */}
-      </Paper>
-    </Grid>
+            <Tab
+              title={
+                !state
+                  ? "Наблюдаемые"
+                  : state.executingTasksCount === undefined
+                  ? "Наблюдаемые"
+                  : `Наблюдаемые (${state.observingTasksCount})`
+              }
+              id="Observing"
+            />
+            <Tab title="Архив" id="Archived" />
+          </TabMenu>
+          <SortPanel type="flex" justify="space-between">
+            <Col span={12}>
+              <Search placeholder="Введите номер задачи или адрес" />
+            </Col>
+            <Col span={12} style={{ textAlign: "right" }}>
+              <Text view="second">Сортировать по:</Text>
+              <Select
+                style={{ width: 200 }}
+                options={options}
+                onChange={e => console.log(e)}
+                defaultValue={{ key: "5" }}
+                labelInValue
+              />
+            </Col>
+          </SortPanel>
+          <List
+            loading={loading}
+            itemLayout="horizontal"
+            dataSource={items}
+            renderItem={item => (
+              <List.Item>
+                <TaskItemList {...item} tabUrl={search} />
+              </List.Item>
+            )}
+          />
+        </Paper>
+      </Block>
+    </>
   )
 }
 

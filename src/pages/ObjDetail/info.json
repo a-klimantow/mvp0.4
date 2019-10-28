@@ -1,0 +1,14 @@
+[
+  ["Город", "city"],
+  ["Район", "district"],
+  ["Индекс", "index"],
+  ["Количество подъездов", "numberOfEntrances"],
+  ["Количество этажей", "numberOfFloors"],
+  ["Наличие лифта", "isThereElevator"],
+  ["Количество квартир", "numberOfApartments"],
+  ["Общая площадь жилых помещений", "totalLivingArea"],
+  ["Площадь нежилых помещений", "areaOfNonResidential"],
+  ["Придомовая площадь","houseArea"],
+  ["Общая площадь","totalArea"],
+  ["Год постройки", "constructionDate"]
+]

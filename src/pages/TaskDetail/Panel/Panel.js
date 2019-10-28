@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Spin, Input } from "antd"
 import { useLocation } from "react-router-dom"
 
-import { Text } from "../../../components"
+import { Text, Block } from "../../../components"
 import { TaskDetailContext } from "../store"
 import { ChooseExecutor } from "./ChooseExecutor"
 import { ChooseExecutorAndNotify } from "./ChooseExecutorAndNotify"
@@ -35,7 +35,7 @@ export const Panel = () => {
     }
 
     return (
-      <>
+      <Block>
         {currentStage.action === undefined && <Spin />}
         {currentStage.action === "ChooseExecutor" && <ChooseExecutor />}
         {currentStage.action === "ChooseExecutorAndNotify" && (
@@ -47,13 +47,13 @@ export const Panel = () => {
         {currentStage.action === "UploadDocument" && <UploadDocument />}
         {currentStage.action === "Completion" && <Completion />}
         {currentStage.action === "Switch" && <Switch />}
-      </>
+      </Block>
     )
   }
 
   return (
-    <div className="panel">
+    <Block>
       <UploadDocument />
-    </div>
+    </Block>
   )
 }

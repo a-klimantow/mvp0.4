@@ -27,16 +27,18 @@ export const Layout = ({ children }) => {
         <Logo />
         <Menu />
       </Sider>
-      <Content style={{ padding: "0 56px" }}>{children}</Content>
+      <Content style={{overflowY: 'scroll'}}>
+        <ContentSection>{children}</ContentSection>
+      </Content>
     </LayoutAntStyle>
   )
 }
 
-
-
-
 const LayoutAntStyle = styled(LayoutAnt)`
   height: 100vh;
+`
+const ContentSection = styled.section`
+  padding: 0 46px 0  56px;
 `
 
 Layout.propTypes = {
