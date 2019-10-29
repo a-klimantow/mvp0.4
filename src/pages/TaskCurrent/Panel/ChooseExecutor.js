@@ -7,12 +7,12 @@ import { Text as text, Select, Row as row } from "../../../components"
 import { useEffectOnce, useAxios } from "../../../hooks"
 import { Context } from "../context"
 
-export const ChooseExecutorAndNotify = () => {
+export const ChooseExecutor = () => {
   const { get, post } = useAxios()
   const { state, updateState } = useContext(Context)
   const { url } = useRouteMatch()
   const [nextPerpetratorId, setNextPerpetratorId] = useState(null)
-  const [contractorsIds, setContractorsIds] = useState(null)
+  const [contractorsId, setContractorsId] = useState(null)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -26,25 +26,15 @@ export const ChooseExecutorAndNotify = () => {
         updateState({ employees: emloyeesList })
       })
     }
-
-    if (!state.contractors) {
-      get("Contractors").then(data => {
-        const contractorsList = data.map(item => ({
-          key: item.id,
-          label: item.name
-        }))
-        updateState({ contractors: contractorsList })
-      })
-    }
   })
 
-  console.log(contractorsIds)
+  // console.log(url)
 
   const pushStage = () => {
     setLoading(true)
     post(`${url}/PushStage`, {
       nextPerpetratorId,
-      emailNotify: { contractorsIds , message }
+      emailNotify: { contractorsId, message }
     })
       .then(updateState)
       .finally(() => setLoading(false))
@@ -64,7 +54,7 @@ export const ChooseExecutorAndNotify = () => {
             onChange={e => setNextPerpetratorId(e.key)}
           />
         </div>
-        <div className="input">
+        {/* <div className="input">
           <Text>Получатель пригласительного письма</Text>
           <Select
             mode="multiple"
@@ -73,7 +63,7 @@ export const ChooseExecutorAndNotify = () => {
             size="large"
             options={state.contractors}
             placeholder="Выбирите кому отправить пригласительное письмо"
-            onChange={e => setContractorsIds(e.map(i => i.key))}
+            onChange={e => setContractorsId(e.map(i => i.key))}
           />
         </div>
       </Row>
@@ -89,7 +79,7 @@ export const ChooseExecutorAndNotify = () => {
 
         <Button size="large" style={{ marginRight: 16 }}>
           Выбрать из списка
-        </Button>
+        </Button> */}
 
         <Button
           size="large"
@@ -120,6 +110,7 @@ const Row = styled(row)`
 
   .select {
     padding-right: 8px;
+    flex-grow: 1;
   }
 
   .input {

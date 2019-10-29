@@ -4,13 +4,15 @@ import { useHistory } from "react-router-dom"
 
 import { useAxios, useEffectOnce } from "../../hooks"
 import { Context } from "./context"
-import { Grid, Paper, Title } from "../../components"
+import { Grid, Paper, Title, Ul } from "../../components"
 import { Breadcrumbs } from "./BreadCrumbs"
 import { Header } from "./Header"
 import { Stages } from "./Stages"
 import { Panel } from "./Panel"
 import { Documents } from "./Documents"
 import { Comments } from "./Comments"
+import { ListInfo } from "./ListInfo"
+import { ListDevice } from "./ListDevice"
 
 export const TaskCurrent = () => {
   const { location } = useHistory()
@@ -38,7 +40,11 @@ export const TaskCurrent = () => {
         <div>
           <Comments />
           <Paper>
-            <Title level={3} mb="16px">Информация о задаче</Title>
+            <Title level={3} mb="16px">
+              Информация о задаче
+            </Title>
+            <ListInfo />
+            <ListDevice />
           </Paper>
         </div>
         <Stages />

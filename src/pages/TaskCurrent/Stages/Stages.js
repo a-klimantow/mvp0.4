@@ -23,6 +23,8 @@ export const Stages = () => {
       .finally(() => setVisible(false))
   }
 
+  const number = currentStage ? currentStage.number : 0
+
   return (
     <Paper className="r_block">
       <Modal
@@ -40,7 +42,7 @@ export const Stages = () => {
         {stages &&
           stages.map((stage, i) => {
             if (
-              currentStage.number - 1 === i &&
+              number - 1 === i &&
               userOperatingStatus === "Executor"
             ) {
               return (

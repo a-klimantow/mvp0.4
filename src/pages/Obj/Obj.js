@@ -75,8 +75,9 @@ export const Obj = () => {
                     {street}, {number}
                   </Title>
                 </div>
-                <Address address={city} />
-                <DeviceCounter />
+                <Address address={city} className="address" />
+                {/* <DeviceCounter /> */}
+
                 {numberOfTasks !== 0 && <TaskCounter count={numberOfTasks} />}
               </ListEl>
             ))}
@@ -88,7 +89,7 @@ export const Obj = () => {
 
 const ListEl = styled.li`
   display: grid;
-  grid-template-columns: 3fr 3fr 3fr 3fr;
+  grid-template-columns: 3fr 3fr 3fr;
   padding: 24px 0;
   border-bottom: ${p => p.theme.border};
   justify-items: end;
@@ -99,6 +100,10 @@ const ListEl = styled.li`
 
   .el_title {
     transition: color 0.3s;
+  }
+
+  .address {
+    justify-self: center;
   }
 
   &:hover {

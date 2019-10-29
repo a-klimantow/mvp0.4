@@ -1,71 +1,98 @@
-import React, { useEffect, useState } from "react"
-import { Button } from "antd"
-import { useHistory, Route, useRouteMatch } from "react-router-dom"
+import React, { useState } from "react"
+import { Button, Spin } from "antd"
+import styled from "styled-components"
+import { useHistory, Route, useRouteMatch, Link } from "react-router-dom"
 
-import { Grid, Text, Title, Paper, TabMenu, Tab, Block } from "../../components"
+import { Text, Title, Paper, TabMenu, Tab, Block, Grid } from "../../components"
 import { GenInfo } from "./GenInfo"
 import { Devices } from "./Devices"
 import { Events } from "./Events"
-import { useAxios } from "../../hooks"
+import { useAxios, useEffectOnce } from "../../hooks"
+import { ContextHouses } from "./context"
 
 export const ObjDetail = () => {
   const {
     push,
-    location: { pathname, state }
+    location: { pathname }
   } = useHistory()
   const match = useRouteMatch()
   const { get, source } = useAxios()
-  const [info, setInfo] = useState(null)
-  // const [events, setEvents] = useState(null)
+  const [state, setState] = useState({})
 
-  useEffect(() => {
-    get(pathname).then(setInfo)
-    // get(`Tasks?Take=3&HouseStokId=${match.params.id}`).then(data => {
-    //   console.log(data)
-    //   setEvents(data.items)
-
-    // }
-    // )
+  useEffectOnce(() => {
+    get(pathname).then(setState)
     return () => source.cancel("cancel info")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   console.log(state)
 
-  const street = state ? state.street : info && `${info.street}, ${info.number}`
+  const updateState = data => {
+    setState(state => ({ ...state, ...data }))
+  }
+  const { street, number } = state
 
   return (
     <>
       <Block m="16px 0 24px">
-        <Button
-          style={{ padding: "0 4px 0 0" }}
-          type="link"
-          onClick={() => push(pathname)}
-        >
-          Жилой фонд /
-        </Button>
-        <Text>{street}</Text>
+        <LinkTo to="/HousingStocks">Жилой фонд /</LinkTo>
+        <Text>{street ? street : <Spin size="small" />}</Text>
       </Block>
-      <Title weight={300} mb="24px">
-        {street}
+      <Title weight={300} className="head" mb="24px">
+        {street ? `${street}, ${number}` : <Spin />}
       </Title>
       <Grid>
-        <Route path={match.path}>
-          <Paper className="info">
-            <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
-              <Tab title="Общие данные" id={match.url} />
-              <Tab title="Узлы учета" id={`${match.url}/Devices`} />
-            </TabMenu>
-            <Route
-              path={match.path}
-              render={() => <GenInfo info={info} />}
-              exact
+        <Paper className="list">
+          <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
+            <Tab title="Общие данные" id={match.url} />
+            <Tab title="Узлы учета" id={`${match.url}/Devices`} />
+          </TabMenu>
+          {/* <Route
+            path={match.path}
+            render={() => <GenInfo info={state} />}
+            exact
             />
-            <Route path={`${match.path}/Devices`} component={Devices} />
-          </Paper>
-        </Route>
-        <Events />
+          <Route path={`${match.path}/Devices`} component={Devices} /> */}
+        </Paper>
+
+        <Events className="event" />
       </Grid>
     </>
   )
 }
+
+const LinkTo = styled(Link)`
+  margin-right: 4px;
+  cursor: pointer;
+  color: ${p => p.theme.text.color.primary};
+  &:hover {
+    color: ${p => p.theme.color.primary};
+  }
+`
+
+// const Grid = styled.div`
+//   display: grid;
+//   grid-template-areas:
+//     "bc bc"
+//     "head head"
+//     "list event";
+//   grid-template-columns: 8fr 4fr;
+//   grid-gap: 24px;
+
+//   .bc {
+//     padding-top: 16px;
+//   }
+
+//   .event {
+//     grid-area: event;
+//     align-self: start;
+//   }
+
+//   .list {
+//     grid-area: list;
+//     align-self: start;
+//   }
+
+//   .head {
+//     grid-area: head;
+//   }
+// `

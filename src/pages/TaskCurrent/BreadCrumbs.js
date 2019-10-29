@@ -15,12 +15,12 @@ export const Breadcrumbs = ({ url }) => {
       <LinkTo to={`/${path}`}>Задачи /</LinkTo>
       {state && (
         <Text ml="4px">
-          {state.userOperatingStatus === "Executor" ? (
-            "К исполнению"
+          {state.closingTime ? (
+            "Архивные"
           ) : state.userOperatingStatus === "Observer" ? (
             "Наблюдаемые"
-          ) : state.closingTime ? (
-            "Архивные"
+          ) : state.userOperatingStatus === "Executor" ? (
+            "К исполнению"
           ) : (
             <Spin size="small" />
           )}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { useRouteMatch } from "react-router-dom"
 
@@ -18,11 +18,18 @@ export const DocumentFile = ({
 }) => {
   const { url: pathname } = useRouteMatch()
   const { deleteData } = useAxios()
-  const { updateState } = useContext(Context)
+  const {
+    state: { documents },
+    updateState
+  } = useContext(Context)
+  const [loading, setLoading] = useState(false)
+
   const del = () => {
-    deleteData(`${pathname}/Documents/${id}`).then(res =>
-      console.log("ok", res)
-    )
+    setLoading(true)
+    const deletedDocList = documents.filter(doc => doc.id !== id)
+    deleteData(`${pathname}/Documents/${id}`)
+      .then(res => updateState({ documents: deletedDocList }))
+      .finally(() => setLoading(false))
   }
 
   return (

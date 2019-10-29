@@ -14,21 +14,21 @@ import {
 } from "../../components"
 import { useAxios } from "../../hooks"
 
-export const Events = ({ arrData }) => {
+export const Events = ({ arrData, ...props }) => {
   const { get } = useAxios()
   const { id } = useParams()
   const { push } = useHistory()
   const [events, setEvents] = useState(null)
 
   useEffect(() => {
-    get(`Tasks?Take=3&HouseStokId=${id}`).then(data => {
+    get(`Tasks?Take=3&HousingStockId=${id}`).then(data => {
       console.log(data.items)
       setEvents(data.items)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <Paper>
+    <Paper {...props}>
       <Title level={3} mb="16px">
         События с объектом
       </Title>

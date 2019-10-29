@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Input } from "antd"
 import styled from "styled-components"
-import { useHistory } from "react-router-dom"
+import { useHistory, useRouteMatch } from "react-router-dom"
 import { Empty } from "antd"
 
 import { Row, ListEl, Ul, Device, TimeCreate } from "../../components"
-import { useAxios } from "../../hooks"
+import { useAxios, useEffectOnce } from "../../hooks"
+import { ContextHouses } from "./context"
 
 export const Devices = () => {
-  const {
-    location: { pathname }
-  } = useHistory()
+  const { url } = useRouteMatch()
   const { get, source } = useAxios()
+  const { state } = useContext(ContextHouses)
   const [devices, setDevices] = useState(null)
 
-  useEffect(() => {
-    get(pathname).then(setDevices)
+  useEffectOnce(() => {
+    get(url).then(setDevices)
+
     return () => source.cancel("cancel device")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  })
 
   return (
     <>
@@ -66,6 +66,9 @@ const Filter = styled.div`
 `
 
 const ElDevice = styled(ListEl)`
+  & > * {
+    width: 50%;
+  }
   .time {
     text-align: right;
   }

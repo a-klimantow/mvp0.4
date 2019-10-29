@@ -20,9 +20,9 @@ export const Header = () => {
   return (
     <HeaderBlock>
       <Title weight={300} mb="8px">
-        {currentStage ? currentStage.name : <Spin />}
+        {closingTime ? name : currentStage ? currentStage.name : <Spin />}
       </Title>
-      <Text>{name || <Spin size="small" />}</Text>
+      {!closingTime && <Text>{name}</Text>}
       {isResponsible && (
         <TimeLine finish={expectedCompletionTime} start={creationTime} />
       )}

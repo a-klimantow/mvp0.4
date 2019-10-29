@@ -1,26 +1,33 @@
-import React, { useContext } from 'react'
-import { Button } from 'antd'
+import React, { useContext, useState } from "react"
+import { Button } from "antd"
 
-import { Upload, Row } from '../../../components'
+import { Upload, Row } from "../../../components"
 
+export const UploadDocument = ({ pushStage }) => {
+  const [documents, setDocuments] = useState([])
 
-export const UploadDocument = () => {
+  const addDoc = arr => {
+    setDocuments([...documents, ...arr])
+  }
 
+  const delDoc = id => {
+    const arrDelele = documents.filter(i => i.id !== id)
+    setDocuments(arrDelele)
+  }
 
-  // const handleClick = () => {
-  //   const data = upload.map(file => file.id)
-  //   const documentsIds = data
-  //   pushStage({ documentsIds })
-  // }
+  const handleClick = () => {
+    const documentsIds = documents.map(i => i.id)
+    pushStage({documentsIds})
+  }
 
   return (
     <Row>
-      <Upload />
+      <Upload addDoc={addDoc} delDoc={delDoc} />
       <Button
         size="large"
         type="primary"
-        // disabled={upload.length === 0}
-        // onClick={handleClick}
+        disabled={documents.length === 0}
+        onClick={handleClick}
       >
         Завершить этап
       </Button>

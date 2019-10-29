@@ -1,13 +1,14 @@
-import React, { useRef, useState, useContext } from "react"
+import React, { useRef, useState } from "react"
 import styled from "styled-components"
 import { Spin } from "antd"
+import { Link } from "react-router-dom"
 
 import { Text as text } from "./Text"
 import { Icon as icon } from "./Icon"
 import { useAxios } from "../hooks"
 
-export const Upload = () => {
-  const { post } = useAxios()
+export const Upload = ({ addDoc, delDoc }) => {
+  const { post, deleteData } = useAxios()
   const [files, setFiles] = useState([])
   const [uploadFiles, setUploadFiles] = useState([])
   const inputEl = useRef(null)
@@ -17,17 +18,26 @@ export const Upload = () => {
       let dataFile = new FormData()
       dataFile.append("file", inputEl.current.files[0])
       setFiles([...files, inputEl.current.files[0]])
-      post('/Documents/upload', {files}).then(res => console.log(res))
+      post("/Documents/upload", dataFile).then(data => {
+        if (data !== undefined) {
+          setUploadFiles(prev => [...prev, ...data])
+          addDoc(data)
+        }
+        setFiles([])
+      })
     }
   }
-
-  console.log()
+  // console.log(110, uploadFiles)
 
   const deleteFile = id => {
-    setFiles([])
-    // deleteUploadFile(id)
+    const deletedList = uploadFiles.filter(file => file.id !== id)
+    deleteData(`/Documents/${id}`).then(() => {
+      setUploadFiles(deletedList)
+      delDoc(id)
+    })
   }
 
+  // console.log(uploadFiles)
   return (
     <UploadWrap>
       <label className="label">
@@ -40,15 +50,17 @@ export const Upload = () => {
         />
       </label>
 
-      {uploadFiles.map(file => (
-        <File key={file.id}>
+      {uploadFiles.map((file, i) => (
+        <File key={i}>
           <Icon />
-          <Text>{file.name}</Text>
+          <a href={file.url} target="_blank">
+            {file.name}
+          </a>
           <IconDelete onClick={() => deleteFile(file.id)} />
         </File>
       ))}
-      {files.map(file => (
-        <File key={file.name}>
+      {files.map((file, i) => (
+        <File key={i}>
           <Icon />
           <Text>{file.name}</Text>
           <Spin size="small" />
@@ -101,7 +113,6 @@ const Icon = styled(icon).attrs({
 const IconDelete = styled(icon).attrs({
   type: "close"
 })`
-  transform: translateY(0.5px);
   color: ${p => p.theme.text.color.primary};
   cursor: pointer;
   &:hover {
@@ -110,7 +121,6 @@ const IconDelete = styled(icon).attrs({
 `
 
 const Text = styled(text)`
-  color: ${p => p.theme.color.primary};
   margin-left: 6px;
   margin-right: 8px;
 `
@@ -119,4 +129,11 @@ const File = styled.div`
   display: flex;
   align-items: center;
   margin-right: 16px;
+
+  a {
+    display: block;
+    margin-left: 6px;
+    margin-right: 8px;
+    line-height: 22px;
+  }
 `

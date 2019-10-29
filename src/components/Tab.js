@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 const TabEl = styled.button`
   padding: 0 18px;
+  padding-bottom: 10px;
   min-height: 32px;
   position: relative;
   border: none;

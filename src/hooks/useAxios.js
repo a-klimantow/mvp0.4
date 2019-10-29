@@ -9,9 +9,9 @@ const responseNotification = (type, message, description) => {
   })
 }
 
-// const server = process.env.NODE_ENV === "development" ? "staging" : "production"
+const server = process.env.NODE_ENV === "development" ? "staging" : "production"
 
-axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
+axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
@@ -85,7 +85,6 @@ export const useAxios = () => {
           console.log(err.message)
         } else {
           if (err.response) {
-            
             if (err.response.status === 401) {
               return refresh(get, rest)
             }
@@ -107,8 +106,15 @@ export const useAxios = () => {
         if (axios.isCancel(err)) {
           console.log(err.message)
         } else {
-          if (err.response.status === 401) {
-            return refresh(post, url, data)
+          if (err.response) {
+            if (err.response.status === 401) {
+              return refresh(post, url, data)
+            }
+            responseNotification(
+              "error",
+              "Ошибка",
+              err.response.data.errorResponse.message
+            )
           }
         }
       })
@@ -121,8 +127,15 @@ export const useAxios = () => {
         if (axios.isCancel(err)) {
           console.log(err.message)
         } else {
-          if (err.response.status === 401) {
-            return refresh(put, data)
+          if (err.response) {
+            if (err.response.status === 401) {
+              return refresh(put, url, data)
+            }
+            responseNotification(
+              "error",
+              "Ошибка",
+              err.response.data.errorResponse.message
+            )
           }
         }
       })
