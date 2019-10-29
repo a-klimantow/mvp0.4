@@ -35,16 +35,10 @@ export const Events = ({ arrData }) => {
       <Ul>
         {events &&
           events.map(event => (
-            <EventWrap key={event.id} onClick={() => push(`/Tasks/${event.id}`, {
-                event,
-                event.currentStageName,
-                expectedCompletionTime,
-                creationTime,
-                isResponsible,
-                isArchived: closingTime !== null
-              })
-            
-            }>
+            <EventWrap
+              key={event.id}
+              onClick={() => push(`/Tasks/${event.id}`)}
+            >
               <EventTitle>{event.name}</EventTitle>
               <Timer
                 text="Времени на этап:"
@@ -63,10 +57,10 @@ export const Events = ({ arrData }) => {
 }
 
 const EventTitle = styled(Text)`
-  color: ${p => p.theme.title.color}
+  color: ${p => p.theme.title.color};
   font-weight: 600;
   margin-bottom: 4px;
-  transition: color .3s;
+  transition: color 0.3s;
 `
 
 const EventWrap = styled.li`

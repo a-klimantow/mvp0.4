@@ -33,6 +33,12 @@ const menuItems = [
 export const Menu = () => {
   const { logout } = useAxios()
 
+  const roles = JSON.parse(localStorage.getItem("roles"))
+
+  const menuAdminValid = roles.includes("Администратор")
+    ? menuItems
+    : menuItems.filter(item => item.title !== "Жилой фонд")
+
   const {
     push,
     location: { pathname }
@@ -53,7 +59,7 @@ export const Menu = () => {
       mode="inline"
       style={{ border: "none" }}
     >
-      {menuItems.map(({ nodes, path, title, icon }) =>
+      {menuAdminValid.map(({ nodes, path, title, icon }) =>
         !nodes ? (
           <MenuAnt.Item key={path}>
             <MenuWrap>

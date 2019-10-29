@@ -1,17 +1,30 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
+import { useRouteMatch } from "react-router-dom"
 
 import { User } from "./User"
 import { Icon as icon } from "./Icon"
 import { TimeCreate } from "./TimeCreate"
+import { useAxios } from "../hooks"
+import { Context } from "../pages/TaskCurrent/context"
 
 export const DocumentFile = ({
+  id,
   name,
   url,
   uploadingTime,
   canBeEdited,
   author
 }) => {
+  const { url: pathname } = useRouteMatch()
+  const { deleteData } = useAxios()
+  const { updateState } = useContext(Context)
+  const del = () => {
+    deleteData(`${pathname}/Documents/${id}`).then(res =>
+      console.log("ok", res)
+    )
+  }
+
   return (
     <DocumentFileWrap>
       <a href={url} className="link">
@@ -21,7 +34,7 @@ export const DocumentFile = ({
       <TimeCreate time={uploadingTime} className="time" />
       <div className="btn">
         {canBeEdited && (
-          <button>
+          <button onClick={del}>
             <IconDel />
           </button>
         )}
@@ -64,6 +77,7 @@ const DocumentFileWrap = styled.li`
       border-radius: 2px;
       margin: 4px;
       cursor: pointer;
+      color: ${p => p.theme.text.color.primary};
       transition: color 0.5s;
 
       &:hover,
@@ -85,5 +99,5 @@ const IconFile = styled(icon).attrs({
 const IconDel = styled(icon).attrs({
   type: "del"
 })`
-  color: ${p => p.theme.text.color.primary};
+  color: inherit;
 `

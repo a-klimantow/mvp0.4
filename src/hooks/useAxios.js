@@ -38,7 +38,11 @@ export const useAxios = () => {
     return axios
       .post("ManagingFirmUsers/auth", data)
       .then(res => res.data.successResponse)
-      .then(setTokenData)
+      .then(data => {
+        const { roles, ...tokenData } = data
+        localStorage.setItem("roles", JSON.stringify(roles))
+        setTokenData(tokenData)
+      })
       .then(() => replace("/"))
       .catch(err => {
         console.log(err)
@@ -81,9 +85,15 @@ export const useAxios = () => {
           console.log(err.message)
         } else {
           if (err.response) {
+            
             if (err.response.status === 401) {
               return refresh(get, rest)
             }
+            responseNotification(
+              "error",
+              "Ошибка",
+              err.response.data.errorResponse.message
+            )
           }
         }
       })
@@ -125,8 +135,15 @@ export const useAxios = () => {
         if (axios.isCancel(err)) {
           console.log(err.message)
         } else {
-          if (err.response.status === 401) {
-            return refresh(deleteData, url)
+          if (err.response) {
+            if (err.response.status === 401) {
+              return refresh(deleteData, url)
+            }
+            responseNotification(
+              "error",
+              "Ошибка",
+              err.response.data.errorResponse.message
+            )
           }
         }
       })
