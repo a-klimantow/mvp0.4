@@ -7,6 +7,7 @@ import { Icon as icon } from "./Icon"
 import { TimeCreate } from "./TimeCreate"
 import { useAxios } from "../hooks"
 import { Context } from "../pages/TaskCurrent/context"
+import { Spin } from "antd"
 
 export const DocumentFile = ({
   id,
@@ -34,16 +35,18 @@ export const DocumentFile = ({
 
   return (
     <DocumentFileWrap>
-      <a href={url} className="link">
+      <a href={url} className="link" target="_blank" rel="noreferrer noopener">
         <IconFile /> {name}
       </a>
       <User perpetrator={author} className="user" />
       <TimeCreate time={uploadingTime} className="time" />
       <div className="btn">
-        {canBeEdited && (
+        {!canBeEdited ? null : !loading ? (
           <button onClick={del}>
             <IconDel />
           </button>
+        ) : (
+          <Spin size="small" />
         )}
       </div>
     </DocumentFileWrap>
@@ -72,7 +75,11 @@ const DocumentFileWrap = styled.li`
   }
 
   .btn {
-    min-width: 16px;
+    width: 18px;
+    height: 18px;
+    display: inherit;
+    justify-content: center;
+    align-items: center;
 
     button {
       outline: none;

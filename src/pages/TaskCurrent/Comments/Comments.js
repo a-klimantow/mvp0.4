@@ -21,12 +21,11 @@ export const Comments = () => {
           : `Комментарии (${comments.length})`}
       </Title>
       <Ul>
-        {comments.length === 0 && (
+        {comments.length === 0 && userOperatingStatus !== "Executor" ? (
           <CommentEmpty text="Комментарии еще не добавлены" />
+        ) : (
+          comments.map(comment => <CommentItem key={comment.id} {...comment} />)
         )}
-        {comments.map(comment => (
-          <CommentItem key={comment.id} {...comment} />
-        ))}
       </Ul>
       {userOperatingStatus === "Executor" && <Editor />}
     </Paper>

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react"
 import styled from "styled-components"
 import { Spin } from "antd"
-import { Link } from "react-router-dom"
 
 import { Text as text } from "./Text"
 import { Icon as icon } from "./Icon"
@@ -27,7 +26,6 @@ export const Upload = ({ addDoc, delDoc }) => {
       })
     }
   }
-  // console.log(110, uploadFiles)
 
   const deleteFile = id => {
     const deletedList = uploadFiles.filter(file => file.id !== id)
@@ -37,7 +35,6 @@ export const Upload = ({ addDoc, delDoc }) => {
     })
   }
 
-  // console.log(uploadFiles)
   return (
     <UploadWrap>
       <label className="label">
@@ -46,14 +43,13 @@ export const Upload = ({ addDoc, delDoc }) => {
           type="file"
           ref={inputEl}
           onChange={handleChange}
-          // disabled={upload.length > 0}
         />
       </label>
 
       {uploadFiles.map((file, i) => (
         <File key={i}>
           <Icon />
-          <a href={file.url} target="_blank">
+          <a href={file.url} target="_blank" rel="noreferrer noopener">
             {file.name}
           </a>
           <IconDelete onClick={() => deleteFile(file.id)} />
@@ -71,11 +67,9 @@ export const Upload = ({ addDoc, delDoc }) => {
 }
 
 const UploadWrap = styled.div`
-  /* flex-grow: ${p => p.grow}; */
   display: flex;
   align-items: center;
   flex-grow: 1;
-  /* transition: flex-grow 1s ease-out; */
 
   input {
     width: 0.1px;

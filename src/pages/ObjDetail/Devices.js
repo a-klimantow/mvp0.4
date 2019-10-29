@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react"
 import { Input } from "antd"
 import styled from "styled-components"
@@ -11,7 +12,7 @@ import { ContextHouses } from "./context"
 export const Devices = () => {
   const { url } = useRouteMatch()
   const { get, source } = useAxios()
-  const { state } = useContext(ContextHouses)
+
   const [devices, setDevices] = useState(null)
 
   useEffectOnce(() => {

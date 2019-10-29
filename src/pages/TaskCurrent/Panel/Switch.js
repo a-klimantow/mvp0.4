@@ -6,7 +6,7 @@ import { useRouteMatch } from "react-router-dom"
 import { Row as row, Select, Text as text } from "../../../components"
 import { useAxios, useEffectOnce } from "../../../hooks"
 
-export const Switch = ({ pushStage }) => {
+export const Switch = ({ pushStage, loading }) => {
   const { get } = useAxios()
   const { url } = useRouteMatch()
   const [steps, setSteps] = useState([])
@@ -41,6 +41,7 @@ export const Switch = ({ pushStage }) => {
           type="primary"
           onClick={() => pushStage({ nextStageId })}
           disabled={!nextStageId}
+          loading={loading}
         >
           Завершить этап
         </Button>
@@ -59,7 +60,7 @@ const Text = styled(text).attrs(p => ({
 const Row = styled(row)`
   align-items: flex-end;
   .select {
-    padding-right: 8px;
+    padding-right: 16px;
     flex-grow: 1;
   }
 `

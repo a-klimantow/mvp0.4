@@ -1,18 +1,21 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Select as SelectAnt } from 'antd'
-import PropTypes from 'prop-types'
+import React from "react"
+import styled from "styled-components"
+import { Select as SelectAnt } from "antd"
+import PropTypes from "prop-types"
 //
-import { Text } from './Text'
-import { Icon } from './Icon'
+import { Text } from "./Text"
+import { Icon } from "./Icon"
 
 const { Option } = SelectAnt
 
 export const Select = ({ options, ...props }) => {
-  const renderOption = options.map(({ key, icon, label }) => (
+  const renderOption = options.map(({ key, icon, label, taskCount }) => (
     <Option value={key} key={key}>
       {icon && <IconOpt type={icon} />}
       <TextOpt>{label}</TextOpt>
+      {!taskCount ? (
+        <Text view="second">(Задачь в работе: {taskCount})</Text>
+      ) : null}
     </Option>
   ))
   return <SelectAnt {...props}>{renderOption}</SelectAnt>
@@ -24,6 +27,7 @@ const IconOpt = styled(Icon)`
 const TextOpt = styled(Text)`
   color: inherit;
   margin-left: 6px;
+  margin-right: 16px;
 `
 Select.propTypes = {
   options: PropTypes.arrayOf(
@@ -37,7 +41,7 @@ Select.propTypes = {
 
 Select.defaultProps = {
   options: [
-    { key: '1', label: 'some text' },
-    { key: '2', icon: 'max', label: 'hello' }
+    { key: "1", label: "some text" },
+    { key: "2", icon: "max", label: "hello" }
   ]
 }

@@ -1,9 +1,11 @@
 import React from "react"
 import styled from "styled-components"
+import PropTypes from "prop-types"
 //
-import { Icon as icon, Text } from "../../../components"
+import { Icon as icon } from "./Icon"
+import { Text } from "./Text"
 
-export const CommentEmpty = ({ text }) => {
+export const Empty = ({ text }) => {
   return (
     <EmptyWrap>
       <div className="icon-wrap">
@@ -41,3 +43,6 @@ const Icon = styled(icon).attrs({
   height: 21px;
   fill: ${p => p.theme.text.color.secondary};
 `
+Empty.propType = {
+  text: PropTypes.string.isRequired
+}

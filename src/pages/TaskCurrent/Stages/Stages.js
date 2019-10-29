@@ -15,12 +15,15 @@ export const Stages = () => {
   const { stages, currentStage, userOperatingStatus } = state
   const [visible, setVisible] = useState(false)
   const [comment, setComment] = useState("")
+  const [loadign, setLoading] = useState(false)
   const lenStg = stages.length
 
   const revertStage = () => {
+    setVisible(false)
+    setLoading(true)
     post(`${url}/RevertStage`, { comment })
       .then(updateState)
-      .finally(() => setVisible(false))
+      .finally(() => setLoading(false))
   }
 
   const number = currentStage ? currentStage.number : 0
@@ -41,16 +44,14 @@ export const Stages = () => {
       <Ul>
         {stages &&
           stages.map((stage, i) => {
-            if (
-              number - 1 === i &&
-              userOperatingStatus === "Executor"
-            ) {
+            if (number - 1 === i && userOperatingStatus === "Executor") {
               return (
                 <StageItem key={stage.id} {...stage} length={lenStg}>
                   <Button
                     size="small"
                     onClick={() => setVisible(true)}
                     style={{ marginTop: 8 }}
+                    loading={loadign}
                   >
                     Вернуть этап
                   </Button>

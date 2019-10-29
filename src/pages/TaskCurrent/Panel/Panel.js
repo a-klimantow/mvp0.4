@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Spin, Input, Button } from "antd"
 import { useRouteMatch } from "react-router-dom"
 
@@ -9,12 +9,14 @@ import { ChooseExecutorAndNotify } from "./ChooseExecutorAndNotify"
 import { ChooseExecutor } from "./ChooseExecutor"
 import { UploadDocument } from "./UploadDocument"
 import { Switch } from "./Switch"
+import { ChooseExecutorAndSwitch } from "./ChooseExecutorAndSwitch"
 
 export const Panel = () => {
   const { url } = useRouteMatch()
   const { post } = useAxios()
   const { state, updateState } = useContext(Context)
-  console.log(state)
+  const [loading, setLoading] = useState(false)
+  // console.log(state)
   const {
     isResponsible,
     userOperatingStatus,
@@ -23,7 +25,10 @@ export const Panel = () => {
   } = state
 
   const pushStage = (data = {}) => {
-    post(`${url}/PushStage`, data).then(updateState)
+    setLoading(true)
+    post(`${url}/PushStage`, data)
+      .then(updateState)
+      .finally(() => setLoading(false))
   }
 
   if (isResponsible === undefined)
@@ -40,19 +45,25 @@ export const Panel = () => {
       return (
         <Block>
           {currentStage.action === "ChooseExecutorAndNotify" && (
-            <ChooseExecutorAndNotify />
+            // <ChooseExecutorAndNotify pushStage={pushStage} loading={loading} />
+            <ChooseExecutorAndSwitch pushStage={pushStage} loading={loading} />
           )}
           {currentStage.action === "UploadDocument" && (
-            <UploadDocument pushStage={pushStage} />
+            <UploadDocument pushStage={pushStage} loading={loading} />
           )}
           {currentStage.action === "Switch" && <Switch pushStage={pushStage} />}
           {currentStage.action === "Completion" && (
-            <Button type="primary" size="large" onClick={pushStage}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={pushStage}
+              loading={loading}
+            >
               Завершить этап
             </Button>
           )}
           {currentStage.action === "ChooseExecutor" && (
-            <ChooseExecutor pushStage={pushStage} />
+            <ChooseExecutor pushStage={pushStage} loading={loading} />
           )}
         </Block>
       )
@@ -73,7 +84,7 @@ export const Panel = () => {
     return (
       <Block>
         {currentStage.action === "UploadDocument" && (
-          <UploadDocument pushStage={pushStage} />
+          <UploadDocument pushStage={pushStage} loading={loading} />
         )}
       </Block>
     )

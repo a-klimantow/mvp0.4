@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { Button, Input, Popconfirm } from "antd"
+import { Button, Input, Popconfirm, Spin } from "antd"
 import { useRouteMatch } from "react-router-dom"
 import styled from "styled-components"
 
@@ -16,6 +16,7 @@ export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
   const { deleteData, put } = useAxios()
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const startEdit = () => {
     setEdit(true)
@@ -27,16 +28,18 @@ export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
   }
 
   const save = () => {
+    setLoading(true)
     setEdit(false)
-    put(`${url}/Comments/${id}`, JSON.stringify(value)).then(comments =>
-      updateState({ comments })
-    )
+    put(`${url}/Comments/${id}`, JSON.stringify(value))
+      .then(comments => updateState({ comments }))
+      .finally(() => setLoading(false))
   }
 
   const del = () => {
-    deleteData(`${url}/Comments/${id}`).then(comments =>
-      updateState({ comments })
-    )
+    setLoading(true)
+    deleteData(`${url}/Comments/${id}`)
+      .then(comments => updateState({ comments }))
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -72,25 +75,29 @@ export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
           </>
         )}
       </div>
-      <BtnGroup className="btn-group">
-        {canBeEdited && (
-          <>
-            <button onClick={startEdit}>
-              <Icon type="edit" />
-            </button>
-            <Popconfirm
-              title="Вы действительно хотите удалить комментарий?"
-              okText="Да"
-              cancelText="Нет"
-              onConfirm={del}
-            >
-              <button className="del">
-                <Icon type="del" />
+      {!loading ? (
+        <BtnGroup className="btn-group">
+          {canBeEdited && (
+            <>
+              <button onClick={startEdit}>
+                <Icon type="edit" />
               </button>
-            </Popconfirm>
-          </>
-        )}
-      </BtnGroup>
+              <Popconfirm
+                title="Вы действительно хотите удалить комментарий?"
+                okText="Да"
+                cancelText="Нет"
+                onConfirm={del}
+              >
+                <button className="del">
+                  <Icon type="del" />
+                </button>
+              </Popconfirm>
+            </>
+          )}
+        </BtnGroup>
+      ) : (
+        <Spin size="small" style={{transform: "translate(-10px, 20px)"}}/>
+      )}
     </CommentItemWrap>
   )
 }
@@ -118,7 +125,7 @@ const CommentItemWrap = styled.li`
 
 const BtnGroup = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   padding-top: 22px;
   padding-left: 8px;
   width: 60px;

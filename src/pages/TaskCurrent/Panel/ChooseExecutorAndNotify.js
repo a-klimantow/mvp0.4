@@ -1,31 +1,29 @@
 import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { Input, Button } from "antd"
-import { useRouteMatch } from "react-router-dom"
 
 import { Text as text, Select, Row as row } from "../../../components"
 import { useEffectOnce, useAxios } from "../../../hooks"
 import { Context } from "../context"
 
-export const ChooseExecutorAndNotify = () => {
-  const { get, post } = useAxios()
+export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
+  const { get } = useAxios()
   const { state, updateState } = useContext(Context)
-  const { url } = useRouteMatch()
   const [nextPerpetratorId, setNextPerpetratorId] = useState(null)
   const [contractorsIds, setContractorsIds] = useState(null)
   const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
 
   useEffectOnce(() => {
-    if (!state.employees) {
-      get("ManagingFirmUsers").then(data => {
-        const emloyeesList = data.map(item => ({
-          key: item.id,
-          label: item.name
-        }))
-        updateState({ employees: emloyeesList })
-      })
-    }
+    get("ManagingFirmUsers").then(data => {
+      console.log(data)
+
+      const emloyeesList = data.map(item => ({
+        key: item.id,
+        label: item.name,
+        taskCount: item.executingTaskCount
+      }))
+      updateState({ employees: emloyeesList })
+    })
 
     if (!state.contractors) {
       get("Contractors").then(data => {
@@ -40,14 +38,11 @@ export const ChooseExecutorAndNotify = () => {
 
   console.log(contractorsIds)
 
-  const pushStage = () => {
-    setLoading(true)
-    post(`${url}/PushStage`, {
+  const handleClick = () => {
+    pushStage({
       nextPerpetratorId,
-      emailNotify: { contractorsIds , message }
+      emailNotify: { contractorsIds, message }
     })
-      .then(updateState)
-      .finally(() => setLoading(false))
   }
 
   return (
@@ -94,7 +89,7 @@ export const ChooseExecutorAndNotify = () => {
         <Button
           size="large"
           type="primary"
-          onClick={pushStage}
+          onClick={handleClick}
           loading={loading}
           disabled={!nextPerpetratorId}
         >
