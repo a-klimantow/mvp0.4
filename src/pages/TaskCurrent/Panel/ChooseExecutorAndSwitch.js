@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react"
+import { useRouteMatch } from "react-router-dom"
 import styled from "styled-components"
 
 import { Text as text, Select, Row as row } from "../../../components"
@@ -9,10 +10,10 @@ import { PushStateButton } from "./PushStageButton"
 export const ChooseExecutorAndSwitch = () => {
   const { get } = useAxios()
   const { state, updateState } = useContext(Context)
+  const { url } = useRouteMatch()
   const [nextPerpetratorId, setNextPerpetratorId] = useState(null)
   const [steps, setSteps] = useState([])
   const [nextStageId, setNextStageId] = useState(null)
-
 
   useEffectOnce(() => {
     get("ManagingFirmUsers").then(data => {
@@ -25,12 +26,20 @@ export const ChooseExecutorAndSwitch = () => {
       }))
       updateState({ employees: emloyeesList })
     })
+
+    get(`${url}/NextStages`).then(data => {
+      const stagesList = data.map(item => ({
+        key: item.id,
+        label: item.name
+      }))
+      setSteps(stagesList)
+    })
   })
 
   return (
     <>
       <Row>
-      <div className="select">
+        <div className="select">
           <Text>Выбирите дальнейшее действие:</Text>
           <Select
             labelInValue
@@ -55,9 +64,10 @@ export const ChooseExecutorAndSwitch = () => {
 
         <PushStateButton
           data={{
-            nextPerpetratorId
+            nextPerpetratorId,
+            nextStageId
           }}
-          disabled={!nextPerpetratorId}
+          disabled={!nextStageId || !nextPerpetratorId}
         />
       </Row>
     </>

@@ -1,31 +1,21 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react"
-import { Button, Spin } from "antd"
+import { Spin } from "antd"
 import styled from "styled-components"
 import { useHistory, Route, useRouteMatch, Link } from "react-router-dom"
 
 import { Text, Title, Paper, TabMenu, Tab, Block, Grid } from "../../components"
-import { GenInfo } from "./GenInfo"
+import { Info } from "./Info"
 import { Devices } from "./Devices"
 import { Events } from "./Events"
-import { useAxios, useEffectOnce } from "../../hooks"
 import { ContextHouses } from "./context"
 
 export const ObjDetail = () => {
   const {
     push,
-    location: { pathname }
+    location: { pathname, state: locationState }
   } = useHistory()
-  const match = useRouteMatch()
-  const { get, source } = useAxios()
-  const [state, setState] = useState({})
-
-  useEffectOnce(() => {
-    get(pathname).then(setState)
-    return () => source.cancel("cancel info")
-  })
-
-  console.log(state)
+  const {url, path} = useRouteMatch()
+  const [state, setState] = useState({ ...locationState })
 
   const updateState = data => {
     setState(state => ({ ...state, ...data }))
@@ -33,7 +23,7 @@ export const ObjDetail = () => {
   const { street, number } = state
 
   return (
-    <>
+    <ContextHouses.Provider value={{ state, updateState }}>
       <Block m="16px 0 24px">
         <LinkTo to="/HousingStocks">Жилой фонд /</LinkTo>
         <Text>{street ? street : <Spin size="small" />}</Text>
@@ -42,22 +32,18 @@ export const ObjDetail = () => {
         {street ? `${street}, ${number}` : <Spin />}
       </Title>
       <Grid>
-        <Paper className="list">
+        <Paper>
           <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
-            <Tab title="Общие данные" id={match.url} />
-            <Tab title="Узлы учета" id={`${match.url}/Devices`} />
+            <Tab title="Общие данные" id={url} />
+            <Tab title="Узлы учета" id={`${url}/Devices`} />
           </TabMenu>
-          {/* <Route
-            path={match.path}
-            render={() => <GenInfo info={state} />}
-            exact
-            />
-          <Route path={`${match.path}/Devices`} component={Devices} /> */}
+          <Route path={path} component={Info} exact />
+          <Route path={`${path}/Devices`} component={Devices} />
         </Paper>
 
-        <Events className="event" />
+        <Events />
       </Grid>
-    </>
+    </ContextHouses.Provider>
   )
 }
 

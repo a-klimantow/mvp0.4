@@ -66,9 +66,7 @@ export const Obj = () => {
           {houses &&
             houses.map(({ id, street, number, city, numberOfTasks }) => (
               <ListEl
-                onClick={() =>
-                  push(`${pathname}/${id}`, { street: `${street}, ${number}` })
-                }
+                onClick={() => push(`${pathname}/${id}`, { street, number })}
                 key={id}
               >
                 <div className="el_title-block">

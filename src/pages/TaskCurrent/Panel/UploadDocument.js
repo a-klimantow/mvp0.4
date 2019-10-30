@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { Button } from "antd"
 
 import { Upload, Row } from "../../../components"
+import { PushStateButton } from "./PushStageButton"
 
-export const UploadDocument = ({ pushStage, loading }) => {
+export const UploadDocument = () => {
   const [documents, setDocuments] = useState([])
 
   const addDoc = arr => {
@@ -15,23 +15,13 @@ export const UploadDocument = ({ pushStage, loading }) => {
     setDocuments(arrDelele)
   }
 
-  const handleClick = () => {
-    const documentsIds = documents.map(i => i.id)
-    pushStage({ documentsIds })
-  }
-
   return (
     <Row>
       <Upload addDoc={addDoc} delDoc={delDoc} />
-      <Button
-        size="large"
-        type="primary"
+      <PushStateButton
         disabled={documents.length === 0}
-        onClick={handleClick}
-        loading={loading}
-      >
-        Завершить этап
-      </Button>
+        data={{ documentsIds: documents.map(i => i.id) }}
+      />
     </Row>
   )
 }

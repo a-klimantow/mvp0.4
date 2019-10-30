@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
+import { Empty, Spin } from "antd"
 
 import {
   Title,
@@ -21,8 +22,8 @@ export const Events = () => {
   const [events, setEvents] = useState(null)
 
   useEffectOnce(() => {
-    get(`Tasks?Take=3&HousingStockId=${id}`).then(data => {
-      // console.log(data.items)
+    get(`Tasks?Take=3&DeviceId=${id}`).then(data => {
+      console.log(data)
       setEvents(data.items)
     })
   })
@@ -30,27 +31,32 @@ export const Events = () => {
   return (
     <Paper>
       <Title level={3} mb="16px">
-        События с объектом
+        События с прибором
       </Title>
       <Ul>
-        {events &&
-          events.map(event => (
+        {!events ? (
+          <Spin />
+        ) : events.lenght === 0 ? (
+          events.map(device => (
             <EventWrap
-              key={event.id}
-              onClick={() => push(`/Tasks/${event.id}`)}
+              key={device.id}
+              onClick={() => push(`/Tasks/${device.id}`)}
             >
-              <EventTitle>{event.name}</EventTitle>
+              <EventTitle>{device.name}</EventTitle>
               <Timer
                 text="Времени на этап:"
-                finishTime={event.expectedCompletionTime}
+                finishTime={device.expectedCompletionTime}
               />
               <div className="row">
-                <TimeCreate time={event.creationTime} mr="16px" />
-                <Number number={event.number} />
+                <TimeCreate time={device.creationTime} mr="16px" />
+                <Number number={device.number} />
               </div>
-              <Device device={event.device} />
+              <Device device={device.device} />
             </EventWrap>
-          ))}
+          ))
+        ) : (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        )}
       </Ul>
     </Paper>
   )

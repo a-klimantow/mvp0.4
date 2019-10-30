@@ -7,22 +7,22 @@ import { Empty } from "antd"
 
 import { Row, ListEl, Ul, Device, TimeCreate } from "../../components"
 import { useAxios, useEffectOnce } from "../../hooks"
-import { ContextHouses } from "./context"
+import { ContextDevice } from "./context"
 
 export const Devices = () => {
   const { url } = useRouteMatch()
   const { push } = useHistory()
   const { get, source } = useAxios()
-  const { state, updateState } = useContext(ContextHouses)
+  const { state, updateState } = useContext(ContextDevice)
 
   useEffectOnce(() => {
     if (state.devices === undefined) {
       get(url).then(data => {
-        // if (data.name !== undefined) {
-          updateState(data)
+        if (data.name !== undefined) {
+        updateState(data)
         // } else {
         //   updateState({ devices: data })
-        // }
+        }
       })
     }
     return () => source.cancel("cancel device")

@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Button } from "antd"
 import { useRouteMatch } from "react-router-dom"
 
 import { Row as row, Select, Text as text } from "../../../components"
 import { useAxios, useEffectOnce } from "../../../hooks"
+import { PushStateButton } from "./PushStageButton"
 
-export const Switch = ({ pushStage, loading }) => {
+export const Switch = () => {
   const { get } = useAxios()
   const { url } = useRouteMatch()
   const [steps, setSteps] = useState([])
@@ -36,15 +36,7 @@ export const Switch = ({ pushStage, loading }) => {
             onChange={e => setNextStageId(e.key)}
           />
         </div>
-        <Button
-          size="large"
-          type="primary"
-          onClick={() => pushStage({ nextStageId })}
-          disabled={!nextStageId}
-          loading={loading}
-        >
-          Завершить этап
-        </Button>
+        <PushStateButton disabled={!nextStageId} data={{ nextStageId }} />
       </Row>
     </>
   )

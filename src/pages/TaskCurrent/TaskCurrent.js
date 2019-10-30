@@ -19,8 +19,10 @@ export const TaskCurrent = () => {
   const { get } = useAxios()
   const [state, setState] = useState({
     documents: [],
-    stages: []
+    stages: [],
+    ...location.state
   })
+  console.log("state", state)
 
   useEffectOnce(() => {
     get(location.pathname).then(data => setState({ ...state, ...data }))

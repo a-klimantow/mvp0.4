@@ -5,6 +5,7 @@ import { Input, Button } from "antd"
 import { Text as text, Select, Row as row } from "../../../components"
 import { useEffectOnce, useAxios } from "../../../hooks"
 import { Context } from "../context"
+import { PushStateButton } from "./PushStageButton"
 
 export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
   const { get } = useAxios()
@@ -35,15 +36,6 @@ export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
       })
     }
   })
-
-  console.log(contractorsIds)
-
-  const handleClick = () => {
-    pushStage({
-      nextPerpetratorId,
-      emailNotify: { contractorsIds, message }
-    })
-  }
 
   return (
     <>
@@ -86,15 +78,13 @@ export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
           Выбрать из списка
         </Button>
 
-        <Button
-          size="large"
-          type="primary"
-          onClick={handleClick}
-          loading={loading}
+        <PushStateButton
           disabled={!nextPerpetratorId}
-        >
-          Завершить этап
-        </Button>
+          data={{
+            nextPerpetratorId,
+            emailNotify: { contractorsIds, message }
+          }}
+        />
       </Row>
     </>
   )

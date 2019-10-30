@@ -2,7 +2,6 @@ import React from "react"
 import { Redirect, useLocation } from "react-router-dom"
 import styled from "styled-components"
 import { Layout as LayoutAnt } from "antd"
-import PropTypes from "prop-types"
 //
 import { Logo } from "./Logo"
 import { Menu } from "./Menu"
@@ -41,6 +40,3 @@ const ContentSection = styled.section`
   padding: 0 46px 0  56px;
 `
 
-Layout.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired
-}

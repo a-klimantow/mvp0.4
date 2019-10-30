@@ -13,8 +13,8 @@ export const Select = ({ options, ...props }) => {
     <Option value={key} key={key}>
       {icon && <IconOpt type={icon} />}
       <TextOpt>{label}</TextOpt>
-      {!taskCount ? (
-        <Text view="second">(Задачь в работе: {taskCount})</Text>
+      {taskCount !== undefined ? (
+        <Text view="second">(Задач в работе: {taskCount})</Text>
       ) : null}
     </Option>
   ))

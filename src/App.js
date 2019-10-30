@@ -1,12 +1,20 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch} from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
 import { theme } from "./assets/theme"
 import { Layout } from "./components"
-import { Login, Task, TaskCurrent, Obj, ObjDetail, UserSettings } from "./pages"
+import {
+  Login,
+  Task,
+  TaskCurrent,
+  Obj,
+  ObjDetail,
+  UserSettings,
+  DeviceCurrent
+} from "./pages"
 
 function App() {
   return (
@@ -17,11 +25,17 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/">
               <Layout>
-                <Route path="/Tasks" component={Task} exact />
-                <Route path="/Tasks/:id" component={TaskCurrent} />
-                <Route path="/HousingStocks" component={Obj} exact />
-                <Route path="/HousingStocks/:id" component={ObjDetail} />
-                <Route path="/settings" component={UserSettings} />
+                <Switch>
+                  <Route path="/Tasks/:id" component={TaskCurrent} />
+                  <Route path="/Tasks" component={Task} />
+                  <Route
+                    path="/HousingStocks/:id/Devices/:deviceId"
+                    component={DeviceCurrent}
+                  />
+                  <Route path="/HousingStocks/:id" component={ObjDetail} />
+                  <Route path="/HousingStocks" component={Obj} />
+                  <Route path="/settings" component={UserSettings} />
+                </Switch>
               </Layout>
             </Route>
           </Switch>

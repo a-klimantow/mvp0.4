@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react"
+import styled from "styled-components"
 
-import { Icon as icon, createIconDevice } from './Icon'
-import { Text as text } from './Text'
-import { addMargin } from './styles'
+import { Icon as icon, createIconDevice } from "./Icon"
+import { Text as text } from "./Text"
+import { addMargin } from "./styles"
 
 export const Device = ({ device, ...props }) => {
   const { model, serialNumber, resource } = device
@@ -25,7 +25,7 @@ const DeviceWrap = styled.div`
 `
 
 const Text = styled(text).attrs(p => ({
-  size: 'small'
+  size: "small"
 }))`
   &.model {
     margin-right: 4px;

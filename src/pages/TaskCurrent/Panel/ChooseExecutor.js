@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react"
 import styled from "styled-components"
-import { Button } from "antd"
 
 import { Text as text, Select, Row as row } from "../../../components"
 import { useEffectOnce, useAxios } from "../../../hooks"
 import { Context } from "../context"
+import { PushStateButton } from "./PushStageButton"
 
-export const ChooseExecutor = ({ pushStage, loading }) => {
+export const ChooseExecutor = () => {
   const { get } = useAxios()
   const { state, updateState } = useContext(Context)
   const [nextPerpetratorId, setNextPerpetratorId] = useState(null)
@@ -36,15 +36,10 @@ export const ChooseExecutor = ({ pushStage, loading }) => {
             onChange={e => setNextPerpetratorId(e.key)}
           />
         </div>
-        <Button
-          size="large"
-          type="primary"
-          onClick={() => pushStage({ nextPerpetratorId })}
-          loading={loading}
+        <PushStateButton
           disabled={!nextPerpetratorId}
-        >
-          Завершить этап
-        </Button>
+          data={{ nextPerpetratorId }}
+        />
       </Row>
     </>
   )
