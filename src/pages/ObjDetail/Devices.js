@@ -19,7 +19,7 @@ export const Devices = () => {
 
   return (
     <>
-      <Filter>
+      {/* <Filter>
         <Input.Search placeholder="Введите серийный номер прибора" />
         <Row>
           <div>
@@ -29,8 +29,8 @@ export const Devices = () => {
             <Input placeholder="Все типы приборов" />
           </div>
         </Row>
-      </Filter>
-      <Ul>
+      </Filter> */}
+      <Ul mt="24px">
         {state.devices ? (
           state.devices.map((device, i) => (
             <ElDevice key={i} onClick={() => push(`${url}/${device.id}`)}>
