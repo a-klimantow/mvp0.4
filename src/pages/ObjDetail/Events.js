@@ -29,7 +29,7 @@ export const Events = () => {
       setEvents(data.items)
     )
   })
-
+  const num = events ? events.length > 2 : null
   return (
     <Paper>
       <Title level={3} mb="16px">
@@ -64,9 +64,11 @@ export const Events = () => {
           <Empty center />
         )}
       </Ul>
-      <Button block style={{ marginTop: 16 }} onClick={() => push("/")}>
-        Все события
-      </Button>
+      {num && (
+        <Button block style={{ marginTop: 16 }} onClick={() => push("/")}>
+          Все события
+        </Button>
+      )}
     </Paper>
   )
 }
