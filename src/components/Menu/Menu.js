@@ -15,7 +15,7 @@ const { SubMenu } = MenuAnt
 
 const menuItems = [
   { path: "/Tasks", title: "Задачи", icon: "task" },
-  { path: "/HousingStocks", title: "Жилой фонд", icon: "obj" },
+  { path: "/HousingStocks", title: "Объекты", icon: "obj" },
   // { path: "/owners", title: "Собственники", icon: "key" },
   {
     path: "/profile",

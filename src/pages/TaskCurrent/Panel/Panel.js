@@ -20,6 +20,8 @@ export const Panel = () => {
     closingTime
   } = state
 
+  // console.log(state)
+
   if (isResponsible === undefined)
     return (
       <Block>
@@ -45,17 +47,12 @@ export const Panel = () => {
           {currentStage.action === "Completion" && <PushStateButton />}
         </Block>
       )
-    } else {
-      return (
-        <Block>
-          <Input
-            disabled
-            size="large"
-            defaultValue={currentStage.perpetrator}
-          />
-        </Block>
-      )
     }
+    return (
+      <Block>
+        <Input disabled size="large" defaultValue={'Исполнитель Е.'} />
+      </Block>
+    )
   }
 
   if (userOperatingStatus === "Executor") {
@@ -67,7 +64,7 @@ export const Panel = () => {
   } else {
     return (
       <Block>
-        <Input disabled size="large" defaultValue={currentStage.perpetrator} />
+        <Input disabled size="large" defaultValue={"Администратор Е."} />
       </Block>
     )
   }

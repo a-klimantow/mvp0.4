@@ -16,7 +16,8 @@ export const Stages = () => {
   const [visible, setVisible] = useState(false)
   const [comment, setComment] = useState("")
   const [loadign, setLoading] = useState(false)
-  const lenStg = stages.length
+
+  const lenStg = stages ? stages.length : 0
 
   const revertStage = () => {
     setVisible(false)

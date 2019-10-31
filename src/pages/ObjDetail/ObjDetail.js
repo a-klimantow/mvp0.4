@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Spin } from "antd"
 import styled from "styled-components"
 import { useHistory, Route, useRouteMatch, Link } from "react-router-dom"
@@ -14,18 +14,21 @@ export const ObjDetail = () => {
     push,
     location: { pathname, state: locationState }
   } = useHistory()
-  const {url, path} = useRouteMatch()
+  const { path, params } = useRouteMatch()
   const [state, setState] = useState({ ...locationState })
 
   const updateState = data => {
     setState(state => ({ ...state, ...data }))
   }
   const { street, number } = state
+  useEffect(() => () => updateState({ street: null, devices: null }), [])
+
+  console.log("obj page")
 
   return (
     <ContextHouses.Provider value={{ state, updateState }}>
       <Block m="16px 0 24px">
-        <LinkTo to="/HousingStocks">Жилой фонд /</LinkTo>
+        <LinkTo to="/HousingStocks">Объекты /</LinkTo>
         <Text>{street ? street : <Spin size="small" />}</Text>
       </Block>
       <Title weight={300} className="head" mb="24px">
@@ -34,8 +37,11 @@ export const ObjDetail = () => {
       <Grid>
         <Paper>
           <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
-            <Tab title="Общие данные" id={url} />
-            <Tab title="Узлы учета" id={`${url}/Devices`} />
+            <Tab title="Общие данные" id={`/HousingStocks/${params.id}`} />
+            <Tab
+              title="Узлы учета"
+              id={`/HousingStocks/${params.id}/Devices`}
+            />
           </TabMenu>
           <Route path={path} component={Info} exact />
           <Route path={`${path}/Devices`} component={Devices} />

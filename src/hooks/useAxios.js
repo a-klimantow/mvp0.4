@@ -9,7 +9,8 @@ const responseNotification = (type, message, description) => {
   })
 }
 
-const server = process.env.NODE_ENV !== "development" ? "staging" : "production"
+// const server = process.env.NODE_ENV !== "development" ? "staging" : "production"
+const server = "production"
 
 axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
@@ -77,7 +78,7 @@ export const useAxios = () => {
   const get = (rest = "") => {
     return axios(`${rest}`, createHeaders())
       .then(res => {
-        console.log("got data")
+        // console.log("got data")
         return res.data.successResponse
       })
       .catch(err => {

@@ -13,7 +13,8 @@ import {
   Number,
   Device,
   Loader,
-  Empty
+  Empty,
+  TimeCompleted
 } from "../../components"
 import { useAxios, useEffectOnce } from "../../hooks"
 
@@ -24,10 +25,9 @@ export const Events = () => {
   const [events, setEvents] = useState(null)
 
   useEffectOnce(() => {
-    get(`Tasks?Take=3&HousingStockId=${id}`).then(data => {
-      console.log(data)
+    get(`Tasks?GroupType=NotArchived&Take=3&HousingStockId=${id}`).then(data =>
       setEvents(data.items)
-    })
+    )
   })
 
   return (
@@ -45,10 +45,14 @@ export const Events = () => {
               onClick={() => push(`/Tasks/${event.id}`)}
             >
               <EventTitle>{event.name}</EventTitle>
-              <Timer
-                text="Времени на этап:"
-                finishTime={event.expectedCompletionTime}
-              />
+              {event.closingTime ? (
+                <TimeCompleted time={event.closingTime} />
+              ) : (
+                <Timer
+                  text="Времени на этап:"
+                  finishTime={event.expectedCompletionTime}
+                />
+              )}
               <div className="row">
                 <TimeCreate time={event.creationTime} mr="16px" />
                 <Number number={event.number} />

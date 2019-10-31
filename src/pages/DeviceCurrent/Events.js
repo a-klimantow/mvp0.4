@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
-import { Spin } from "antd"
+import { Spin, Button } from "antd"
 
 import {
   Title,
@@ -19,15 +19,18 @@ import { useAxios, useEffectOnce } from "../../hooks"
 
 export const Events = () => {
   const { get } = useAxios()
-  const { id } = useParams()
+  const { deviceId } = useParams()
   const { push } = useHistory()
   const [events, setEvents] = useState(null)
+  console.log("ev", events)
 
   useEffectOnce(() => {
-    get(`Tasks?Take=3&DeviceId=${id}`).then(data => {
-      // console.log(data)
-      setEvents(data.items)
-    })
+    get(`Tasks?GroupType=NotArchived&Take=3&DeviceId=${deviceId}`).then(
+      data => {
+        // console.log(data)
+        setEvents(data.items)
+      }
+    )
   })
 
   return (
@@ -38,7 +41,7 @@ export const Events = () => {
       <Ul>
         {!events ? (
           <Loader size="large" />
-        ) : events.lenght === 0 ? (
+        ) : events.lenght !== 0 ? (
           events.map(device => (
             <EventWrap
               key={device.id}
@@ -60,6 +63,9 @@ export const Events = () => {
           <Empty center />
         )}
       </Ul>
+      <Button block style={{ marginTop: 16 }} onClick={() => push("/")}>
+        Все события
+      </Button>
     </Paper>
   )
 }

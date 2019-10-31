@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Input } from "antd"
 import styled from "styled-components"
 import { useHistory, useRouteMatch } from "react-router-dom"
@@ -14,14 +14,16 @@ export const Devices = () => {
     url,
     params: { id }
   } = useRouteMatch()
-  const { push } = useHistory()
+  const { push, location: path } = useHistory()
   const { get, source } = useAxios()
-  const { state, updateState } = useContext(ContextDevice)
-  useEffectOnce(() => {
-    get(url).then(updateState)
+  const { state, updateState, setState } = useContext(ContextDevice)
+  // console.log(state.devices)
+  // useEffectOnce(() => !state.devices && get(url).then(updateState))
 
-    return () => source.cancel("cancel device")
-  })
+  useEffect(() => {
+    get(url).then(updateState)
+    return () => setState({})
+  }, [url])
 
   return (
     <>

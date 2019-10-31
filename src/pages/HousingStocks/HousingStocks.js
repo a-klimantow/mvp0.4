@@ -43,7 +43,7 @@ export const HousingStocks = () => {
   return (
     <>
       <Title weight={300} m="24px 0">
-        Жилой фонд
+        Объекты
       </Title>
       <Paper>
         <Row>

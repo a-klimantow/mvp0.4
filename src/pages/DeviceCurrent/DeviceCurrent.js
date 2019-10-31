@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useHistory, useRouteMatch, Route } from "react-router-dom"
 import { Spin } from "antd"
@@ -11,7 +11,9 @@ import {
   Tab,
   TabMenu,
   Icon,
-  createIconDevice
+  createIconDevice,
+  CustomLink as bc,
+  Text
 } from "../../components"
 import { ContextDevice } from "./context"
 import { Info } from "./Info"
@@ -23,22 +25,36 @@ export const DeviceCurrent = () => {
     push,
     location: { pathname, state: locationState }
   } = useHistory()
-  const { url, path } = useRouteMatch()
+  const { url, path, params } = useRouteMatch()
   const [state, setState] = useState({ ...locationState })
   const { device } = state
   const updateState = data => {
     setState(state => ({ ...state, ...data }))
   }
-
+  const current = device ? device.model : ""
   const deviceIcon = device && createIconDevice(device.resource)
 
+  // console.log("devise page", state)
   return (
-    <ContextDevice.Provider value={{ state, updateState }}>
-      <Block m="16px 0 24px">breadcrumbs</Block>
+    <ContextDevice.Provider value={{ state, setState, updateState }}>
+      <Block m="16px 0 24px">
+        <LinkBc to="/HousingStocks">Жилой фонд /</LinkBc>
+        {device ? (
+          <>
+            <LinkBc
+              to={`/HousingStocks/${params.id}`}
+            >{`${state.street}, ${state.number} /`}</LinkBc>
+            <Text>{current}</Text>
+          </>
+        ) : (
+          <Spin size="small" />
+        )}
+      </Block>
       <Title weight={300} mb="24px">
         {state.device ? (
           <>
-            <IconDevice {...deviceIcon} /> {device.model}
+            <IconDevice {...deviceIcon} /> {device.model} ({device.serialNumber}
+            )
           </>
         ) : (
           <Spin />
@@ -47,15 +63,21 @@ export const DeviceCurrent = () => {
       <Grid>
         <Paper>
           {state.resource ? (
-            <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
+            <TabMenu getActiveTab={id => push(id)} defaultActive={url}>
               <Tab title="Общие данные" id={url} />
               <Tab title="Узлы коммуникации" id={`${url}/узлы`} />
               <Tab title="Подключенные приборы" id={`${url}/Related`} />
             </TabMenu>
           ) : (
             <TabMenu getActiveTab={id => push(id)} defaultActive={pathname}>
-              <Tab title="Общие данные" id={url} />
-              <Tab title="Подключенные приборы" id={`${url}/Related`} />
+              <Tab
+                title="Общие данные"
+                id={`/HousingStocks/${params.id}/Devices/${params.deviceId}`}
+              />
+              <Tab
+                title="Подключенные приборы"
+                id={`/HousingStocks/${params.id}/Devices/${params.deviceId}/Related`}
+              />
             </TabMenu>
           )}
           <Route path={path} component={Info} exact />
@@ -72,4 +94,10 @@ const IconDevice = styled(Icon)`
   width: 30px;
   height: 30px;
   transform: translateY(5px);
+`
+
+const LinkBc = styled(bc).attrs({
+  type: "text"
+})`
+  margin-right: 4px;
 `

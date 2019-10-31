@@ -13,11 +13,7 @@ export const Info = ({ info }) => {
   const { get } = useAxios()
   const { state, updateState } = useContext(ContextHouses)
 
-  useEffectOnce(() => {
-    if (state.id === undefined) {
-      get(url).then(updateState)
-    }
-  })
+  useEffectOnce(() => !state.id && get(url).then(updateState))
 
   return (
     <>

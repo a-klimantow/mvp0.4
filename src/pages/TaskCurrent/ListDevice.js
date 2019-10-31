@@ -51,7 +51,6 @@ export const ListDevice = () => {
       <Title level={3} mb="16px" mt="24px">
         <Link
           className="link"
-          classNameActive="active"
           to={`/HousingStocks/${housingStockId}/Devices/${device.id}`}
         >
           <IconDevice {...deviceIcon} /> {device.model} ({device.serialNumber})
@@ -78,7 +77,9 @@ const Title = styled(title).attrs({
 `
 
 const IconDevice = styled(Icon)`
-  transform: translateY(1px);
+  width: 19px;
+  height: 19px;
+  transform: translateY(2px);
 `
 
 const Li = styled(ListEl)`

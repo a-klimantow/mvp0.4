@@ -7,7 +7,7 @@ export const Documents = () => {
   const { state } = useContext(Context)
   const { documents } = state
 
-  if (documents.length === 0) return null
+  if (!documents) return null
   return (
     <Ul mb="24px">
       {documents.map(item => (

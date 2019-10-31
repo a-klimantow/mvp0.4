@@ -15,18 +15,7 @@ export const Devices = () => {
   const { get, source } = useAxios()
   const { state, updateState } = useContext(ContextHouses)
 
-  useEffectOnce(() => {
-    if (state.devices === undefined) {
-      get(url).then(data => {
-        // if (data.name !== undefined) {
-          updateState(data)
-        // } else {
-        //   updateState({ devices: data })
-        // }
-      })
-    }
-    return () => source.cancel("cancel device")
-  })
+  useEffectOnce(() => !state.devices && get(url).then(updateState))
 
   return (
     <>
