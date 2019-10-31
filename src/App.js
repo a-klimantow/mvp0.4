@@ -10,7 +10,7 @@ import {
   Login,
   Task,
   TaskCurrent,
-  Obj,
+  HousingStocks,
   ObjDetail,
   UserSettings,
   DeviceCurrent
@@ -33,7 +33,7 @@ function App() {
                     component={DeviceCurrent}
                   />
                   <Route path="/HousingStocks/:id" component={ObjDetail} />
-                  <Route path="/HousingStocks" component={Obj} />
+                  <Route path="/HousingStocks" component={HousingStocks} />
                   <Route path="/settings" component={UserSettings} />
                 </Switch>
               </Layout>

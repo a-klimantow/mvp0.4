@@ -16,6 +16,7 @@ import {
 import { ContextDevice } from "./context"
 import { Info } from "./Info"
 import { Events } from "./Events"
+import { Devices } from "./Devices"
 
 export const DeviceCurrent = () => {
   const {
@@ -24,20 +25,20 @@ export const DeviceCurrent = () => {
   } = useHistory()
   const { url, path } = useRouteMatch()
   const [state, setState] = useState({ ...locationState })
-
+  const { device } = state
   const updateState = data => {
     setState(state => ({ ...state, ...data }))
   }
 
-  const deviceIcon = createIconDevice(state.resource)
+  const deviceIcon = device && createIconDevice(device.resource)
 
   return (
     <ContextDevice.Provider value={{ state, updateState }}>
       <Block m="16px 0 24px">breadcrumbs</Block>
       <Title weight={300} mb="24px">
-        {state.model ? (
+        {state.device ? (
           <>
-            <IconDevice {...deviceIcon} /> {state.model}
+            <IconDevice {...deviceIcon} /> {device.model}
           </>
         ) : (
           <Spin />
@@ -59,7 +60,7 @@ export const DeviceCurrent = () => {
           )}
           <Route path={path} component={Info} exact />
           <Route path={`${path}/узлы`} render={() => <>2</>} />
-          <Route path={`${path}/Related`} render={() => <>3</>} />
+          <Route path={`${path}/Related`} component={Devices} />
         </Paper>
         <Events />
       </Grid>

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
-import { Empty, Spin } from "antd"
+import { Spin } from "antd"
 
 import {
   Title,
@@ -11,7 +11,9 @@ import {
   Timer,
   TimeCreate,
   Number,
-  Device
+  Device,
+  Empty,
+  Loader
 } from "../../components"
 import { useAxios, useEffectOnce } from "../../hooks"
 
@@ -23,7 +25,7 @@ export const Events = () => {
 
   useEffectOnce(() => {
     get(`Tasks?Take=3&DeviceId=${id}`).then(data => {
-      console.log(data)
+      // console.log(data)
       setEvents(data.items)
     })
   })
@@ -35,7 +37,7 @@ export const Events = () => {
       </Title>
       <Ul>
         {!events ? (
-          <Spin />
+          <Loader size="large" />
         ) : events.lenght === 0 ? (
           events.map(device => (
             <EventWrap
@@ -55,7 +57,7 @@ export const Events = () => {
             </EventWrap>
           ))
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <Empty center />
         )}
       </Ul>
     </Paper>

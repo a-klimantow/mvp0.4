@@ -9,7 +9,6 @@ import { Context } from "./context"
 
 export const Breadcrumbs = ({ url }) => {
   const { state } = useContext(Context)
-  console.log(useHistory())
   const path = url.split("/")[1]
   return (
     <Block m="16px 0 24px">

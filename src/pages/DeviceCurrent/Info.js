@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
 import { useRouteMatch } from "react-router-dom"
-import { Empty } from "antd"
+// import { Empty } from "antd"
 
-import { Ul, Text, ListEl } from "../../components"
+import { Ul, Text, ListEl, Loader, Empty } from "../../components"
 import { useAxios, useEffectOnce } from "../../hooks"
 import infoJSON from "./info.json"
 import { ContextDevice } from "./context"
@@ -22,23 +22,26 @@ const typeTranslator = type => {
   }
 }
 
-export const Info = ({ info }) => {
+export const Info = () => {
   const { url } = useRouteMatch()
   const { get } = useAxios()
   const { state, updateState } = useContext(ContextDevice)
+  const { device } = state
 
   useEffectOnce(() => {
-    // if (state.id === undefined) {
-    get(url).then(updateState)
-    // }
+    if (!device) {
+      get(url).then(data => updateState(data))
+    }
   })
 
+  console.log(state)
+  if (!device) return <Loader size="large" />
+  if (!device.id) return <Empty center />
+
   const listResourceValid =
-    state.type === "FlowMeter"
+    device.type === "FlowMeter"
       ? infoJSON
       : infoJSON.filter(item => item[0] !== "Диаметр")
-
-  console.log(state)
 
   const renderList = listResourceValid.map((item, i) => {
     switch (item[2]) {
@@ -46,7 +49,7 @@ export const Info = ({ info }) => {
         return (
           <ElInfo key={i}>
             <Text view="second">{item[0]}</Text>
-            <Text>{dateFormat(state[item[1]], format)}</Text>
+            <Text>{dateFormat(device[item[1]], format)}</Text>
           </ElInfo>
         )
       case "type":
@@ -60,7 +63,7 @@ export const Info = ({ info }) => {
         return (
           <ElInfo key={i}>
             <Text view="second">{item[0]}</Text>
-            <Text>{state[item[1]]}</Text>
+            <Text>{device[item[1]]}</Text>
           </ElInfo>
         )
     }
@@ -68,9 +71,7 @@ export const Info = ({ info }) => {
 
   return (
     <>
-      <Ul mt="24px">
-        {state.id ? renderList : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-      </Ul>
+      <Ul mt="24px">{renderList}</Ul>
     </>
   )
 }

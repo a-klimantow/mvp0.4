@@ -1,11 +1,15 @@
 import React from "react"
 import styled from "styled-components"
 import { Menu as MenuAnt } from "antd"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 //
-import { Icon } from "./Icon"
-import { Text } from "./Text"
-import { useAxios } from "../hooks"
+import { Icon } from "../Icon"
+import { Text } from "../Text"
+import { useAxios } from "../../hooks"
+// import { Ul } from "../Ul"
+// import { MenuList } from "./MenuList"
+// import { MenuItem } from "./MenuItem"
+// import { SubMenu } from "./SubMenu"
 
 const { SubMenu } = MenuAnt
 
@@ -106,3 +110,23 @@ const MenuWrap = styled.span`
     }
   }
 `
+
+// export const Menu = () => {
+//   return (
+//     <MenuList>
+//       <MenuItem
+//         name="Задачи"
+//         icon="task"
+//         to="tasks"
+//         search="?GroupType=Archived"
+//       />
+//       <MenuItem name="Жилищный Фонд" icon="obj" to="housingstocks" admin />
+//       <SubMenu name="Профиль" icon="user">
+//         <MenuItem name="Настройки" to="Setting" />
+//         <MenuItem name="Выход" to="Login" />
+//       </SubMenu>
+//       <MenuItem name="Жилищный Фонд" icon="obj" to="housingstocks" admin />
+
+//     </MenuList>
+//   )
+// }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import { Button } from "antd"
 import { useRouteMatch } from "react-router-dom"
 
-import { Paper, Title, Ul } from "../../../components"
+import { Paper, Title, Ul, Loader } from "../../../components"
 import { Modal } from "./Modal"
 import { StageItem } from "./StageItem"
 import { Context } from "../context"
@@ -42,7 +42,7 @@ export const Stages = () => {
         Этапы выполнения
       </Title>
       <Ul>
-        {stages &&
+        {stages ? (
           stages.map((stage, i) => {
             if (number - 1 === i && userOperatingStatus === "Executor") {
               return (
@@ -59,7 +59,11 @@ export const Stages = () => {
               )
             }
             return <StageItem key={stage.id} {...stage} length={lenStg} />
-          })}
+          })
+        ) : (
+          <Loader size="large" />
+        
+        )}
       </Ul>
     </Paper>
   )

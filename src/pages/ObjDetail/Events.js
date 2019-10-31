@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
+import { Button } from "antd"
 
 import {
   Title,
@@ -10,7 +11,9 @@ import {
   Timer,
   TimeCreate,
   Number,
-  Device
+  Device,
+  Loader,
+  Empty
 } from "../../components"
 import { useAxios, useEffectOnce } from "../../hooks"
 
@@ -22,7 +25,7 @@ export const Events = () => {
 
   useEffectOnce(() => {
     get(`Tasks?Take=3&HousingStockId=${id}`).then(data => {
-      // console.log(data.items)
+      console.log(data)
       setEvents(data.items)
     })
   })
@@ -33,7 +36,9 @@ export const Events = () => {
         События с объектом
       </Title>
       <Ul>
-        {events &&
+        {!events ? (
+          <Loader size="large" />
+        ) : events.length !== 0 ? (
           events.map(event => (
             <EventWrap
               key={event.id}
@@ -50,8 +55,14 @@ export const Events = () => {
               </div>
               <Device device={event.device} />
             </EventWrap>
-          ))}
+          ))
+        ) : (
+          <Empty center />
+        )}
       </Ul>
+      <Button block style={{ marginTop: 16 }} onClick={() => push("/")}>
+        Все события
+      </Button>
     </Paper>
   )
 }

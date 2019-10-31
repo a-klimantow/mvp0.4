@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
+import { Link, useHistory } from "react-router-dom"
 import styled from "styled-components"
 
 import {
-  Title,
+  Title as title,
   Icon,
   createIconDevice,
   Text,
@@ -14,17 +15,19 @@ import deviceList from "./device.json"
 import { dateFormat } from "../../services/dateFormat"
 
 export const ListDevice = () => {
+  const { push } = useHistory()
   const { state } = useContext(Context)
-  const { device } = state
+  const { device, housingStockId } = state
 
   if (!device) return null
   const format = "DD.MM.YYYY"
   const deviceIcon = createIconDevice(device.resource)
   // console.log(device)
 
-  const listResourceValid = device.type === "FlowMeter"
-    ? deviceList
-    : deviceList.filter(item => item[0] !== "Диаметр")
+  const listResourceValid =
+    device.type === "FlowMeter"
+      ? deviceList
+      : deviceList.filter(item => item[0] !== "Диаметр")
 
   const renderElements = listResourceValid.map((item, i) => {
     if (item[2] === "date") {
@@ -46,17 +49,33 @@ export const ListDevice = () => {
   return (
     <>
       <Title level={3} mb="16px" mt="24px">
-        <IconDevice {...deviceIcon} /> {device.model} ({device.serialNumber})
+        <Link
+          className="link"
+          classNameActive="active"
+          to={`/HousingStocks/${housingStockId}/Devices/${device.id}`}
+        >
+          <IconDevice {...deviceIcon} /> {device.model} ({device.serialNumber})
+        </Link>
       </Title>
-      <Ul>
-        {renderElements}
-        {/* <Li>
-          <Text></Text>
-        </Li> */}
-      </Ul>
+      <Ul>{renderElements}</Ul>
     </>
   )
 }
+
+const Title = styled(title).attrs({
+  level: 3
+})`
+  margin: 24px 0 16px;
+  .link {
+    color: inherit;
+    &:hover {
+      color: ${p => p.theme.color.primary};
+      svg: {
+        fill: inherit;
+      }
+    }
+  }
+`
 
 const IconDevice = styled(Icon)`
   transform: translateY(1px);

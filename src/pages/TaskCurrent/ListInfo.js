@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 // import infoList from "./info.json"
@@ -8,13 +9,13 @@ import { dateFormat } from "../../services/dateFormat"
 
 export const ListInfo = () => {
   const { state } = useContext(Context)
-  const { address, number, creationTime } = state
-
+  const { address, number, creationTime, housingStockId } = state
+  console.log(state)
   return (
     <Ul>
       <Li>
         <Text view="second">Адрес</Text>
-        <Text>{address}</Text>
+        <Link to={`/HousingStocks/${housingStockId}`} >{address}</Link>
       </Li>
       <Li>
         <Text view="second">Номер задачи</Text>

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useContext } from "react"
+import React, { useContext } from "react"
 import { Input } from "antd"
 import styled from "styled-components"
 import { useHistory, useRouteMatch } from "react-router-dom"
@@ -10,21 +10,16 @@ import { useAxios, useEffectOnce } from "../../hooks"
 import { ContextDevice } from "./context"
 
 export const Devices = () => {
-  const { url } = useRouteMatch()
+  const {
+    url,
+    params: { id }
+  } = useRouteMatch()
   const { push } = useHistory()
   const { get, source } = useAxios()
   const { state, updateState } = useContext(ContextDevice)
-
   useEffectOnce(() => {
-    if (state.devices === undefined) {
-      get(url).then(data => {
-        if (data.name !== undefined) {
-        updateState(data)
-        // } else {
-        //   updateState({ devices: data })
-        }
-      })
-    }
+    get(url).then(updateState)
+
     return () => source.cancel("cancel device")
   })
 
@@ -44,7 +39,10 @@ export const Devices = () => {
       <Ul>
         {state.devices ? (
           state.devices.map((device, i) => (
-            <ElDevice key={i} onClick={() => push(`${url}/${device.id}`)}>
+            <ElDevice
+              key={i}
+              onClick={() => push(`/HousingStocks/${id}/Devices/${device.id}`)}
+            >
               <Device device={device} className="device" />
               <TimeCreate
                 time={device.futureCheckingDate}

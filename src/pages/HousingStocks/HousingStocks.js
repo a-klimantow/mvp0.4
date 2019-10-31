@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { Row, Col, Input, Empty } from "antd"
+import { Row, Col, Input } from "antd"
 import { useHistory } from "react-router-dom"
 
 import {
@@ -12,7 +12,9 @@ import {
   Address,
   // eslint-disable-next-line no-unused-vars
   DeviceCounter,
-  TaskCounter
+  TaskCounter,
+  Loader,
+  Empty
 } from "../../components"
 
 import { useAxios } from "../../hooks"
@@ -24,7 +26,7 @@ const options = [
   { key: "2", icon: "min", label: "количество задач" }
 ]
 
-export const Obj = () => {
+export const HousingStocks = () => {
   const {
     push,
     location: { pathname }
@@ -62,7 +64,8 @@ export const Obj = () => {
           </Col>
         </Row>
         <Ul mt="16px">
-          {!houses && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+          {!houses && <Loader size="large" />}
+          {houses === 0 && <Empty center />}
           {houses &&
             houses.map(({ id, street, number, city, numberOfTasks }) => (
               <ListEl

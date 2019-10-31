@@ -22,7 +22,7 @@ export const TaskCurrent = () => {
     stages: [],
     ...location.state
   })
-  console.log("state", state)
+  // console.log("state", state)
 
   useEffectOnce(() => {
     get(location.pathname).then(data => setState({ ...state, ...data }))
