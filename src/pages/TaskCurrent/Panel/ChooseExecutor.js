@@ -32,7 +32,7 @@ export const ChooseExecutor = () => {
             style={{ display: "block" }}
             size="large"
             options={state.employees}
-            placeholder="Выбирите исполнителя"
+            placeholder="Выберите исполнителя"
             onChange={e => setNextPerpetratorId(e.key)}
           />
         </div>

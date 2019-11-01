@@ -40,7 +40,7 @@ export const ChooseExecutorAndSwitch = () => {
     <>
       <Row>
         <div className="select">
-          <Text>Выбирите дальнейшее действие:</Text>
+          <Text>Выберите дальнейшее действие:</Text>
           <Select
             labelInValue
             style={{ display: "block" }}
