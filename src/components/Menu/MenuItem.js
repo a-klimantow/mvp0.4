@@ -16,7 +16,7 @@ export const MenuItem = ({ icon, name, isActive, to, ...props }) => {
 }
 
 const Li = styled.li`
-  color: ${p => p.theme.title};
+  color: ${p => p.theme.title.color};
   position: relative;
   background-color: transparent;
   transition: background-color 0.3s ease-in-out;
@@ -27,11 +27,11 @@ const Li = styled.li`
     height: 48px;
     font-size: 14px;
     line-height: 22px;
+    transition: color 0.3s ease-in-out;
     &:hover {
       color: ${p => p.theme.color.primary};
     }
   }
-
   &::after {
     content: "";
     position: absolute;

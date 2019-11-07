@@ -5,16 +5,8 @@ import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
 import { theme } from "./assets/theme"
-import { Layout } from "./components"
-import {
-  Login,
-  Task,
-  TaskCurrent,
-  HousingStocks,
-  ObjDetail,
-  UserSettings,
-  DeviceCurrent
-} from "./pages"
+import { Login, TasksAll } from "./pages"
+import { Layout } from "./components/Layout"
 
 function App() {
   return (
@@ -22,20 +14,10 @@ function App() {
       <ConfigProvider locale={RU}>
         <BrowserRouter>
           <Switch>
-            <Route path="/login" component={Login} />
+            <Route path="/Вход" component={Login} />
             <Route path="/">
               <Layout>
-                <Switch>
-                  <Route path="/Tasks/:id" component={TaskCurrent} />
-                  <Route path="/Tasks" component={Task} />
-                  <Route
-                    path="/HousingStocks/:id/Devices/:deviceId"
-                    component={DeviceCurrent}
-                  />
-                  <Route path="/HousingStocks/:id" component={ObjDetail} />
-                  <Route path="/HousingStocks" component={HousingStocks} />
-                  <Route path="/settings" component={UserSettings} />
-                </Switch>
+                <Route path="/Tasks" component={TasksAll} />
               </Layout>
             </Route>
           </Switch>

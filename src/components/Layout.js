@@ -1,42 +1,33 @@
 import React from "react"
-import { Redirect, useLocation } from "react-router-dom"
 import styled from "styled-components"
-import { Layout as LayoutAnt } from "antd"
-//
 import { Logo } from "./Logo"
 import { Menu } from "./Menu"
 
-const { Sider, Content } = LayoutAnt
-
 export const Layout = ({ children }) => {
-  const { pathname } = useLocation()
-
-  if (!localStorage.getItem("tokenData")) {
-    return <Redirect to="/login" />
-  }
-
-  if (pathname === "/") {
-    return (
-      <Redirect to={{ pathname: "/Tasks", search: "?GroupType=Executing" }} />
-    )
-  }
   return (
-    <LayoutAntStyle>
-      <Sider theme="light" width={208}>
+    <LayoutWrap>
+      <aside>
         <Logo />
         <Menu />
-      </Sider>
-      <Content style={{overflowY: 'scroll'}}>
-        <ContentSection>{children}</ContentSection>
-      </Content>
-    </LayoutAntStyle>
+      </aside>
+      <main>{children}</main>
+    </LayoutWrap>
   )
 }
 
-const LayoutAntStyle = styled(LayoutAnt)`
+const LayoutWrap = styled.div`
+  display: flex;
   height: 100vh;
+  /* aside,
+  main {
+    border: 1px solid red;
+  } */
+  aside {
+    width: 208px;
+  }
+  main {
+    flex-grow: 1;
+    padding: 0 56px;
+    background: ${p => p.theme.bg.main};
+  }
 `
-const ContentSection = styled.section`
-  padding: 0 46px 0  56px;
-`
-

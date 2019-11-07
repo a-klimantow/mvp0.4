@@ -22,7 +22,6 @@ const LogoWrap = styled.div`
     font-size: 16px;
     font-weight: 300;
     color: ${p => p.theme.title.color};
-
     &.tt {
       font-weight: 400;
       margin: 0 4px 0 11px;

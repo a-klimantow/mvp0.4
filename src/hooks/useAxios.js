@@ -40,11 +40,12 @@ export const useAxios = () => {
       .post("ManagingFirmUsers/auth", data)
       .then(res => res.data.successResponse)
       .then(data => {
+        console.log("auth")
         const { roles, ...tokenData } = data
         localStorage.setItem("roles", JSON.stringify(roles))
         setTokenData(tokenData)
       })
-      .then(() => replace("/"))
+      .then(() => replace("/Задачи/К_исполнению"))
       .catch(err => {
         console.log(err)
         if (err.response) {

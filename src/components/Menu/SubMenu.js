@@ -41,7 +41,7 @@ const IconArrow = styled(Icon).attrs({
 `
 
 const Li = styled.li`
-  color: ${p => p.theme.title};
+  color: ${p => p.theme.title.color};
   position: relative;
   & > div {
     display: flex;
@@ -51,17 +51,17 @@ const Li = styled.li`
     font-size: 14px;
     line-height: 22px;
     position: relative;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
     &:hover {
       color: ${p => p.theme.color.primary};
     }
   }
-
   ul {
     overflow: hidden;
     height: 0;
     transition: heigth 0.3s ease-in-out;
   }
-
   ul.open {
     height: auto;
     transition: heigth 0.3s ease-in-out;
