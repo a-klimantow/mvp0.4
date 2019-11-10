@@ -1,0 +1,8 @@
+[
+  ["Тип прибора", "type", "type"],
+  ["Серийный номер", "serialNumber"],
+  ["Дата ввода в эксплуатацию", "commercialAccountingDate", "date"],
+  ["Дата поверки прибора", "lastCheckingDate", "date"],
+  ["Дата следующей поверки прибора", "futureCheckingDate", "date"],
+  ["Диаметр", "diameter"]
+]

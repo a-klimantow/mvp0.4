@@ -44,7 +44,7 @@ export const useAxios = () => {
         localStorage.setItem("roles", JSON.stringify(roles))
         setTokenData(tokenData)
       })
-      .then(() => replace("/"))
+      .then(() => replace("/tasks"))
       .catch(err => {
         console.log(err)
         if (err.response) {
@@ -89,11 +89,13 @@ export const useAxios = () => {
             if (err.response.status === 401) {
               return refresh(get, rest)
             }
-            responseNotification(
-              "error",
-              "Ошибка",
-              err.response.data.errorResponse.message
-            )
+            if (err.response.status !== 404) {
+              responseNotification(
+                "error",
+                "Ошибка",
+                err.response.data.errorResponse.message
+              )
+            }
           }
         }
       })
@@ -131,6 +133,14 @@ export const useAxios = () => {
           if (err.response) {
             if (err.response.status === 401) {
               return refresh(put, url, data)
+            }
+            if (err.response.status === 403) {
+              responseNotification(
+                "error",
+                "Ошибка",
+                'Не удалось сохранить данные'
+              )
+              return Promise.reject()
             }
             responseNotification(
               "error",
