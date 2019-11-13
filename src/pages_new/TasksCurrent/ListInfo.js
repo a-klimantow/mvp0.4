@@ -19,10 +19,12 @@ export const ListInfo = () => {
 
   return (
     <Ul>
-      <Li>
-        <Text view="second">Тип неисправности</Text>
-        <TextWarning>{malfunctionType}</TextWarning>
-      </Li>
+      {malfunctionType && (
+        <Li>
+          <Text view="second">Тип неисправности</Text>
+          <TextWarning>{malfunctionType}</TextWarning>
+        </Li>
+      )}
       <Li>
         <Text view="second">Адрес</Text>
         <CustomLink to={`/objects/${housingStockId}`} type="text">

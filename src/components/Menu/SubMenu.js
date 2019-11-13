@@ -11,6 +11,7 @@ export const SubMenu = ({ children, name, icon, ...props }) => {
 
   const renderItems = Children.map(children, item => {
     const isActive = pathname.split("/").includes(item.props.to)
+    // console.log(item)
     return cloneElement(item, { isActive })
   })
 

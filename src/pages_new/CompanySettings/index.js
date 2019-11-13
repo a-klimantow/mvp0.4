@@ -4,15 +4,15 @@ import { useAxios } from "../../hooks"
 import { Title, Paper, TabMenu, Tab } from "../../components"
 import { GeneralInfo } from "./GeneralInfo"
 import { Users } from "./Users"
+import { Contractors } from "./Contractors"
 
 export const CompanySettings = () => {
   const { get } = useAxios()
   const [tab, setTab] = useState("info")
   const [state, setState] = useState({})
-  const { users } = state
+  const { users, name, phoneNumber, contractors } = state
   const updateState = data => setState(state => ({ ...state, ...data }))
-  const { name, phoneNumber } = state
-  console.log(state)
+  // console.log(state)
   useEffect(() => {
     if (!name) {
       get("ManagingFirms/current").then(updateState)
@@ -20,6 +20,10 @@ export const CompanySettings = () => {
 
     if (tab === "users" && !users) {
       get("ManagingFirmUsers").then(data => updateState({ users: data }))
+    }
+
+    if (tab === "contractors" && !contractors) {
+      get("Contractors").then(contractors => updateState({ contractors }))
     }
   }, [tab])
 
@@ -38,6 +42,7 @@ export const CompanySettings = () => {
           <GeneralInfo name={name} phoneNumber={phoneNumber} />
         )}
         {tab === "users" && <Users users={users} />}
+        {tab === "contractors" && <Contractors contractors={contractors} />}
       </Paper>
     </>
   )

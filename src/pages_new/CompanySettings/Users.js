@@ -6,7 +6,7 @@ import { Ul, ListEl, Loader, Title, Icon as icon, Text } from "../../components"
 
 export const Users = ({ users }) => {
   if (!users) return <Loader />
-  console.log(users)
+  // console.log(users)
   return (
     <>
       <Button>Добавить сотрудника</Button>
