@@ -9,11 +9,16 @@ const responseNotification = (type, message, description) => {
   })
 }
 
-// const server = env.process.ENVIRONMENT !== "development" ? "staging" : "production"
-// const server = "production"
+const server =
+  process.env.NODE_ENV === "development"
+    ? "staging"
+    : process.env.REACT_APP_ENVIRONMENT
+
+console.log(server)
 
 console.log(process.env)
-axios.defaults.baseURL = `https://transparent-staging.herokuapp.com/api/`
+console.log(process.env.REACT_APP_TEST)
+axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
