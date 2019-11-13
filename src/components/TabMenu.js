@@ -6,6 +6,7 @@ import PropTypes from "prop-types"
 const Tabs = styled.div`
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  margin-bottom: 24px;
 `
 
 export const TabMenu = ({
@@ -15,23 +16,23 @@ export const TabMenu = ({
 }) => {
   const [active, setActive] = useState(defaultActive)
 
-  const handleClick = (id) => {
+  const handleClick = id => {
     getActiveTab(id)
     setActive(id)
   }
 
-  const renderTab = Children.map(children, (tab, i) =>
-    cloneElement(tab, {
+  const renderTab = Children.map(children, (tab, i) => {
+    if (tab === null) return null
+    return cloneElement(tab, {
       className: tab.props.id === active && "active",
       onClick: () => handleClick(tab.props.id),
       disabled: active === tab.props.id
     })
-  )
+  })
   return <Tabs>{renderTab}</Tabs>
 }
 
 TabMenu.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
   defaultActive: PropTypes.string,
   getActiveTab: PropTypes.func
 }

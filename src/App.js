@@ -1,6 +1,6 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom"
 import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
@@ -8,15 +8,28 @@ import { theme } from "./assets/theme"
 import { Layout } from "./components"
 import {
   Login,
-  Task,
+  // Task,
   TaskCurrent,
   HousingStocks,
   ObjDetail,
   UserSettings,
-  DeviceCurrent
+  // DeviceCurrent,
+  Task
 } from "./pages"
 
+import {
+  TasksAll,
+  TasksCurrent,
+  ObjectsAll,
+  ObjectsCurrent,
+  DeviceCurrent,
+  CompanySettings
+} from "./pages_new"
+
 function App() {
+  // const { path } = useRouteMatch()
+  // console.log(useRouteMatch())
+
   return (
     <ThemeProvider theme={theme}>
       <ConfigProvider locale={RU}>
@@ -25,17 +38,37 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/">
               <Layout>
-                <Switch>
-                  <Route path="/Tasks/:id" component={TaskCurrent} />
-                  <Route path="/Tasks" component={Task} />
-                  <Route
-                    path="/HousingStocks/:id/Devices/:deviceId"
-                    component={DeviceCurrent}
-                  />
-                  <Route path="/HousingStocks/:id" component={ObjDetail} />
-                  <Route path="/HousingStocks" component={HousingStocks} />
-                  <Route path="/settings" component={UserSettings} />
-                </Switch>
+                <Route
+                  path="/tasks"
+                  render={({ match }) => (
+                    <>
+                      <Route exact path={match.path} component={TasksAll} />
+                      <Route
+                        path={`${match.path}/:taskId`}
+                        component={TasksCurrent}
+                      />
+                    </>
+                  )}
+                />
+                <Route
+                  path="/objects"
+                  render={({ match }) => (
+                    <>
+                      <Route path={match.path} component={ObjectsAll} exact />
+                      <Route
+                        path={`${match.path}/:objectId`}
+                        component={ObjectsCurrent}
+                        exact
+                      />
+                      <Route
+                        path={`${match.path}/:objectId/device/:deviceId`}
+                        component={DeviceCurrent}
+                      />
+                    </>
+                  )}
+                />
+                <Route path="/company" component={CompanySettings} />
+                <Route path="/user" component={UserSettings} />
               </Layout>
             </Route>
           </Switch>

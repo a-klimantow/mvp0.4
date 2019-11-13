@@ -4,7 +4,17 @@ import styled from "styled-components"
 
 import { IconNav } from "./IconNav"
 
-export const MenuItem = ({ icon, name, isActive, to, ...props }) => {
+export const MenuItem = ({ icon, name, isActive, to, logout, ...props }) => {
+  if (logout)
+    return (
+      <Li>
+        <span onClick={logout}>
+          <IconNav type={icon} />
+          {name}
+        </span>
+      </Li>
+    )
+
   return (
     <Li className={isActive ? "active" : ""}>
       <Link to={{ pathname: `/${to}`, ...props }}>
@@ -20,13 +30,15 @@ const Li = styled.li`
   position: relative;
   background-color: transparent;
   transition: background-color 0.3s ease-in-out;
-  & > a {
+  & > a,
+  & > span {
     display: flex;
     align-items: center;
     color: inherit;
     height: 48px;
     font-size: 14px;
     line-height: 22px;
+    cursor: pointer;
     &:hover {
       color: ${p => p.theme.color.primary};
     }

@@ -6,7 +6,7 @@ import { User } from "./User"
 import { Icon as icon } from "./Icon"
 import { TimeCreate } from "./TimeCreate"
 import { useAxios } from "../hooks"
-import { Context } from "../pages/TaskCurrent/context"
+import { TasksCurrentContext } from "../pages_new/TasksCurrent/context"
 import { Spin } from "antd"
 
 export const DocumentFile = ({
@@ -22,7 +22,7 @@ export const DocumentFile = ({
   const {
     state: { documents },
     updateState
-  } = useContext(Context)
+  } = useContext(TasksCurrentContext)
   const [loading, setLoading] = useState(false)
 
   const del = () => {

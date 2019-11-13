@@ -9,6 +9,11 @@ export const SubMenu = ({ children, name, icon, ...props }) => {
   const [open, setOpen] = useState(false)
   const toggle = () => setOpen(!open)
 
+  const renderItems = Children.map(children, item => {
+    const isActive = pathname.split("/").includes(item.props.to)
+    return cloneElement(item, { isActive })
+  })
+
   return (
     <Li>
       <div onClick={toggle}>
@@ -16,13 +21,7 @@ export const SubMenu = ({ children, name, icon, ...props }) => {
         {name}
         <IconArrow open={open} />
       </div>
-      <ul className={open ? "open" : ""}>
-        {Children.map(children, item =>
-          cloneElement(item, {
-            isActive: pathname.split("/").includes(item.props.to)
-          })
-        )}
-      </ul>
+      <Ul open={open}>{renderItems}</Ul>
     </Li>
   )
 }
@@ -36,7 +35,7 @@ const IconArrow = styled(Icon).attrs({
   ${p =>
     p.open &&
     css`
-      transform: rotateX(180deg);
+      transform: rotate(-180deg);
     `}
 `
 
@@ -51,19 +50,21 @@ const Li = styled.li`
     font-size: 14px;
     line-height: 22px;
     position: relative;
+    cursor: pointer;
     &:hover {
       color: ${p => p.theme.color.primary};
     }
   }
+`
 
-  ul {
-    overflow: hidden;
-    height: 0;
-    transition: heigth 0.3s ease-in-out;
-  }
+const Ul = styled.ul`
+  overflow: hidden;
+  max-height: 0;
+  transition: all 0.3s ease-in-out;
 
-  ul.open {
-    height: auto;
-    transition: heigth 0.3s ease-in-out;
-  }
+  ${p =>
+    p.open &&
+    css`
+      max-height: ${p => p.children.length * 48}px;
+    `}
 `

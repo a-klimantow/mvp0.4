@@ -1,7 +1,8 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 export const ListEl = styled.li`
-  padding: 12px 0;
+  padding-top: ${p => (p.size === "large" ? 24 : 12)}px;
+  padding-bottom: ${p => (p.size === "large" ? 24 : 12)}px;
   border-bottom: ${p => p.theme.border};
   display: flex;
   /* div {
