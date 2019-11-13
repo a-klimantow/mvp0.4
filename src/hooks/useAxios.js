@@ -17,7 +17,7 @@ const server =
 console.log(server)
 
 console.log(process.env)
-console.log(process.env.REACT_APP_TEST)
+
 axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
 
