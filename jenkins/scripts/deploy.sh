@@ -1,8 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env sh
 ssh admin@84.201.174.241 <<EOF
-	cd ~/node-app
-	git pull
-	npm install — production
-	pm2 restart all
-	exit
+	set -x
+	npm run build
+	set +x
+
+	set -x
+	npm start &
+	sleep 1
+	echo $! > .pidfile
+	set +x
 EOF
