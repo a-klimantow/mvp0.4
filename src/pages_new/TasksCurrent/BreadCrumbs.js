@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import { Spin } from "antd"
 import { useRouteMatch } from "react-router-dom"
 
 import { Block, Text, CustomLink } from "../../components"

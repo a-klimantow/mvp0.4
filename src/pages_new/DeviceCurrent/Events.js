@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
 import styled from "styled-components"
-import { useParams, useHistory } from "react-router-dom"
-import { Spin, Button } from "antd"
+import { useHistory } from "react-router-dom"
+import { Button } from "antd"
 
 import {
   Title,
@@ -15,11 +15,8 @@ import {
   Empty,
   Loader
 } from "../../components"
-import { useAxios, useEffectOnce } from "../../hooks"
 
 export const Events = ({ events }) => {
-  const { get } = useAxios()
-  const { deviceId } = useParams()
   const { push } = useHistory()
   console.log("ev", events)
 

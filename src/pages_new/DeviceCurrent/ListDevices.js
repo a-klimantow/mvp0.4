@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { useHistory, useParams } from "react-router-dom"
 
 import {
-  Row,
+  // Row,
   ListEl,
   Ul,
   Device,
@@ -55,18 +55,18 @@ export const ListDevices = ({ data, cb }) => {
   )
 }
 
-const Filter = styled.div`
-  margin: 24px 0;
-  ${Row} {
-    margin-top: 8px;
-  }
-  ${Row} > div {
-    width: 50%;
-    &:not(:last-child) {
-      margin-right: 8px;
-    }
-  }
-`
+// const Filter = styled.div`
+//   margin: 24px 0;
+//   ${Row} {
+//     margin-top: 8px;
+//   }
+//   ${Row} > div {
+//     width: 50%;
+//     &:not(:last-child) {
+//       margin-right: 8px;
+//     }
+//   }
+// `
 
 const ElDevice = styled(ListEl)`
   & > * {

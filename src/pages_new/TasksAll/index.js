@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 // import { Link, useRouteMatch } from "react-router-dom"
 
 import { useAxios } from "../../hooks"
-import { Title, Paper, Tab, TabMenu, Ul } from "../../components"
+import { Title, Paper, Tab, TabMenu } from "../../components"
 import { ListTasks } from "./ListTasks"
 
 export const TasksAll = () => {
@@ -20,6 +20,7 @@ export const TasksAll = () => {
     return () => {
       source.cancel("tasks")
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
 
   return (

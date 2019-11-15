@@ -23,6 +23,7 @@ export const Devices = () => {
   useEffect(() => {
     get(url).then(updateState)
     return () => setState({})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url])
 
   return (

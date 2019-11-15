@@ -25,6 +25,7 @@ export const CompanySettings = () => {
     if (tab === "contractors" && !contractors) {
       get("Contractors").then(contractors => updateState({ contractors }))
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
 
   return (

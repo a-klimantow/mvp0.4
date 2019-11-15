@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Empty } from "antd"
 
 import { Ul, Text, ListEl } from "../../components"
-import infoJSON from "./info.json"
+// import infoJSON from "./info.json"
 
 export const ListInfo = ({ info, state }) => {
   return (

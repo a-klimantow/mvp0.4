@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
-import { Spin, Button } from "antd"
+import { Button } from "antd"
 
 import {
   Title,

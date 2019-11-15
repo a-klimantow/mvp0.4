@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Spin } from "antd"
-import {
-  Link as bc,
-  useParams,
-  useHistory,
-  Route,
-  useRouteMatch
-} from "react-router-dom"
+import { Link as bc, useParams, useHistory } from "react-router-dom"
 import styled from "styled-components"
 
 import { useAxios, useEffectOnce } from "../../hooks"
@@ -44,6 +38,7 @@ export const DeviceCurrent = () => {
         updateState(res)
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
 
   useEffectOnce(() => {
