@@ -1,3 +1,5 @@
 import React from "react"
 
-export const App = () => <div>clear</div>
+import { StyledWrapper } from "styles/StyledWrapper"
+
+export const App = () => <StyledWrapper>test</StyledWrapper>
