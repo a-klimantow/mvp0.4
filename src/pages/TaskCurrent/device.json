@@ -1,6 +1,0 @@
-[
-  ["Постановка на учет", "commercialAccountingDate", "date"],
-  ["Диаметр", "diameter"],
-  ["Окончание срока эксплуатации", "futureCheckingDate", "date"],
-  ["Последняя поверка приборов", "lastCheckingDate", "date"]
-]
