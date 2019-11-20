@@ -35,4 +35,19 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 16px;
     line-height: 24px;
   }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+    :hover, &.active {
+      color: ${p => p.theme.colors.primary};
+    }
+  }
 `

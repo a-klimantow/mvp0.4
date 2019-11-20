@@ -1,17 +1,36 @@
 import React from "react"
 import styled from "styled-components"
+import { useLocation, Redirect } from "react-router-dom"
 
-import { Logo } from "components"
+import { Logo, Menu } from "components"
 
-export const Layout = ({ children }) => (
-  <LayoutWrap>
-    <aside>
-      <Logo />
-      menu
-    </aside>
-    <main>{children}</main>
-  </LayoutWrap>
-)
+const menuItems = [
+  { icon: "task", name: "Задачи", path: "/tasks", isExact: true },
+  { icon: "object", name: "Объекты", path: "/objects" },
+  { icon: "username", name: "Настройки", path: "/user" },
+  {
+    icon: "exit",
+    name: "Выход",
+    path: "/login",
+    logout: e => {
+      e.preventDefault()
+    }
+  }
+]
+
+export const Layout = ({ children }) => {
+  const { pathname } = useLocation()
+  if (pathname === "/") return <Redirect to="/tasks" />
+  return (
+    <LayoutWrap>
+      <aside>
+        <Logo />
+        <Menu menuItems={menuItems} />
+      </aside>
+      <main>{children}</main>
+    </LayoutWrap>
+  )
+}
 
 const LayoutWrap = styled.div`
   display: flex;
