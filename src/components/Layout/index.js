@@ -5,7 +5,11 @@ import { useLocation, Redirect } from "react-router-dom"
 import { Logo, Menu } from "components"
 
 const menuItems = [
-  { icon: "task", name: "Задачи", path: "/tasks", isExact: true },
+  {
+    icon: "task",
+    name: "Задачи",
+    path: { pathname: "/tasks", search: "GroupType=Executing" }
+  },
   { icon: "object", name: "Объекты", path: "/objects" },
   { icon: "username", name: "Настройки", path: "/user" },
   {

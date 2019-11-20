@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 import left from "img/left.svg"
@@ -7,19 +7,31 @@ import logo from "img/logo.svg"
 import text from "img/text.svg"
 
 import { Input, Label, Button } from "components"
+import { useApi } from "hooks"
 
 export const Login = () => {
-  const [data, setData] = useState({ email: "", password: "" })
-  const [loadign, setLoading] = useState(false)
+  const { auth } = useApi()
+  const [{ email, password }, setInput] = useState({ email: "", password: "" })
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState()
+
+  useEffect(() => {
+    let mount = true
+    if (data) {
+      setLoading(true)
+      auth(data).finally(() => mount && setLoading(false))
+    }
+    return () => (mount = false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   const handleChange = e => {
-    setData({ ...data, [e.currentTarget.name]: e.currentTarget.value })
+    setInput({ email, password, [e.currentTarget.name]: e.currentTarget.value })
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(data)
-    setData({ email: "", password: "" })
+    setData({ email, password })
   }
 
   return (
@@ -30,30 +42,33 @@ export const Login = () => {
       <Form onSubmit={handleSubmit}>
         <Label label="Логин" mb="24px">
           <Input
-            value={data.email}
+            value={email}
             onChange={handleChange}
             name="email"
             type="text"
             size="big"
             placeholder="user@mail.ru"
+            disabled={loading}
           />
         </Label>
         <Label label="Пароль" mb="32px">
           <Input
-            value={data.password}
+            value={password}
             onChange={handleChange}
             size="big"
             name="password"
             type="password"
             placeholder="xxxxxxx"
+            disabled={loading}
           />
         </Label>
         <Button
           size="big"
           view="primary"
-          disabled={!data.email || !data.password}
+          disabled={!email || !password}
+          loading={loading}
         >
-          button
+          Войти в систему
         </Button>
       </Form>
       <LoginLogo>
@@ -99,5 +114,4 @@ const TitlePage = styled.h1`
 const Form = styled.form`
   margin: 0 auto;
   min-width: 320px;
-  /* border: 1px solid red; */
 `

@@ -1,16 +1,27 @@
 import React from "react"
 import styled, { css } from "styled-components"
 
-import { margin, size } from "styles"
+import { margin, size, spin } from "styles"
+import { Text, Icon } from "components"
 
-export const Button = ({ ...props }) => {
-  return <ButtonWrap {...props}></ButtonWrap>
+export const Button = ({ children, icon, loading, ...props }) => {
+  return (
+    <ButtonWrap {...props}>
+      <Text icon={icon}>{children}</Text>
+      {loading && (
+        <LoadingBlock onClick={e => e.preventDefault()}>
+          <IconLoading />
+        </LoadingBlock>
+      )}
+    </ButtonWrap>
+  )
 }
 
 const ButtonWrap = styled.button`
   ${margin};
   ${size};
   cursor: pointer;
+  position: relative;
   transition-property: box-shadow, color, border-color, opacity;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -40,4 +51,22 @@ const ButtonWrap = styled.button`
         box-shadow: none;
       }
     `};
+`
+
+const IconLoading = styled(Icon).attrs({
+  type: "map"
+})`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  ${spin};
+`
+
+const LoadingBlock = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: progress;
 `
