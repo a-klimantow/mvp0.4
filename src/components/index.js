@@ -1,1 +1,1 @@
-export { Text } from "./atoms/Text"
+export * from "./Text"
