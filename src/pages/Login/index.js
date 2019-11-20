@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 import left from "img/left.svg"
@@ -6,23 +6,55 @@ import right from "img/right.svg"
 import logo from "img/logo.svg"
 import text from "img/text.svg"
 
-import { Input, Label } from "components"
+import { Input, Label, Button } from "components"
 
 export const Login = () => {
-  // return <LoginPage>login</LoginPage>
+  const [data, setData] = useState({ email: "", password: "" })
+  const [loadign, setLoading] = useState(false)
+
+  const handleChange = e => {
+    setData({ ...data, [e.currentTarget.name]: e.currentTarget.value })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log(data)
+    setData({ email: "", password: "" })
+  }
+
   return (
     <LoginPage>
       <TitlePage as="h1" weight={300}>
         Вход в систему
       </TitlePage>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Label label="Логин" mb="24px">
-          <Input type="text" disabled value="hello" size="big" />
+          <Input
+            value={data.email}
+            onChange={handleChange}
+            name="email"
+            type="text"
+            size="big"
+            placeholder="user@mail.ru"
+          />
         </Label>
         <Label label="Пароль" mb="32px">
-          <Input size="big" type="password" placeholder="xxxxxxx" />
+          <Input
+            value={data.password}
+            onChange={handleChange}
+            size="big"
+            name="password"
+            type="password"
+            placeholder="xxxxxxx"
+          />
         </Label>
-        <button>button</button>
+        <Button
+          size="big"
+          view="primary"
+          disabled={!data.email || !data.password}
+        >
+          button
+        </Button>
       </Form>
       <LoginLogo>
         <img src={logo} alt="logo" />

@@ -13,7 +13,7 @@ const menuItems = [
     name: "Выход",
     path: "/login",
     logout: e => {
-      e.preventDefault()
+      // e.preventDefault()
     }
   }
 ]
@@ -21,6 +21,7 @@ const menuItems = [
 export const Layout = ({ children }) => {
   const { pathname } = useLocation()
   if (pathname === "/") return <Redirect to="/tasks" />
+
   return (
     <LayoutWrap>
       <aside>

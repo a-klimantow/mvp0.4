@@ -69,6 +69,18 @@ export const GlobalStyles = createGlobalStyle`
     &:disabled {
       background-color: ${p => p.theme.colors.bg_disabled};
       color: ${p => p.theme.colors.disabled};
+      cursor: not-allowed;
     }
+  }
+
+  input {
+    &::placeholder {
+      color: ${p => p.theme.colors.disabled};
+    }
+  }
+
+  button {
+    justify-content: center;
+    background-color: #fff;
   }
 `
