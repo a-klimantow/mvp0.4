@@ -4,12 +4,15 @@ export const GlobalStyles = createGlobalStyle`
   body { 
     margin: 0;
     padding: 0;
-    min-height: 100vh;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 22px;
     color: ${p => p.theme.colors.body};
     background-color: ${p => p.theme.colors.bg};
+    & > div#root {
+     min-height: 100vh;
+
+    }
   }
 
   * {

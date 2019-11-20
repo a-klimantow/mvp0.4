@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import logo from "./logo.svg"
+import logo from "img/logo.svg"
 
 export const Logo = () => (
   <LogoWrap>

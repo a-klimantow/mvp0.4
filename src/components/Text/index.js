@@ -13,7 +13,11 @@ export const Text = ({ children, as, icon, ...props }) => {
       </WithIcon>
     )
 
-  return <Span {...props}>{children}</Span>
+  return (
+    <Span as={as} {...props}>
+      {children}
+    </Span>
+  )
 }
 
 const Span = styled.span`
