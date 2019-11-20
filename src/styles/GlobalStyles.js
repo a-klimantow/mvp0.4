@@ -53,4 +53,22 @@ export const GlobalStyles = createGlobalStyle`
       color: ${p => p.theme.colors.primary};
     }
   }
+
+  input, button {
+    outline: none;
+    color: inherit;
+    font: inherit;
+    width: 100%;
+    border: 1px solid;
+    border-color: ${p => p.theme.colors.border};
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    min-height: 32px;
+    &:disabled {
+      background-color: ${p => p.theme.colors.bg_disabled};
+      color: ${p => p.theme.colors.disabled};
+    }
+  }
 `

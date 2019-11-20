@@ -3,7 +3,7 @@ export default {
     title: "#272F5A",
     body: "rgba(39, 47, 90, 0.75)",
     caption: "rgba(39, 47, 90, 0.45)",
-    disable: "rgba(39, 47, 90, 0.25)",
+    disabled: "rgba(39, 47, 90, 0.25)",
     border: "rgba(39, 47, 90, 0.15)",
     bg: "#F3F5F6",
     bg_disabled: "rgba(39, 47, 90, 0.05)",

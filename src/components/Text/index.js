@@ -29,6 +29,8 @@ const Span = styled.span`
       font-size: 12px;
       line-height: 20px;
     `}
+
+  color: ${p => (p.view === "secondary" ? p.theme.colors.caption : "inherit")};
 `
 
 const WithIcon = styled.div`

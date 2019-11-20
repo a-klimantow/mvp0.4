@@ -6,6 +6,8 @@ import right from "img/right.svg"
 import logo from "img/logo.svg"
 import text from "img/text.svg"
 
+import { Input, Label } from "components"
+
 export const Login = () => {
   // return <LoginPage>login</LoginPage>
   return (
@@ -13,7 +15,15 @@ export const Login = () => {
       <TitlePage as="h1" weight={300}>
         Вход в систему
       </TitlePage>
-      <Form>form</Form>
+      <Form>
+        <Label label="Логин" mb="24px">
+          <Input type="text" disabled value="hello" size="big" />
+        </Label>
+        <Label label="Пароль" mb="32px">
+          <Input size="big" type="password" placeholder="xxxxxxx" />
+        </Label>
+        <button>button</button>
+      </Form>
       <LoginLogo>
         <img src={logo} alt="logo" />
         <img src={text} alt="Transparent Technology" />
@@ -30,7 +40,6 @@ const LoginPage = styled.main`
     ${`url(${right})`} no-repeat bottom right;
   background-color: ${p => p.theme.colors.bg};
   position: relative;
-  border: 1px solid red;
 `
 
 const LoginLogo = styled.div`
@@ -58,5 +67,5 @@ const TitlePage = styled.h1`
 const Form = styled.form`
   margin: 0 auto;
   min-width: 320px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `
