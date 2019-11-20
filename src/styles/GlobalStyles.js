@@ -8,6 +8,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 22px;
+    color: ${p => p.theme.colors.body};
+    background-color: ${p => p.theme.colors.bg};
   }
 
   * {

@@ -1,9 +1,14 @@
 import React from "react"
 import styled from "styled-components"
 
+import { Logo } from "components"
+
 export const Layout = ({ children }) => (
   <LayoutWrap>
-    <aside>nav</aside>
+    <aside>
+      <Logo />
+      menu
+    </aside>
     <main>{children}</main>
   </LayoutWrap>
 )
@@ -14,9 +19,11 @@ const LayoutWrap = styled.div`
 
   aside {
     width: 208px;
+    background-color: #fff;
   }
 
   main {
     flex-grow: 1;
+    padding: 0 56px;
   }
 `
