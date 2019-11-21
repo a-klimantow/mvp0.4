@@ -3,26 +3,27 @@ import styled, { css } from "styled-components"
 import t from "prop-types"
 
 import { Icon } from "components"
+import { margin } from "styles"
 
-export const Text = ({ children, as, icon, ...props }) => {
-  if (icon)
-    return (
-      <WithIcon as={as} {...props}>
-        <Icon type={icon} />
-        <Span {...props}>{children}</Span>
-      </WithIcon>
-    )
-
+export const Text = ({ children, icon, iconColor, ...props }) => {
   return (
-    <Span as={as} {...props}>
+    <Span {...props}>
+      {icon && <Icon type={icon} fill={iconColor} />}
       {children}
     </Span>
   )
 }
 
 const Span = styled.span`
-  margin: 0;
+  ${margin};
+  display: inline-flex;
+  align-items: center;
   font-weight: ${p => p.weight};
+
+  svg {
+    margin-right: 6px;
+  }
+
   ${p =>
     p.size === "small" &&
     css`
@@ -33,26 +34,13 @@ const Span = styled.span`
   color: ${p => (p.view === "secondary" ? p.theme.colors.caption : "inherit")};
 `
 
-const WithIcon = styled.div`
-  margin: 0;
-  display: flex;
-  align-items: center;
-  svg {
-    width: ${p => (p.as ? 24 : 16)}px;
-    height: 100%;
-  }
-  ${Span} {
-    margin-left: ${p => (p.as ? 8 : 6)}px;
-  }
-`
-
 Text.propTypes = {
-  children: t.string,
-  size: t.oneOf(["small"]),
-  as: t.oneOf(["h1", "h2", "h3", "h4"]),
+  children: t.any,
+  size: t.oneOf(["small", "normal"]),
   weight: t.oneOf([300, 400, 600])
 }
 
 Text.defaultProps = {
-  weight: 400
+  weight: 400,
+  size: "normal"
 }
