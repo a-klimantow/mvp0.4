@@ -58,7 +58,6 @@ export const GlobalStyles = createGlobalStyle`
     outline: none;
     color: inherit;
     font: inherit;
-    width: 100%;
     border: 1px solid;
     border-color: ${p => p.theme.colors.border};
     border-radius: 4px;
@@ -74,6 +73,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   input {
+    width: 100%;
     &::placeholder {
       color: ${p => p.theme.colors.disabled};
     }
@@ -81,6 +81,11 @@ export const GlobalStyles = createGlobalStyle`
 
   button {
     justify-content: center;
-    background-color: #fff;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  button.active {
+    color: red;
   }
 `

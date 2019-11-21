@@ -1,1 +1,1 @@
-export * from "TabMenu"
+export * from "./TabMenu"

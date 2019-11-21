@@ -6,6 +6,6 @@ import { All } from "./All"
 export const TasksPage = ({ match }) => (
   <>
     <Route path={match.url} component={All} exact />
-    <Route path={`${match.url}/:id`} render={() => <h1>id</h1>} />
+    <Route path={`${match.url}/id:tasksId`} render={() => <h1>id</h1>} />
   </>
 )

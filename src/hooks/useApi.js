@@ -21,7 +21,6 @@ export const useApi = () => {
     axios
       .get(url, { headers: setBearer() })
       .then(res => res.data.successResponse)
-      .then(console.log)
 
   return { auth, logout, getData }
 }
