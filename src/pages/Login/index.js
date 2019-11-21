@@ -67,6 +67,7 @@ export const Login = () => {
           view="primary"
           disabled={!email || !password}
           loading={loading}
+          block
         >
           Войти в систему
         </Button>

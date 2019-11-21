@@ -21,6 +21,7 @@ const ButtonWrap = styled.button`
   ${margin};
   ${size};
   cursor: pointer;
+  width: ${p => p.block && "100%"};
   position: relative;
   transition-property: box-shadow, color, border-color, opacity;
   transition-duration: 0.2s;

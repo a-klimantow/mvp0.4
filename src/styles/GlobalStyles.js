@@ -19,26 +19,6 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  h1 {
-    font-size: 30px;
-    line-height: 38px;
-  }
-
-  h2 {
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  h3 {
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  h4 {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
   ul {
     margin: 0;
     padding: 0;

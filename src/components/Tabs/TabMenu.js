@@ -5,6 +5,8 @@ export const TabMenu = styled.div`
   border-color: ${p => p.theme.colors.border};
   display: flex;
   justify-content: start;
+  margin-top: -12px;
+  margin-bottom: 24px;
 
   button {
     border: none;
