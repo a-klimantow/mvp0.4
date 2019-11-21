@@ -4,23 +4,29 @@ import { Link, useLocation, Redirect } from "react-router-dom"
 import { useApi } from "hooks"
 
 export const All = () => {
-  const { pathname, search } = useLocation()
+  const { pathname } = useLocation()
   const { getData } = useApi()
-
-  console.log("page", search)
-  console.log(search)
+  const [search, setSearch] = useState("Executing")
   useEffect(() => {
-    getData(`Tasks/${search}`).then(() => console.log("ok"))
+    getData(`Tasks?GroupType=${search}`).then(() => console.log("ok"))
+    return () => console.log("unmount")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
 
-  useEffect(() => {}, [])
-
+  const handleClick = e => {
+    setSearch(e.target.name)
+  }
   return (
     <>
-      <Link to={{ search: "GroupType=Executing" }}>archive</Link>
-      <Link to={{ search: "GroupType=Observing" }}>execute</Link>
-      <Link to={{ search: "GroupType=Archived" }}>fuck</Link>
+      <button onClick={handleClick} name="Executing">
+        К исполнению
+      </button>
+      <button onClick={handleClick} name="Observing">
+        Наблюдаемые
+      </button>
+      <button onClick={handleClick} name="Archived">
+        Архивные
+      </button>
     </>
   )
 }
