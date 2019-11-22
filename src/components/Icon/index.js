@@ -10,7 +10,7 @@ export const Icon = ({ type, ...props }) => {
   if (type === "Calculator") type = "resource_device"
 
   return (
-    <Svg viewBox="0 0 16 16" {...props}>
+    <Svg viewBox="0 0 16 16" {...props} type={type}>
       <path fillRule="evenodd" clipRule="evenodd" d={icons[type]} />
     </Svg>
   )
@@ -25,6 +25,7 @@ const Svg = styled.svg`
       : p.fill === "ColdWaterSupply"
       ? p.theme.colors.water.cold
       : "currentColor"};
+  fill: ${p => p.type === "ok" && p.theme.colors.success};
 `
 
 Icon.propTypes = {
