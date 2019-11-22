@@ -16,6 +16,6 @@ export default {
     electricity: "#E2B104",
     error: "#ED3B45",
     success: "#17B45A",
-    warning: "#E2B104"
+    warning: "#FF8413"
   }
 }

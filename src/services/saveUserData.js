@@ -1,4 +1,11 @@
 export const saveUserData = data => {
-  localStorage.setItem("userData", JSON.stringify(data.data.successResponse))
-  localStorage.setItem("roles", JSON.stringify(data.data.successResponse.roles))
+  const { token, refreshToken, roles } = data
+  localStorage.setItem(
+    "tokenData",
+    JSON.stringify({
+      token,
+      refreshToken
+    })
+  )
+  localStorage.setItem("roles", JSON.stringify(roles))
 }

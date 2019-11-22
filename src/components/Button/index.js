@@ -23,6 +23,7 @@ const ButtonWrap = styled.button`
   cursor: pointer;
   width: ${p => p.block && "100%"};
   position: relative;
+  background-color: #fff;
   transition-property: box-shadow, color, border-color, opacity;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -32,6 +33,11 @@ const ButtonWrap = styled.button`
     box-shadow: 0 0 0 4px ${p => p.theme.colors.secondary};
     color: ${p => p.theme.colors.primary};
     border-color: ${p => p.theme.colors.primary};
+  }
+
+  &:not(:disabled):active {
+    opacity: 1;
+    box-shadow: none;
   }
 
   ${p =>

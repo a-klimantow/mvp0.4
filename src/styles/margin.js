@@ -1,4 +1,8 @@
 import { css } from "styled-components"
 export const margin = p => css`
-  margin: ${p.mt || 0} ${p.mr || 0} ${p.mb || 0} ${p.ml || 0};
+  margin: 0;
+  margin-top: ${p => p.mt};
+  margin-bottom: ${p => p.mb};
+  margin-left: ${p => p.ml};
+  margin-right: ${p => p.mr};
 `

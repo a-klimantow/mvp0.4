@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 
 import { Li, Row, Title, Text as text, TimeLine } from "components"
-import { useTasksPageContext } from "./useTasksPageContext"
+import { useTasksPageContext } from "../useTasksPageContext"
 
 export const AllTasksList = () => {
   const { state } = useTasksPageContext()
@@ -13,7 +13,12 @@ export const AllTasksList = () => {
     <ul>
       {items &&
         items.map(item => (
-          <Li key={item.id} onClick={() => push(item.url)} size="big" link>
+          <Li
+            key={item.id}
+            onClick={() => push(item.url, { ...item })}
+            size="big"
+            link
+          >
             {item.closingTime ? (
               <Row>
                 <Text icon="ok">Выполнено за 12д 14ч</Text>

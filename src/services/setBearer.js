@@ -1,8 +1,8 @@
 export const setBearer = () => {
-  const token = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData")).token
-    : ""
-  return {
-    Authorization: `Bearer ${token}`
+  if (localStorage.getItem("tokenData")) {
+    const { token = "" } = JSON.parse(localStorage.getItem("tokenData"))
+    return {
+      Authorization: `Bearer ${token}`
+    }
   }
 }

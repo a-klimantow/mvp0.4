@@ -1,7 +1,7 @@
 import React from "react"
 
 import { TabMenu } from "components"
-import { useTasksPageContext } from "./useTasksPageContext"
+import { useTasksPageContext } from "../useTasksPageContext"
 
 export const AllTabMenu = () => {
   const { state, changeTab } = useTasksPageContext()
