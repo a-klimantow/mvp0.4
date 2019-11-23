@@ -12,7 +12,7 @@ export const App = () => (
         <Route path="/login/" component={Login} />
         <Route path="/">
           <Layout>
-            <Route path="/tasks/" component={TasksPage} />
+            <Route path="/tasks" component={TasksPage} />
             <Route path="/objects/" render={() => <>obj</>} />
             <Route
               path="/user"

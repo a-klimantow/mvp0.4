@@ -8,7 +8,9 @@ export const TabMenu = styled.div`
   margin-top: -12px;
   margin-bottom: 24px;
 
-  button {
+  a {
+    display: block;
+    padding: 10px 16px;
     border: none;
     border-radius: 0;
     position: relative;
@@ -30,7 +32,7 @@ export const TabMenu = styled.div`
     }
   }
 
-  button.active {
+  a.active {
     color: ${p => p.theme.colors.primary};
     &::after {
       width: 100%;

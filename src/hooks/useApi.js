@@ -2,12 +2,15 @@ import axios from "axios"
 import { useHistory } from "react-router-dom"
 import { saveUserData, setBearer, getTokenData } from "services"
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
+
+axios.defaults.headers.get["Authorization"] = `Bearer ${
+  JSON.parse(localStorage.getItem("tokenData")).token
+}`
 
 export const useApi = () => {
   const { push } = useHistory()
 
-  // authorization
+
   const auth = data =>
     axios
       .post("ManagingFirmUsers/auth", data)
@@ -47,4 +50,9 @@ export const useApi = () => {
       })
 
   return { auth, logout, getData }
+}
+
+export const useAxios = (method = "GET", url, data) => {
+  const api = axios({ method, url, data })
+  return api
 }

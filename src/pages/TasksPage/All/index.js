@@ -1,39 +1,58 @@
-import React, { useEffect } from "react"
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react"
+import { Link, useHistory } from "react-router-dom"
 
-import { useApi } from "hooks"
-import { Paper, Title } from "components"
-import { useTasksPageContext } from "../useTasksPageContext"
-import { AllTabMenu } from "./AllTabMenu"
+import { Paper, Title, TabMenu } from "components"
 import { AllTasksList } from "./AllTasksList"
+import { method } from "services/api"
 
 export const All = () => {
-  const { state, updateState } = useTasksPageContext()
-  const { getData } = useApi()
+  const {
+    replace,
+    location: { pathname, search }
+  } = useHistory()
 
-  const { search } = state
+  const [state, setState] = useState({})
+  const [loading, setLoading] = useState(false)
 
+  // console.log(source)
   useEffect(() => {
     let mount = true
-    getData(`Tasks?GroupType=${search}`).then(res => {
-      if (mount) {
-        const items = res.items.map(item => ({
-          ...item,
-          url: `/tasks/${item.id}`
-        }))
-        updateState({ ...res, items })
-      }
-    })
+    setLoading(true)
+    method
+      .get(`Tasks${search}`)
+      .then(setState)
+      .finally(() => mount && setLoading(false))
     return () => (mount = false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
+
   return (
     <>
       <Title weight={300} mt="24px" mb="24px">
         Задачи
       </Title>
       <Paper>
-        <AllTabMenu />
-        <AllTasksList />
+        <TabMenu>
+          <Link
+            to={{ pathname, search: "GroupType=Executing" }}
+            className={search === "?GroupType=Executing" ? "active" : ""}
+          >
+            К исполнению
+          </Link>
+          <Link
+            to={{ pathname, search: "GroupType=Observing" }}
+            className={search === "?GroupType=Observing" ? "active" : ""}
+          >
+            Наблюдаемые
+          </Link>
+          <Link
+            to={{ pathname, search: "GroupType=Archived" }}
+            className={search === "?GroupType=Archived" ? "active" : ""}
+          >
+            Архив
+          </Link>
+        </TabMenu>
+        <AllTasksList items={state.items} loading={loading} />
       </Paper>
     </>
   )

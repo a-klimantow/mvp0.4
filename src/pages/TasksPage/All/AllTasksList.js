@@ -3,19 +3,17 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 
 import { Li, Row, Title, Text as text, TimeLine } from "components"
-import { useTasksPageContext } from "../useTasksPageContext"
 
-export const AllTasksList = () => {
-  const { state } = useTasksPageContext()
-  const { items } = state
+export const AllTasksList = ({ items, loading }) => {
   const { push } = useHistory()
+  if (!items || loading) return <>loading...</>
   return (
     <ul>
       {items &&
         items.map(item => (
           <Li
             key={item.id}
-            onClick={() => push(item.url, { ...item })}
+            onClick={() => push(`/tasks/${item.id}`, { ...item })}
             size="big"
             link
           >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 import left from "img/left.svg"
@@ -7,23 +7,11 @@ import logo from "img/logo.svg"
 import text from "img/text.svg"
 
 import { Input, Label, Button } from "components"
-import { useApi } from "hooks"
+import { useAuth } from "hooks"
 
 export const Login = () => {
-  const { auth } = useApi()
   const [{ email, password }, setInput] = useState({ email: "", password: "" })
-  const [loading, setLoading] = useState(false)
-  const [data, setData] = useState()
-
-  useEffect(() => {
-    let mount = true
-    if (data) {
-      setLoading(true)
-      auth(data).finally(() => mount && setLoading(false))
-    }
-    return () => (mount = false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  const { loading, setData } = useAuth()
 
   const handleChange = e => {
     setInput({ email, password, [e.currentTarget.name]: e.currentTarget.value })

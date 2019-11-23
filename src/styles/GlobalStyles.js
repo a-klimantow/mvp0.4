@@ -10,8 +10,9 @@ export const GlobalStyles = createGlobalStyle`
     color: ${p => p.theme.colors.body};
     background-color: ${p => p.theme.colors.bg};
     & > div#root {
-     min-height: 100vh;
-
+      min-height: 100vh;
+      overflow: hidden; 
+      position: relative;
     }
   }
 

@@ -8,7 +8,7 @@ const menuItems = [
   {
     icon: "task",
     name: "Задачи",
-    path: "/tasks"
+    path: { pathname: "/Tasks", search: "GroupType=Executing" }
   },
   { icon: "object", name: "Объекты", path: "/objects" },
   { icon: "username", name: "Настройки", path: "/user" },
@@ -39,7 +39,8 @@ export const Layout = ({ children }) => {
 
 const LayoutWrap = styled.div`
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 
   aside {
     width: 208px;
@@ -49,5 +50,6 @@ const LayoutWrap = styled.div`
   main {
     flex-grow: 1;
     padding: 0 56px;
+    overflow-y: scroll;
   }
 `
