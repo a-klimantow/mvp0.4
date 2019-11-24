@@ -9,7 +9,7 @@ import text from "img/text.svg"
 import { Input, Label, Button } from "components"
 import { useAuth } from "hooks"
 
-export const Login = () => {
+export const LoginPage = () => {
   const [{ email, password }, setInput] = useState({ email: "", password: "" })
   const { loading, setData } = useAuth()
 
@@ -23,7 +23,7 @@ export const Login = () => {
   }
 
   return (
-    <LoginPage>
+    <Login>
       <TitlePage as="h1" weight={300}>
         Вход в систему
       </TitlePage>
@@ -64,11 +64,11 @@ export const Login = () => {
         <img src={logo} alt="logo" />
         <img src={text} alt="Transparent Technology" />
       </LoginLogo>
-    </LoginPage>
+    </Login>
   )
 }
 
-const LoginPage = styled.main`
+const Login = styled.main`
   min-height: 100vh;
   display: flex;
   flex-direction: column;

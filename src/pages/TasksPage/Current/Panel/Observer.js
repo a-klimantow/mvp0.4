@@ -1,11 +1,8 @@
 import React from "react"
 
 import { Block, Input } from "components"
-import { useTasksPageContext } from "../../useTasksPageContext"
 
-export const Observer = () => {
-  const { state } = useTasksPageContext()
-  const { perpetrator } = state
+export const Observer = ({ perpetrator }) => {
   return (
     <Block mb="24px">
       <Input

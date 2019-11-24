@@ -1,10 +1,9 @@
 import React from "react"
 
 import { Title, Text, TimeLine, Row, Block } from "components"
-import { useTasksPageContext } from "../useTasksPageContext"
 
-export const Header = () => {
-  const { state } = useTasksPageContext()
+export const Header = ({ state }) => {
+  const { currentStage } = state
   return (
     <Block mt="24px" mb="24px">
       {state.closingTime ? (
@@ -14,7 +13,7 @@ export const Header = () => {
       ) : (
         <>
           <Title weight={300} mb="8px">
-            {state.currentStageName}
+            {state.currentStageName || currentStage.name}
           </Title>
           <Text>{state.name}</Text>
         </>

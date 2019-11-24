@@ -7,16 +7,13 @@ import { Observer } from "./Observer"
 import { ChooseExecutorAndNotify } from "./ChooseExecutorAndNotify"
 // import { ChooseExecutorAndSwitch } from "./ChooseExecutorAndSwitch"
 
-export const Panel = () => {
-  const { state, updateState } = useTasksPageContext()
-  const { userOperatingStatus, currentStage } = state
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => updateState({ userOperatingStatus: null }), [])
+export const Panel = ({ state }) => {
+  const { userOperatingStatus, currentStage, perpetrator } = state
 
   if (state.closingTime) return null
 
-  if (userOperatingStatus === "Observer") return <Observer />
+  if (userOperatingStatus === "Observer")
+    return <Observer perpetrator={perpetrator} />
   if (userOperatingStatus === "Executor") {
     switch (currentStage.action) {
       case "ChooseExecutorAndNotify":

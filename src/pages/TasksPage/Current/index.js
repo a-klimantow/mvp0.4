@@ -1,29 +1,25 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 
-import { useApi } from "hooks"
+import { method } from "services/api"
 import { Row, Paper, Grid } from "components"
-import { useTasksPageContext } from "../useTasksPageContext"
 import { Header } from "./Header"
 import { Panel } from "./Panel"
 import { Comments } from "./Comments"
 
 export const Current = () => {
-  const { getData } = useApi()
-  const { state: localState } = useLocation()
+  const location = useLocation()
   const { taskId } = useParams()
-  const { state, updateState } = useTasksPageContext()
+  const [state, setState] = useState({ ...location.state })
   useEffect(() => {
-    updateState(localState)
-    getData(`Tasks/${taskId}`).then(updateState)
+    method(`Tasks/${taskId}`).then(setState)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // console.log(state)
+  console.log(state)
   return (
     <>
-      <Header />
-      <Panel />
+      <Header state={state} />
+      <Panel state={state} />
       <Row>
         <Grid>
           <div className="left">

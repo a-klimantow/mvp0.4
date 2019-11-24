@@ -1,0 +1,20 @@
+export default new Map([
+  ["Город", "city"],
+  ["Район", "district"],
+  ["Индекс", "index"],
+  ["Количество подъездов", "numberOfEntrances"],
+  ["Количество этажей", "numberOfFloors"],
+  ["Наличие лифта", "isThereElevator"],
+  ["Количество квартир", "numberOfApartments"],
+  ["Общая площадь жилых помещений", "totalLivingArea"],
+  ["Площадь нежилых помещений", "areaOfNonResidential"],
+  ["Придомовая площадь", "houseArea"],
+  ["Общая площадь", "totalArea"],
+  ["Год постройки", "constructionDate"],
+  ["Тип прибора", "type"],
+  ["Серийный номер", "serialNumber"],
+  ["Дата ввода в эксплуатацию", "commercialAccountingDate"],
+  ["Дата поверки прибора", "lastCheckingDate"],
+  ["Дата следующей поверки прибора", "futureCheckingDate"],
+  ["Диаметр", "diameter"]
+])

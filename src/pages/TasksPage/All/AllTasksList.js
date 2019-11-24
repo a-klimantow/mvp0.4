@@ -16,6 +16,7 @@ export const AllTasksList = ({ items, loading }) => {
             onClick={() => push(`/tasks/${item.id}`, { ...item })}
             size="big"
             link
+            column
           >
             {item.closingTime ? (
               <Row>
@@ -38,7 +39,7 @@ export const AllTasksList = ({ items, loading }) => {
               </Row>
             ) : (
               <Row mb="8px">
-                <Title as="h4" weight={600} mr="auto">
+                <Title as="h4" weight={600} mr="auto" data-hover>
                   {item.currentStageName}
                 </Title>
                 <Text>{item.name}</Text>
@@ -53,7 +54,7 @@ export const AllTasksList = ({ items, loading }) => {
               </Row>
             )}
             <Row>
-              <Text icon={item.device.type} iconColor={item.device.resource}>
+              <Text icon={item.device.resource || "resource_device"}>
                 {item.device.model}
               </Text>
               <Text view="secondary" ml="4px" mr="20px">

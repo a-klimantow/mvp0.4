@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom"
 import { saveUserData, setBearer, getTokenData } from "services"
 
 
-axios.defaults.headers.get["Authorization"] = `Bearer ${
-  JSON.parse(localStorage.getItem("tokenData")).token
-}`
+// axios.defaults.headers.get["Authorization"] = `Bearer ${
+//   JSON.parse(localStorage.getItem("tokenData")).token
+// }`
 
 export const useApi = () => {
   const { push } = useHistory()

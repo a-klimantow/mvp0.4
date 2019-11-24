@@ -5,10 +5,10 @@ import t from "prop-types"
 import { Icon } from "components"
 import { margin } from "styles"
 
-export const Text = ({ children, icon, iconColor, ...props }) => {
+export const Text = ({ children, icon, ...props }) => {
   return (
     <Span {...props}>
-      {icon && <Icon type={icon} fill={iconColor} />}
+      {icon && <Icon type={icon} />}
       {children}
     </Span>
   )
