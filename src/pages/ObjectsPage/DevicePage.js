@@ -6,7 +6,7 @@ import { ListInfo } from "./ListInfo"
 import { ListDevices } from "./ListDevices"
 
 const titles = [
-  // "Тип прибора",
+  "Тип прибора",
   "Серийный номер",
   "Дата ввода в эксплуатацию",
   "Дата поверки прибора",
@@ -14,22 +14,21 @@ const titles = [
   "Диаметр"
 ]
 
-export const DevicePage = ({ match, location }) => {
-  console.log("location", location.state)
-  const [state, setState] = useState({ ...location.state })
-  const { device } = state
+export const DevicePage = ({ match }) => {
+  const [state, setState] = useState({})
+  const { device = {} } = state
+  const { futureCheckingDate } = device
   const { params } = match
+
+  console.log("device", state)
   const dataListInfo = {
-    state: state.futureCheckingDate,
+    state: device,
     setState,
     url: `HousingStocks/${params.objectId}/Devices/${params.deviceId}`,
-    index: state.device,
+    index: futureCheckingDate,
     titles
   }
 
-  useEffect(() => {
-    setState({ ...state, ...location.state })
-  }, [params])
   return (
     <>
       {device ? (

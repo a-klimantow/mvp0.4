@@ -20,8 +20,8 @@ const titles = [
   "Год постройки"
 ]
 
-export const ObjectCurrentPage = ({ match, location }) => {
-  const [state, setState] = useState({ ...location.state })
+export const ObjectCurrentPage = ({ match }) => {
+  const [state, setState] = useState({})
   const { street, number } = state
 
   const dataListInfo = {
