@@ -3,7 +3,7 @@ import React from "react"
 import { Title, Text, TimeLine, Row, Block } from "components"
 
 export const Header = ({ state }) => {
-  const { currentStage } = state
+  const { currentStage, expectedCompletionTime, creationTime } = state
   return (
     <Block mt="24px" mb="24px">
       {state.closingTime ? (
@@ -18,10 +18,7 @@ export const Header = ({ state }) => {
           <Text>{state.name}</Text>
         </>
       )}
-      <TimeLine
-        start={state.creationTime}
-        finish={state.expectedCompletionTime}
-      />
+      <TimeLine time={{ expectedCompletionTime, creationTime }} />
 
       {state.creationTime ? null : <Text icon="timer">timer</Text>}
     </Block>

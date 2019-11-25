@@ -4,14 +4,7 @@ import styled from "styled-components"
 import { margin } from "styles"
 import { Icon } from "components"
 
-export const Title = ({ children, level, icon, ...props }) => (
-  <TitleWrap {...props}>
-    {icon && <Icon type={icon} />}
-    {children}
-  </TitleWrap>
-)
-
-const TitleWrap = styled.h1`
+export const Title = styled.h1`
   ${margin};
   color: ${p => p.theme.colors.title};
   font-weight: ${p => p.weight || 400};

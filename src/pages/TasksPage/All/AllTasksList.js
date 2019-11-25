@@ -2,76 +2,116 @@ import React from "react"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 
-import { Li, Row, Title, Text as text, TimeLine } from "components"
-import { getFormattedDate } from "services/date"
+import { Row, ClousingTime, TimeLine } from "components"
+import { hover } from "styles"
+import { useTextWithIcon } from "hooks"
 
 export const AllTasksList = ({ items, loading }) => {
   const { push } = useHistory()
   if (!items || loading) return <>loading...</>
+
   return (
     <ul>
-      {items &&
-        items.map(item => (
-          <Li
-            key={item.id}
-            onClick={() => push(`/tasks/${item.id}`, { ...item })}
-            size="big"
-            link
-            column
-          >
-            {item.closingTime ? (
-              <Row>
-                <Text icon="ok">Выполнено за 12д 14ч</Text>
-              </Row>
-            ) : item.isResponsible ? (
-              <TimeLine
-                start={item.creationTime}
-                finish={item.expectedCompletionTime}
-              />
-            ) : null}
-            {item.closingTime ? (
-              <Row>
-                <Title as="h4" weight={600} mr="auto">
-                  {item.name}
-                </Title>
-              </Row>
-            ) : (
-              <Row>
-                <Title as="h4" weight={600} mr="auto" data-hover>
-                  {item.currentStageName}
-                </Title>
-                <Text>{item.name}</Text>
-              </Row>
-            )}
-            {item.closingTime ? null : (
-              <Row mb="16px">
-                <Text icon="timer">
-                  Время на этап: timer (до{" "}
-                  {getFormattedDate(item.expectedCompletionTime)})
-                </Text>
-              </Row>
-            )}
-            <Row>
-              <Text icon={item.device.resource || "resource_device"}>
-                {item.device.model}
-              </Text>
-              <Text view="secondary" ml="4px" mr="20px">
-                ({item.device.serialNumber})
-              </Text>
-              <Text icon="map">{item.address}</Text>
-              <Text icon="calendar" view="secondary" ml="auto" mr="20px">
-                {getFormattedDate(item.creationTime)}
-              </Text>
-              <Text icon="number" view="secondary">
-                {item.number}
-              </Text>
-            </Row>
-          </Li>
-        ))}
+      {items.map(({ id, url, ...props }) => (
+        <TasksListItem key={id} routeTo={() => push(url, props)} {...props} />
+      ))}
     </ul>
   )
 }
 
-const Text = styled(text).attrs({
-  size: "small"
-})``
+const color = "caption"
+
+const titleProps = { weight: 600, as: "h4", "data-hover": true }
+
+const TasksListItem = ({
+  creationTime,
+  closingTime,
+  expectedCompletionTime,
+  address,
+  number,
+  name,
+  currentStageName,
+  device = {},
+  isResponsible,
+  perpetrator = {},
+  routeTo
+}) => {
+  const Title = useTextWithIcon({
+    title: currentStageName || name,
+    ...titleProps
+  })
+  const Address = useTextWithIcon({ text: address, icon: "map" })
+  const TaskNumber = useTextWithIcon({
+    text: number,
+    icon: "number",
+    color
+  })
+  const Device = useTextWithIcon({ device })
+  const CreationTime = useTextWithIcon({
+    icon: "calendar",
+    date: { value: creationTime, format: "with_time" },
+    color
+  })
+  const User = useTextWithIcon({
+    icon: "username",
+    text: !perpetrator || perpetrator.name
+  })
+  const Timer = useTextWithIcon({
+    icon: "timer",
+    date: { value: expectedCompletionTime },
+    text: "timer"
+  })
+
+  if (closingTime)
+    return (
+      <ListItemWrap onClick={routeTo}>
+        <ClousingTime data={closingTime} />
+        {Title}
+        <Row spaces={3} autoAt={2}>
+          {Device}
+          {Address}
+          {CreationTime}
+          {TaskNumber}
+        </Row>
+      </ListItemWrap>
+    )
+
+  return (
+    <ListItemWrap onClick={routeTo}>
+      {isResponsible && (
+        <TimeLine time={{ expectedCompletionTime, creationTime }} />
+      )}
+      {Title}
+      <Row spaces={3} className="mb_16">
+        {Timer}
+        {!!~window.location.search.search(/Observing/) && User}
+      </Row>
+      <Row spaces={3} autoAt={2}>
+        {Device}
+        {Address}
+        {CreationTime}
+        {TaskNumber}
+      </Row>
+    </ListItemWrap>
+  )
+}
+
+const ListItemWrap = styled.li`
+  ${hover}
+  padding: 24px 0;
+  border-bottom: 1px solid;
+  border-color: ${p => p.theme.colors.border};
+  cursor: pointer;
+  & > *:not(:last-child) {
+    margin-bottom: ${p => p.theme.spaces[8]}px;
+  }
+  span {
+    font-size: 12px;
+  }
+  span.closingTime {
+    margin-bottom: 8px;
+  }
+  .mb_16 {
+    margin-bottom: 16px;
+  }
+`

@@ -1,10 +1,18 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-import { margin } from "styles"
-
-export const Row = styled.div.attrs(p => ({ "data-element-row": true }))`
-  ${margin};
+export const Row = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  & > *:not(:last-child) {
+    margin-right: ${p => p.theme.spaces[p.spaces]}px;
+  }
+
+  ${p =>
+    p.autoAt &&
+    css`
+      > *:nth-child(${p.autoAt}) {
+        margin-right: auto;
+      }
+    `}
 `

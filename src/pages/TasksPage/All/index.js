@@ -1,30 +1,35 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 import { Paper, Title, TabMenu } from "components"
 import { AllTasksList } from "./AllTasksList"
 import { method } from "services/api"
+import { useCreateComponent } from "hooks"
 
 export const All = () => {
-  const {
-    replace,
-    location: { pathname, search }
-  } = useHistory()
-
+  const { pathname, search: tab } = useLocation()
   const [state, setState] = useState({})
   const [loading, setLoading] = useState(false)
   const { executingTasksCount, observingTasksCount } = state
-  console.log(state)
+  const Test = useCreateComponent({
+    Type: "Text",
+    props: { children: "hello" }
+  })
   useEffect(() => {
     let mount = true
     setLoading(true)
     method
-      .get(`Tasks${search}`)
-      .then(setState)
+      .get(`Tasks${tab}`)
+      .then(data => {
+        const newData = data.items.map(item => ({
+          ...item,
+          url: `/tasks/${item.id}`
+        }))
+        setState(currentState => ({ ...currentState, ...data, items: newData }))
+      })
       .finally(() => mount && setLoading(false))
     return () => (mount = false)
-  }, [search])
+  }, [tab])
 
   return (
     <>
@@ -35,19 +40,19 @@ export const All = () => {
         <TabMenu>
           <Link
             to={{ pathname, search: "GroupType=Executing" }}
-            className={search === "?GroupType=Executing" ? "active" : ""}
+            className={tab === "?GroupType=Executing" ? "active" : ""}
           >
             К исполнению {!!executingTasksCount && `(${executingTasksCount})`}
           </Link>
           <Link
             to={{ pathname, search: "GroupType=Observing" }}
-            className={search === "?GroupType=Observing" ? "active" : ""}
+            className={tab === "?GroupType=Observing" ? "active" : ""}
           >
             Наблюдаемые {!!observingTasksCount && `(${observingTasksCount})`}
           </Link>
           <Link
             to={{ pathname, search: "GroupType=Archived" }}
-            className={search === "?GroupType=Archived" ? "active" : ""}
+            className={tab === "?GroupType=Archived" ? "active" : ""}
           >
             Архив
           </Link>

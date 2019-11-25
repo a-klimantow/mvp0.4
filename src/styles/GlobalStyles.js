@@ -70,19 +70,15 @@ export const GlobalStyles = createGlobalStyle`
     color: red;
   }
 
-  div[data-element-row] {
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-
   span {
     font-size: 14px;  
-    line-higth: 22px;
-    display: inline-block
+    line-height: 22px;
+    display: flex;
+    align-items: center;
   
-  &[data-size=small] {
-    font-size: 12px;
-    line-height: 20px;
+    &[data-size=small] {
+      font-size: 12px;
+      line-height: 20px;
+    }
   }
 `

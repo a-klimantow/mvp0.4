@@ -6,26 +6,32 @@ import { getFormattedDate } from "services/date"
 const setBgColor = timeline =>
   timeline < 60 ? "success" : timeline < 80 ? "warning" : "error"
 
-export const TimeLine = ({ start, finish, ...props }) => {
-  const startDate = new Date(start)
-  const finishDate = new Date(finish)
+export const TimeLine = ({ time, ...props }) => {
+  const startDate = new Date(time.creationTime)
+  const finishDate = new Date(time.expectedCompletionTime)
 
   let percent = ((Date.now() - startDate) / (finishDate - startDate)) * 100
   if (percent >= 100) percent = 100
 
-  const deadline = Date.now() > new Date(finish)
+  const deadline = Date.now() > new Date(time.expectedCompletionTime)
 
   return (
     <TimeLineWrap data-element-row timeline={percent} {...props}>
       <div className="line"></div>
       <span data-element-text data-size="small">
-        {deadline ? "Время вышло" : `timer (до ${getFormattedDate(finish)})`}
+        {deadline
+          ? "Время вышло"
+          : `timer (до ${getFormattedDate({
+              value: time.expectedCompletionTime
+            })})`}
       </span>
     </TimeLineWrap>
   )
 }
 
 const TimeLineWrap = styled.div`
+  display: flex;
+  align-items: center;
   > .line {
     flex-grow: 1;
     height: 6px;
