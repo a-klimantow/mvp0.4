@@ -22,13 +22,12 @@ export const Current = () => {
       <Panel state={state} />
       <Row>
         <Grid>
-          <div className="left">
+          <div>
             <Comments comments={state.comments} />
             <Paper>list</Paper>
           </div>
-          <div className="right">
-            <Paper />
-          </div>
+
+          <Paper />
         </Grid>
       </Row>
     </>

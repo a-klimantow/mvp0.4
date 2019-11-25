@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 
 import { Li, Row, Title, Text as text, TimeLine } from "components"
+import { getFormattedDate } from "services/date"
 
 export const AllTasksList = ({ items, loading }) => {
   const { push } = useHistory()
@@ -23,22 +24,19 @@ export const AllTasksList = ({ items, loading }) => {
                 <Text icon="ok">Выполнено за 12д 14ч</Text>
               </Row>
             ) : item.isResponsible ? (
-              <Row mb="8px">
-                <TimeLine
-                  start={item.creationTime}
-                  finish={item.expectedCompletionTime}
-                />
-                <Text ml="8px">time</Text>
-              </Row>
+              <TimeLine
+                start={item.creationTime}
+                finish={item.expectedCompletionTime}
+              />
             ) : null}
             {item.closingTime ? (
-              <Row mb="8px">
+              <Row>
                 <Title as="h4" weight={600} mr="auto">
                   {item.name}
                 </Title>
               </Row>
             ) : (
-              <Row mb="8px">
+              <Row>
                 <Title as="h4" weight={600} mr="auto" data-hover>
                   {item.currentStageName}
                 </Title>
@@ -49,7 +47,7 @@ export const AllTasksList = ({ items, loading }) => {
               <Row mb="16px">
                 <Text icon="timer">
                   Время на этап: timer (до{" "}
-                  {new Date(item.expectedCompletionTime).toLocaleDateString()})
+                  {getFormattedDate(item.expectedCompletionTime)})
                 </Text>
               </Row>
             )}
@@ -62,7 +60,7 @@ export const AllTasksList = ({ items, loading }) => {
               </Text>
               <Text icon="map">{item.address}</Text>
               <Text icon="calendar" view="secondary" ml="auto" mr="20px">
-                data
+                {getFormattedDate(item.creationTime)}
               </Text>
               <Text icon="number" view="secondary">
                 {item.number}

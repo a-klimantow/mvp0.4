@@ -18,15 +18,11 @@ export const Header = ({ state }) => {
           <Text>{state.name}</Text>
         </>
       )}
-      <Row>
-        <TimeLine
-          start={state.creationTime}
-          finish={state.expectedCompletionTime}
-        />
-        <Text size="small" ml="8px">
-          time
-        </Text>
-      </Row>
+      <TimeLine
+        start={state.creationTime}
+        finish={state.expectedCompletionTime}
+      />
+
       {state.creationTime ? null : <Text icon="timer">timer</Text>}
     </Block>
   )

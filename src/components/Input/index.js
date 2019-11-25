@@ -11,7 +11,11 @@ export const Input = ({ type, ...props }) => {
   if (type === "password") {
     return (
       <PassWrap>
-        <InputWrap type={isPass ? "password" : "text"} {...props} />
+        <InputWrap
+          type={isPass ? "password" : "text"}
+          isPass={true}
+          {...props}
+        />
         <Icon type={isPass ? "view_off" : "view_on"} onClick={toggle} />
       </PassWrap>
     )
@@ -21,6 +25,9 @@ export const Input = ({ type, ...props }) => {
 
 const InputWrap = styled.input`
   ${size}
+  ${p =>
+    p.isPass &&
+    "padding-right: 30px"}
   transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   :not(:disabled):hover,
   :focus {
@@ -30,13 +37,14 @@ const InputWrap = styled.input`
     box-shadow: 0 0 0 2px ${p => p.theme.colors.secondary};
   }
 `
+
 const PassWrap = styled.div`
   position: relative;
 
   svg {
     position: absolute;
     top: 50%;
-    right: 4px;
+    right: 10px;
     transform: translateY(-50%);
     cursor: pointer;
     :hover {

@@ -14,8 +14,8 @@ export const All = () => {
 
   const [state, setState] = useState({})
   const [loading, setLoading] = useState(false)
-
-  // console.log(source)
+  const { executingTasksCount, observingTasksCount } = state
+  console.log(state)
   useEffect(() => {
     let mount = true
     setLoading(true)
@@ -37,13 +37,13 @@ export const All = () => {
             to={{ pathname, search: "GroupType=Executing" }}
             className={search === "?GroupType=Executing" ? "active" : ""}
           >
-            К исполнению
+            К исполнению {!!executingTasksCount && `(${executingTasksCount})`}
           </Link>
           <Link
             to={{ pathname, search: "GroupType=Observing" }}
             className={search === "?GroupType=Observing" ? "active" : ""}
           >
-            Наблюдаемые
+            Наблюдаемые {!!observingTasksCount && `(${observingTasksCount})`}
           </Link>
           <Link
             to={{ pathname, search: "GroupType=Archived" }}
