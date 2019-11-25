@@ -62,7 +62,7 @@ export const ListTasks = ({ data, loading, tab }) => {
                 mr="16px"
               />
 
-              {tab === "Observing" && <User perpetrator={item.perpetrator} />}
+              {tab === "Observing" && <User perpetrator={item.perpetrator.name} />}
             </Row>
           )}
           <Row>

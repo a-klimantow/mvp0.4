@@ -30,7 +30,7 @@ export const StageItem = ({
     <div className="title">{name}</div>
     {status === "Done" && (
       <div className="text">
-        {perpetrator} {dateFormat(closingTime, "DD.MM.YY HH:mm")}
+        {perpetrator.name} {dateFormat(closingTime, "DD.MM.YY HH:mm")}
       </div>
     )}
     {children}
