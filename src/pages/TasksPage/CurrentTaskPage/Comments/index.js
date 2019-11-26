@@ -1,11 +1,12 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import styled from "styled-components"
 
-import { Paper, Title, Row, Input, Button, Avatar } from "components"
+import { Paper, Title, Row, Input, Button, Avatar, TextArea } from "components"
 
 export const Comments = ({ comments = [], edit, create }) => {
   const [comment, setComment] = useState("")
-  console.log(comments)
+  const textarea = useRef()
+  console.log(textarea.current)
   return (
     <Paper mb="24px">
       <Title as="h3">Комментарии</Title>
@@ -17,8 +18,8 @@ export const Comments = ({ comments = [], edit, create }) => {
       <Editor>
         <Avatar />
         <div className="input">
-          <Input value={comment} onChange={e => setComment(e.target.value)} />
-          <Button onClick={() => console.log("click")}>
+          <TextArea size="big" ref={textarea} />
+          <Button onClick={() => (textarea.current.value = "")}>
             Добавить комментарий
           </Button>
         </div>
@@ -27,7 +28,7 @@ export const Comments = ({ comments = [], edit, create }) => {
   )
 }
 
-const Editor = styled(Row)`
+const Editor = styled.div`
   align-items: flex-start;
   div.input {
     flex-grow: 1;

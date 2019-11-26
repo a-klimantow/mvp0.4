@@ -8,7 +8,7 @@ const menuItems = [
   {
     icon: "task",
     name: "Задачи",
-    path: { pathname: "/Tasks", search: "GroupType=Executing" }
+    path: "/tasks"
   },
   { icon: "object", name: "Объекты", path: "/objects" },
   { icon: "username", name: "Настройки", path: "/user" },

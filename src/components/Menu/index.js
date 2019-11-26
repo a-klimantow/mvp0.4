@@ -2,7 +2,7 @@ import React from "react"
 import { NavLink } from "react-router-dom"
 import styled from "styled-components"
 
-import { Text, Icon } from "components"
+import { Icon } from "components"
 
 export const Menu = ({ menuItems }) => (
   <Nav>
@@ -11,7 +11,7 @@ export const Menu = ({ menuItems }) => (
         <li key={path}>
           <NavLink to={path} exact={isExact} onClick={logout}>
             <Icon type={icon} />
-            <Text>{name}</Text>
+            {name}
           </NavLink>
         </li>
       ))}

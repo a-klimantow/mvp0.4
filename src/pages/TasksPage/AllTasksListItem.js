@@ -1,29 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import { useHistory } from "react-router-dom"
-
 import { Row, ClousingTime, TimeLine } from "components"
 import { hover } from "styles"
 import { useTextWithIcon } from "hooks"
 
-export const AllTasksList = ({ items, loading }) => {
-  const { push } = useHistory()
-  if (!items || loading) return <>loading...</>
-
-  return (
-    <ul>
-      {items.map(({ id, url, ...props }) => (
-        <TasksListItem key={id} routeTo={() => push(url, props)} {...props} />
-      ))}
-    </ul>
-  )
-}
-
 const color = "caption"
-
 const titleProps = { weight: 600, as: "h4", "data-hover": true }
 
-const TasksListItem = ({
+export const AllTasksListItem = ({
   creationTime,
   closingTime,
   expectedCompletionTime,
@@ -34,12 +18,13 @@ const TasksListItem = ({
   device = {},
   isResponsible,
   perpetrator = {},
-  routeTo
+  onClick
 }) => {
   const Title = useTextWithIcon({
     title: currentStageName || name,
     ...titleProps
   })
+  
   const Address = useTextWithIcon({ text: address, icon: "map" })
   const TaskNumber = useTextWithIcon({
     text: number,
@@ -64,9 +49,10 @@ const TasksListItem = ({
 
   if (closingTime)
     return (
-      <ListItemWrap onClick={routeTo}>
+      <ListItemWrap onClick={onClick}>
         <ClousingTime data={closingTime} />
         {Title}
+        {/* {TitlePage} */}
         <Row spaces={3} autoAt={2}>
           {Device}
           {Address}
@@ -77,7 +63,7 @@ const TasksListItem = ({
     )
 
   return (
-    <ListItemWrap onClick={routeTo}>
+    <ListItemWrap onClick={onClick}>
       {isResponsible && (
         <TimeLine time={{ expectedCompletionTime, creationTime }} />
       )}

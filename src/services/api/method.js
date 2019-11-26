@@ -1,4 +1,5 @@
 import axios from "axios"
+import { correctedDefault, correctedForAllTasksPage } from "../correctedData"
 
 const setBearer = () => {
   if (localStorage.getItem("tokenData")) {
@@ -22,16 +23,14 @@ const createHeaders = res => ({
   }
 })
 
-method.interceptors.request.use(createHeaders, err => {
-  console.log("from request", err)
-  Promise.reject(err)
-})
+method.interceptors.request.use(createHeaders, Promise.reject)
 
 method.interceptors.response.use(
   res => {
-    const { data } = res
-    const { successResponse } = data
-    return successResponse
+    // if (window.location.pathname === "/tasks") {
+    //   return correctedForAllTasksPage(res)
+    // }
+    return correctedDefault(res)
   },
   err => {
     if (err.response.status === 401) {

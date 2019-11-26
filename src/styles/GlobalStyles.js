@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components"
+import { size } from "styles"
 
 export const GlobalStyles = createGlobalStyle`
   body { 
@@ -9,11 +10,6 @@ export const GlobalStyles = createGlobalStyle`
     line-height: 22px;
     color: ${p => p.theme.colors.body};
     background-color: ${p => p.theme.colors.bg};
-    & > div#root {
-      min-height: 100vh;
-      overflow: hidden; 
-      position: relative;
-    }
   }
 
   * {
@@ -30,22 +26,22 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
     transition: color .3s ease-in-out;
-    :hover, &.active {
+    &:hover, &.active {
       color: ${p => p.theme.colors.primary};
     }
   }
 
-  input, button {
+  input, button, textarea {
     outline: none;
     color: inherit;
     font: inherit;
     border: 1px solid;
-    border-color: ${p => p.theme.colors.border};
     border-radius: 4px;
     display: flex;
     align-items: center;
     padding: 0 16px;
     min-height: 32px;
+    border-color: ${p => p.theme.colors.border};
     &:disabled {
       background-color: ${p => p.theme.colors.bg_disabled};
       color: ${p => p.theme.colors.disabled};
@@ -53,7 +49,8 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  input {
+  input, textarea {
+
     width: 100%;
     &::placeholder {
       color: ${p => p.theme.colors.disabled};

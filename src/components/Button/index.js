@@ -7,7 +7,8 @@ import { Text, Icon } from "components"
 export const Button = ({ children, icon, loading, ...props }) => {
   return (
     <ButtonWrap {...props}>
-      <Text icon={icon}>{children}</Text>
+      {icon && <Icon type={icon} />}
+      {children}
       {loading && (
         <LoadingBlock onClick={e => e.preventDefault()}>
           <IconLoading />
@@ -61,7 +62,7 @@ const ButtonWrap = styled.button`
 `
 
 const IconLoading = styled(Icon).attrs({
-  type: "map"
+  type: "company"
 })`
   position: absolute;
   top: 4px;

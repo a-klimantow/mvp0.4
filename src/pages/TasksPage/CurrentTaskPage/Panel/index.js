@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 
 // import { Block } from "components"
-import { useTasksPageContext } from "../../useTasksPageContext"
 import { Observer } from "./Observer"
 // import { ChooseExecutor } from "./ChooseExecutor"
 import { ChooseExecutorAndNotify } from "./ChooseExecutorAndNotify"
