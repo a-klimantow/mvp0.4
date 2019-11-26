@@ -9,8 +9,10 @@ const responseNotification = (type, message, description) => {
   })
 }
 
-// const server = process.env.NODE_ENV !== "development" ? "staging" : "production"
-const server = "production"
+const server =
+  process.env.NODE_ENV === "development"
+    ? "staging"
+    : process.env.REACT_APP_ENVIRONMENT
 
 axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
@@ -138,7 +140,7 @@ export const useAxios = () => {
               responseNotification(
                 "error",
                 "Ошибка",
-                'Не удалось сохранить данные'
+                "Не удалось сохранить данные"
               )
               return Promise.reject()
             }

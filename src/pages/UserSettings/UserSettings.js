@@ -14,9 +14,9 @@ const settingPageElements = [
   { label: "Внутренний номер сотрудника", value: "number " },
   { label: "Адрес электронной почты (логин)", value: "email" },
   { label: "Контактный номер", value: "cellphone" },
-  { label: "Роль в системе", className: "role" },
-  { label: "Введите пароль" },
-  { label: "Подтвердите пароль" }
+  { label: "Роль в системе", className: "role", admin: true },
+  { label: "Введите пароль", admin: true },
+  { label: "Подтвердите пароль", admin: true }
 ]
 
 export const UserSettings = () => {
@@ -29,6 +29,11 @@ export const UserSettings = () => {
   useEffectOnce(() => {
     get("ManagingFirmUsers/current").then(setState)
   })
+
+  const isAdmin =
+    JSON.parse(localStorage.getItem("roles"))[0] === "Администратор"
+
+  console.log(isAdmin)
 
   useEffect(() => {
     const { id, ...data } = putData
@@ -57,6 +62,47 @@ export const UserSettings = () => {
     setLoadign(true)
   }
 
+  const renderItems = isAdmin ? (
+    <>
+      {settingPageElements.map((el, i) => (
+        <div key={i} className={el.className}>
+          <Label>{el.label}</Label>
+          <Input
+            value={state[el.value]}
+            name={el.value}
+            onChange={inputHandleChange}
+          />
+        </div>
+      ))}
+      <div className="btn_group">
+        <Button
+          type="primary"
+          disabled={disabled}
+          onClick={handleClick}
+          loading={loading}
+        >
+          Сохранить
+        </Button>
+        <Button>Отмена</Button>
+      </div>
+    </>
+  ) : (
+    settingPageElements.map((el, i) => {
+      if (el.admin) return null
+      return (
+        <div key={i} className={el.className}>
+          <Label>{el.label}</Label>
+          <Input
+            value={state[el.value]}
+            name={el.value}
+            onChange={inputHandleChange}
+            disabled
+          />
+        </div>
+      )
+    })
+  )
+
   return (
     <>
       <Block m="16px 0 24px">
@@ -71,62 +117,8 @@ export const UserSettings = () => {
         {state.lastName} {state.firstName} {state.middleName}
       </Title>
       <GridSetting>
-        {settingPageElements.map((el, i) => (
-          <div key={i} className={el.className}>
-            <Label>{el.label}</Label>
-            <Input
-              value={state[el.value]}
-              name={el.value}
-              onChange={inputHandleChange}
-            />
-          </div>
-        ))}
-
-        {/* <div>
-          <Label>Фамилия</Label>
-          <Input value={state.lastName} />
-        </div>
-        <div>
-          <Label>Имя</Label>
-          <Input value={state.firstName} />
-        </div>
-        <div>
-          <Label>Отчество</Label>
-          <Input value={state.middleName} />
-        </div>
-        <div>
-          <Label>Отдел</Label>
-          <Input />
-        </div>
-        <div>
-          <Label>Должность</Label>
-          <Input />
-        </div>
-        <div>
-          <Label>Внутренний номер сотрудника</Label>
-          <Input />
-        </div>
-        <div>
-          <Label>Адрес электронной почты (логин)</Label>
-          <Input />
-        </div>
-        <div>
-          <Label>Контактный номер</Label>
-          <Input />
-        </div>
-        <div className="role">
-          <Label>Роль в системе</Label>
-          <Input />
-        </div>
-        <div>
-          <Label>Введите пароль</Label>
-          <Input.Password />
-        </div>
-        <div>
-          <Label>Подтвердите пароль</Label>
-          <Input.Password />
-        </div> */}
-        <div className="btn_group">
+        {renderItems}
+        {/* <div className="btn_group">
           <Button
             type="primary"
             disabled={disabled}
@@ -136,7 +128,7 @@ export const UserSettings = () => {
             Сохранить
           </Button>
           <Button>Отмена</Button>
-        </div>
+        </div> */}
       </GridSetting>
     </>
   )

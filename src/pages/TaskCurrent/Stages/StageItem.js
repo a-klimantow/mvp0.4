@@ -13,29 +13,32 @@ export const StageItem = ({
   closingTime,
   children,
   type
-}) => (
-  <StageEl status={status}>
-    {number < length - 1 && <Line />}
-    <IndexStage>
-      {status === "Done" ? (
-        <IconOk />
-      ) : type === "Switch" ? (
-        <IconSwitch />
-      ) : type === "Final" ? (
-        <IconFinish />
-      ) : (
-        number + 1
+}) => {
+  console.log('stage item')
+  return (
+    <StageEl status={status}>
+      {number < length - 1 && <Line />}
+      <IndexStage>
+        {status === "Done" ? (
+          <IconOk />
+        ) : type === "Switch" ? (
+          <IconSwitch />
+        ) : type === "Final" ? (
+          <IconFinish />
+        ) : (
+          number + 1
+        )}
+      </IndexStage>
+      <div className="title">{name}</div>
+      {status === "Done" && (
+        <div className="text">
+          {perpetrator} {dateFormat(closingTime, "DD.MM.YY HH:mm")}
+        </div>
       )}
-    </IndexStage>
-    <div className="title">{name}</div>
-    {status === "Done" && (
-      <div className="text">
-        {perpetrator} {dateFormat(closingTime, "DD.MM.YY HH:mm")}
-      </div>
-    )}
-    {children}
-  </StageEl>
-)
+      {children}
+    </StageEl>
+  )
+}
 
 const StageEl = styled.li`
   position: relative;

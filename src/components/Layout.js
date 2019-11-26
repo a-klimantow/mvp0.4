@@ -16,11 +16,11 @@ export const Layout = ({ children }) => {
     return <Redirect to="/login" />
   }
 
-  // if (pathname === "/") {
-  //   return (
-  //     <Redirect to={{ pathname: "/Tasks", search: "?GroupType=Executing" }} />
-  //   )
-  // }
+  if (pathname === "/") {
+    return (
+      <Redirect to='/tasks' />
+    )
+  }
   return (
     <LayoutAntStyle>
       <Sider theme="light" width={208}>
