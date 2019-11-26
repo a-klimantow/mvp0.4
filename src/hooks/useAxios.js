@@ -14,7 +14,7 @@ const server =
     ? "staging"
     : process.env.REACT_APP_ENVIRONMENT
 
-axios.defaults.baseURL = `https://transparent-${server}.herokuapp.com/api/`
+axios.defaults.baseURL = `https://transparent-production.herokuapp.com/api/`
 axios.defaults.headers["Content-Type"] = "application/json"
 
 const getTokenData = () =>
