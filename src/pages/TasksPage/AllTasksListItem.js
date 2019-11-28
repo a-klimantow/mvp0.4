@@ -24,7 +24,7 @@ export const AllTasksListItem = ({
     title: currentStageName || name,
     ...titleProps
   })
-  
+
   const Address = useTextWithIcon({ text: address, icon: "map" })
   const TaskNumber = useTextWithIcon({
     text: number,
@@ -52,8 +52,7 @@ export const AllTasksListItem = ({
       <ListItemWrap onClick={onClick}>
         <ClousingTime data={closingTime} />
         {Title}
-        {/* {TitlePage} */}
-        <Row spaces={3} autoAt={2}>
+        <Row grid="auto 1fr 1fr auto">
           {Device}
           {Address}
           {CreationTime}
@@ -68,11 +67,11 @@ export const AllTasksListItem = ({
         <TimeLine time={{ expectedCompletionTime, creationTime }} />
       )}
       {Title}
-      <Row spaces={3} className="mb_16">
+      <Row grid="auto 1fr">
         {Timer}
         {!!~window.location.search.search(/Observing/) && User}
       </Row>
-      <Row spaces={3} autoAt={2}>
+      <Row grid="auto 1fr 1fr auto">
         {Device}
         {Address}
         {CreationTime}
@@ -88,16 +87,14 @@ const ListItemWrap = styled.li`
   border-bottom: 1px solid;
   border-color: ${p => p.theme.colors.border};
   cursor: pointer;
-  & > *:not(:last-child) {
-    margin-bottom: ${p => p.theme.spaces[8]}px;
-  }
+  display: grid;
+  grid-row-gap: ${p => p.theme.spaces[2]}px;
   span {
     font-size: 12px;
   }
-  span.closingTime {
-    margin-bottom: 8px;
-  }
-  .mb_16 {
-    margin-bottom: 16px;
+  div:last-of-type {
+    *:nth-child(3) {
+      justify-self: end;
+    }
   }
 `

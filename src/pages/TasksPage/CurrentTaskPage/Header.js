@@ -3,9 +3,9 @@ import React from "react"
 import { Title, Text, TimeLine, Row, Block } from "components"
 
 export const Header = ({ state }) => {
-  const { currentStage, expectedCompletionTime, creationTime } = state
+  const { currentStage = {}, expectedCompletionTime, creationTime } = state
   return (
-    <Block mt="24px" mb="24px">
+    <div>
       {state.closingTime ? (
         <Title weight={300} mb="8px">
           {state.name}
@@ -13,7 +13,7 @@ export const Header = ({ state }) => {
       ) : (
         <>
           <Title weight={300} mb="8px">
-            {state.currentStageName || currentStage.name}
+            {currentStage.name || "Loading..."}
           </Title>
           <Text>{state.name}</Text>
         </>
@@ -21,6 +21,6 @@ export const Header = ({ state }) => {
       <TimeLine time={{ expectedCompletionTime, creationTime }} />
 
       {state.creationTime ? null : <Text icon="timer">timer</Text>}
-    </Block>
+    </div>
   )
 }

@@ -10,7 +10,7 @@ export const Button = ({ children, icon, loading, ...props }) => {
       {icon && <Icon type={icon} />}
       {children}
       {loading && (
-        <LoadingBlock onClick={e => e.preventDefault()}>
+        <LoadingBlock onClick={e => e.stopPropagation()}>
           <IconLoading />
         </LoadingBlock>
       )}
@@ -18,9 +18,8 @@ export const Button = ({ children, icon, loading, ...props }) => {
   )
 }
 
-const ButtonWrap = styled.button`
+const ButtonWrap = styled.button.attrs(p => ({ "data-size": p.size }))`
   ${margin};
-  ${size};
   cursor: pointer;
   width: ${p => p.block && "100%"};
   position: relative;
@@ -72,9 +71,10 @@ const IconLoading = styled(Icon).attrs({
 
 const LoadingBlock = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
   cursor: progress;
+  z-index: 10;
 `

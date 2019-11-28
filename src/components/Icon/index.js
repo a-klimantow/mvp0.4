@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import t from "prop-types"
 
 import icons from "./icons.json"
@@ -19,6 +19,15 @@ const Svg = styled.svg.attrs(p => ({
   width: 16px;
   height: 16px;
   fill: ${p => p.colorType};
+  ${p =>
+    p.hover &&
+    css`
+      transition: fill 0.3s ease-in-out;
+      cursor: pointer
+      &:hover {
+        fill: ${p => p.theme.colors[p.hover]};
+      }
+    `}
 `
 
 const Path = styled.path.attrs(p => ({

@@ -32,7 +32,9 @@ export const Layout = ({ children }) => {
         <Logo />
         <Menu menuItems={menuItems} />
       </aside>
-      <main>{children}</main>
+      <main>
+        {children}
+      </main>
     </LayoutWrap>
   )
 }
@@ -48,8 +50,12 @@ const LayoutWrap = styled.div`
   }
 
   main {
-    flex-grow: 1;
     padding: 0 56px;
     overflow-y: scroll;
+    flex-grow: 1;
+    min-height: 100vh;
+    display: grid;
+    grid-gap: 24px;
+    align-content: flex-start;
   }
 `

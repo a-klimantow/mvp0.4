@@ -45,7 +45,7 @@ export const AllTasksPage = () => {
 
   return (
     <>
-      <Title weight={300} mt="24px" mb="24px">
+      <Title weight={300} mt="24px">
         Задачи
       </Title>
       <Paper>

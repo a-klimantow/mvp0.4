@@ -23,19 +23,9 @@ export const Input = ({ type, ...props }) => {
   return <InputWrap type={type} {...props} />
 }
 
-const InputWrap = styled.input`
+const InputWrap = styled.input.attrs(p => ({ "data-size": p.size }))`
   ${size}
-  ${p =>
-    p.isPass &&
-    "padding-right: 30px"}
-  transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  :not(:disabled):hover,
-  :focus {
-    border-color: ${p => p.theme.colors.primary};
-  }
-  :focus {
-    box-shadow: 0 0 0 2px ${p => p.theme.colors.secondary};
-  }
+  ${p => p.isPass && "padding-right: 30px"}
 `
 
 const PassWrap = styled.div`

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import t from "prop-types"
 
-export const Text = styled.span`
+export const Text = styled.span.attrs(p => ({ "data-size": p.size }))`
   display: inline-flex;
   align-items: center;
   font-weight: ${p => p.weight};
@@ -24,7 +24,7 @@ Text.propTypes = {
   children: t.any,
   size: t.oneOf(["small", "normal"]),
   weight: t.oneOf([300, 400, 600]),
-  color: t.oneOf(["caption", "body"])
+  color: t.oneOf(["caption", "body", "disabled"])
 }
 
 Text.defaultProps = {

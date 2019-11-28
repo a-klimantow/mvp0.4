@@ -11,6 +11,7 @@ const setBearer = () => {
 export const method = axios.create()
 
 method.defaults.baseURL = process.env.REACT_APP_BASE_URL
+method.defaults.headers["Content-Type"] = "application/json"
 
 export const source = axios.CancelToken.source()
 
