@@ -28,34 +28,30 @@ export const Layout = ({ children }) => {
 
   return (
     <LayoutWrap>
-      <aside>
+      <Aside>
         <Logo />
         <Menu menuItems={menuItems} />
-      </aside>
-      <main>
-        {children}
-      </main>
+      </Aside>
+      <Main>{children}</Main>
     </LayoutWrap>
   )
 }
 
 const LayoutWrap = styled.div`
-  display: flex;
-  height: 100vh;
+  display: grid;
+  grid-template-columns: 208px 1fr;
+  grid-template-rows: 100vh;
+`
+
+const Aside = styled.aside`
+  background-color: #fff;
   overflow: hidden;
+`
 
-  aside {
-    width: 208px;
-    background-color: #fff;
-  }
-
-  main {
-    padding: 0 56px;
-    overflow-y: scroll;
-    flex-grow: 1;
-    min-height: 100vh;
-    display: grid;
-    grid-gap: 24px;
-    align-content: flex-start;
-  }
+const Main = styled.main`
+  padding: 0 56px;
+  overflow-y: scroll;
+  display: grid;
+  grid-gap: 24px;
+  align-content: start;
 `

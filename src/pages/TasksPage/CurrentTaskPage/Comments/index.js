@@ -23,7 +23,9 @@ export const Comments = ({
   const textarea = useRef()
 
   const createComment = () => {
-    create(textarea.current.value)
+    if (textarea.current.value.trim()) {
+      create(textarea.current.value)
+    }
     textarea.current.value = ""
   }
 
@@ -74,7 +76,9 @@ const Comment = ({
   const [edit, setEdit] = useState(null)
   const ref = useRef()
   const save = () => {
-    pushEdit(ref.current.value, id)
+    if (ref.current.value.trim()) {
+      pushEdit(ref.current.value.trim(), id)
+    }
     setEdit(false)
   }
 
@@ -108,7 +112,17 @@ const Comment = ({
             </Row>
           </>
         ) : (
-          <Text>{text}</Text>
+          <Row>
+            <Text
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                width: "100%"
+              }}
+            >
+              {text}
+            </Text>
+          </Row>
         )}
       </Block>
       {canBeEdited && (
