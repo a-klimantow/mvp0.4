@@ -14,6 +14,7 @@ import {
 } from "../../components"
 
 export const ListDevices = ({ data, cb }) => {
+  console.log("from", data)
   const { push } = useHistory()
   const { objectId } = useParams()
   if (!data) return <Loader />
@@ -37,8 +38,8 @@ export const ListDevices = ({ data, cb }) => {
           <ElDevice
             key={device.id}
             onClick={() => {
-              cb()
               push(`/objects/${objectId}/device/${device.id}`, { ...device })
+              cb({ tab: "info"})
             }}
           >
             <Device device={device} className="device" />

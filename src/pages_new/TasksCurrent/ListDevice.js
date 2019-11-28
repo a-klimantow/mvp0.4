@@ -15,9 +15,8 @@ import deviceList from "./device.json"
 import { dateFormat } from "../../services/dateFormat"
 
 export const ListDevice = () => {
-  const { push } = useHistory()
   const { state } = useContext(TasksCurrentContext)
-  const { device, housingStockId } = state
+  const { device = {}, housingStockId } = state
 
   if (!device) return null
   const format = "DD.MM.YYYY"
@@ -46,12 +45,17 @@ export const ListDevice = () => {
     )
   })
 
+  console.log("device", device)
   return (
     <>
       <Title level={3} mb="16px" mt="24px">
         <Link
           className="link"
-          to={`/objects/${housingStockId}/device/${device.id}`}
+          to={{
+            pathname: `/objects/${housingStockId}/device/${device.id}`,
+            state: device
+          }}
+          // to={'/'}
         >
           <IconDevice {...deviceIcon} /> {device.model} ({device.serialNumber})
         </Link>

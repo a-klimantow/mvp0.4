@@ -15,13 +15,13 @@ import {
   Empty,
   Loader
 } from "../../components"
-import { useAxios, useEffectOnce } from "../../hooks"
+import { useAxios } from "../../hooks"
 
 export const Events = ({ events }) => {
   const { get } = useAxios()
   const { deviceId } = useParams()
   const { push } = useHistory()
-  console.log("ev", events)
+  // console.log("ev", events)
 
   const num = events ? events.length > 2 : null
 
@@ -31,7 +31,7 @@ export const Events = ({ events }) => {
         События с прибором
       </Title>
       <Ul>
-        {!events ? (
+        {!events  ? (
           <Loader size="large" />
         ) : events.lenght !== 0 ? (
           events.map(device => (
