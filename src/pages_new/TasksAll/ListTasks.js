@@ -69,7 +69,7 @@ export const ListTasks = ({ data, loading, tab }) => {
             <Device device={item.device} mr="16px" />
             <Address address={item.address} mr="auto" />
             <TimeCreate time={item.creationTime} mr="16px" />
-            <Number number={item.number} />
+            <Number number={item.id} />
           </Row>
         </ListEl>
       ))}

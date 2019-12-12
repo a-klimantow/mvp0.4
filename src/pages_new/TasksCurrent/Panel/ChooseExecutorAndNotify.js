@@ -16,9 +16,7 @@ export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
 
   useEffectOnce(() => {
     get("ManagingFirmUsers").then(data => {
-      // console.log(data)
-
-      const emloyeesList = data.map(item => ({
+      const emloyeesList = data.items.map(item => ({
         key: item.id,
         label: item.name,
         taskCount: item.executingTaskCount
@@ -28,7 +26,7 @@ export const ChooseExecutorAndNotify = ({ loading, pushStage }) => {
 
     if (!state.contractors) {
       get("Contractors").then(data => {
-        const contractorsList = data.map(item => ({
+        const contractorsList = data.items.map(item => ({
           key: item.id,
           label: item.name
         }))

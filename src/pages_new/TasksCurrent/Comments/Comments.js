@@ -9,6 +9,7 @@ import { TasksCurrentContext } from "../context"
 
 export const Comments = () => {
   const { state } = useContext(TasksCurrentContext)
+  console.log('comment',state)
   const { comments = [], userOperatingStatus, closingTime } = state
 
   if (closingTime && comments.length === 0) return null

@@ -39,7 +39,7 @@ export const useAxios = () => {
 
   const auth = data => {
     return axios
-      .post("ManagingFirmUsers/auth", data)
+      .post("Auth/login", data)
       .then(res => res.data.successResponse)
       .then(data => {
         const { roles, ...tokenData } = data
@@ -61,7 +61,7 @@ export const useAxios = () => {
 
   const refresh = (method, ...rest) =>
     axios
-      .post("ManagingFirmUsers/refreshToken", getTokenData())
+      .post("Auth/refreshToken", getTokenData())
       .then(res => res.data.successResponse)
       .then(setTokenData)
       .then(() => method(...rest))
@@ -73,7 +73,7 @@ export const useAxios = () => {
 
   const logout = () =>
     axios
-      .post("ManagingFirmUsers/logout", getTokenData())
+      .post("Auth/logout", getTokenData())
       .then(() => localStorage.clear())
       .then(() => replace("/login"))
 

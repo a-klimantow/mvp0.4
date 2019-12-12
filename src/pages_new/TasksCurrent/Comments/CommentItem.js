@@ -31,14 +31,14 @@ export const CommentItem = ({ id, text, author, createdAt, canBeEdited }) => {
     setLoading(true)
     setEdit(false)
     put(`${url}/Comments/${id}`, JSON.stringify(value))
-      .then(comments => updateState({ comments }))
+      .then(data => updateState({ comments: data.items }))
       .finally(() => setLoading(false))
   }
 
   const del = () => {
     setLoading(true)
     deleteData(`${url}/Comments/${id}`)
-      .then(comments => updateState({ comments }))
+      .then(data => updateState({ comments: data.items }))
       .finally(() => setLoading(false))
   }
 

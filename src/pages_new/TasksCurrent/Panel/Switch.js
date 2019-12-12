@@ -14,11 +14,12 @@ export const Switch = () => {
 
   useEffectOnce(() => {
     get(`${url}/NextStages`).then(data => {
-      const stagesList = data.map(item => ({
+      const stagesList = data.items.map(item => ({
         key: item.id,
         label: item.name
       }))
       setSteps(stagesList)
+      // console.log("insw", data)
     })
   })
 

@@ -19,7 +19,7 @@ export const ListObject = ({ data }) => {
 
   return (
     <Ul mt="24px">
-      {data.map(item => (
+      {data.items.map(item => (
         <Li
           key={item.id}
           onClick={() => push(`objects/${item.id}`, { ...item })}

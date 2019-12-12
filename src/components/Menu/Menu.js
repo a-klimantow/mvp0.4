@@ -8,7 +8,7 @@ import { useAxios } from "../../hooks"
 export const Menu = () => {
   const { logout } = useAxios()
   const userRole = JSON.parse(localStorage.getItem("roles")).includes(
-    "Администратор"
+    "ManagingFirmAdministrator"
   )
   // console.log(isAdmin)
 
