@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useParams, useHistory } from "react-router-dom"
 
 import { useAxios, useEffectOnce } from "../../hooks"
@@ -18,7 +18,7 @@ export const TasksCurrent = () => {
   const { location } = useHistory()
   const { taskId } = useParams()
   const [state, setState] = useState({ ...location.state })
-  console.log(state)
+  // console.log(state)
 
   const updateState = data => setState(state => ({ ...state, ...data }))
 

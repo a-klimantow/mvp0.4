@@ -1,6 +1,6 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { ConfigProvider } from "antd"
 import RU from "antd/es/locale/ru_RU"
 //
@@ -9,12 +9,8 @@ import { Layout } from "./components"
 import {
   Login,
   // Task,
-  TaskCurrent,
-  HousingStocks,
-  ObjDetail,
   UserSettings,
   // DeviceCurrent,
-  Task
 } from "./pages"
 
 import {

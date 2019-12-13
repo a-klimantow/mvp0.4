@@ -3,15 +3,7 @@ import React from "react"
 import styled from "styled-components"
 import { useHistory, useParams } from "react-router-dom"
 
-import {
-  Row,
-  ListEl,
-  Ul,
-  Device,
-  TimeCreate,
-  Loader,
-  Empty
-} from "../../components"
+import { ListEl, Ul, Device, TimeCreate, Loader, Empty } from "../../components"
 
 export const ListDevices = ({ data }) => {
   const { push } = useHistory()
@@ -56,18 +48,18 @@ export const ListDevices = ({ data }) => {
   )
 }
 
-const Filter = styled.div`
-  margin: 24px 0;
-  ${Row} {
-    margin-top: 8px;
-  }
-  ${Row} > div {
-    width: 50%;
-    &:not(:last-child) {
-      margin-right: 8px;
-    }
-  }
-`
+// const Filter = styled.div`
+//   margin: 24px 0;
+//   ${Row} {
+//     margin-top: 8px;
+//   }
+//   ${Row} > div {
+//     width: 50%;
+//     &:not(:last-child) {
+//       margin-right: 8px;
+//     }
+//   }
+// `
 
 const ElDevice = styled(ListEl)`
   & > * {

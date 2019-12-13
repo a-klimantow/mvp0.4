@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react"
 import { Spin } from "antd"
-import {
-  Link as bc,
-  useParams,
-  useHistory,
-  useRouteMatch
-} from "react-router-dom"
+import { Link as bc, useParams, useHistory } from "react-router-dom"
 import styled from "styled-components"
 
-import { useAxios, useEffectOnce } from "../../hooks"
+import { useAxios } from "../../hooks"
 import {
   Block,
   Text,
   Icon,
   Title,
   createIconDevice,
-  Tab,
-  TabMenu,
   Paper,
   Grid
 } from "../../components"
@@ -43,6 +36,7 @@ export const DeviceCurrent = () => {
         updateState(res)
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
 
   useEffect(() => {
@@ -55,6 +49,7 @@ export const DeviceCurrent = () => {
       )
       console.log("in func", events)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
   console.log(state)
   const deviceIcon = device && createIconDevice(device.resource)

@@ -17,12 +17,12 @@ export const Devices = () => {
   const { push, location: path } = useHistory()
   const { get, source } = useAxios()
   const { state, updateState, setState } = useContext(ContextDevice)
-  // console.log(state.devices)
-  // useEffectOnce(() => !state.devices && get(url).then(updateState))
+
 
   useEffect(() => {
     get(url).then(updateState)
     return () => setState({})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url])
 
   return (

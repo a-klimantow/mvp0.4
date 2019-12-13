@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import {
@@ -45,7 +45,7 @@ export const ListDevice = () => {
     )
   })
 
-  console.log("device", device)
+  // console.log("device", device)
   return (
     <>
       <Title level={3} mb="16px" mt="24px">

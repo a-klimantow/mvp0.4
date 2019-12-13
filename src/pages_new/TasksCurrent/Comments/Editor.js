@@ -20,7 +20,10 @@ export const Editor = () => {
     if (value.trim()) {
       setLoading(true)
       post(`${url}/Comments`, JSON.stringify(value))
-        .then(data => updateState({ comments: data.items }))
+        .then(data => {
+          console.log(data)
+          updateState({ comments: data.items })
+        })
         .finally(() => setLoading(false))
       setValue("")
     }

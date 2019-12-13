@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 // import infoList from "./info.json"
@@ -9,13 +8,7 @@ import { dateFormat } from "../../services/dateFormat"
 
 export const ListInfo = () => {
   const { state } = useContext(TasksCurrentContext)
-  const {
-    address,
-    number,
-    creationTime,
-    housingStockId,
-    malfunctionType
-  } = state
+  const { address, id, creationTime, housingStockId, malfunctionType } = state
 
   return (
     <Ul>
@@ -33,7 +26,7 @@ export const ListInfo = () => {
       </Li>
       <Li>
         <Text view="second">Номер задачи</Text>
-        <Text>{number}</Text>
+        <Text>{id}</Text>
       </Li>
       <Li>
         <Text view="second">Дата создания задачи</Text>

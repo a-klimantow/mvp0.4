@@ -24,7 +24,7 @@ export const ListTasks = ({ data, loading, tab }) => {
   const { push } = useHistory()
   if (!data || loading) return <Loader />
   if (data.length === 0) return <Empty center />
-
+  console.log(1000, data)
   return (
     <Ul>
       {data.map(item => (
@@ -44,7 +44,7 @@ export const ListTasks = ({ data, loading, tab }) => {
             {!item.closingTime ? (
               <>
                 <Title level={4} className="title" mr="auto">
-                  {item.currentStageName}
+                  {item.currentStage.name}
                 </Title>
                 <Text>{item.name}</Text>
               </>
@@ -62,7 +62,9 @@ export const ListTasks = ({ data, loading, tab }) => {
                 mr="16px"
               />
 
-              {tab === "Observing" && <User perpetrator={item.perpetrator.name} />}
+              {tab === "Observing" && (
+                <User perpetrator={item.perpetrator.name} />
+              )}
             </Row>
           )}
           <Row>

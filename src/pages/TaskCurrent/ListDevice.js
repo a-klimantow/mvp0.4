@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import {
@@ -15,7 +15,6 @@ import deviceList from "./device.json"
 import { dateFormat } from "../../services/dateFormat"
 
 export const ListDevice = () => {
-  const { push } = useHistory()
   const { state } = useContext(Context)
   const { device, housingStockId } = state
 
